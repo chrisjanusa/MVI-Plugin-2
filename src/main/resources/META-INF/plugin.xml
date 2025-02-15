@@ -5,14 +5,29 @@
     <vendor>chrisjanusa</vendor>
 
     <depends>com.intellij.modules.platform</depends>
+    <depends>com.intellij.modules.androidstudio</depends>
 
     <resource-bundle>messages.MyBundle</resource-bundle>
 
-    <extensions defaultExtensionNs="com.intellij">
-        <toolWindow factoryClass="com.github.chrisjanusa.kmpmvi.toolWindow.MyToolWindowFactory" id="MyToolWindow"/>
-    </extensions>
-
-    <applicationListeners>
-        <listener class="com.github.chrisjanusa.kmpmvi.listeners.MyApplicationActivationListener" topic="com.intellij.openapi.application.ApplicationActivationListener"/>
-    </applicationListeners>
+    <actions>
+        <group
+                id="org.intellij.sdk.action.NewMVI"
+                class="com.github.chrisjanusa.kmpmvi.KmpMviGroup"
+                popup="true"
+                text="New MVI"
+                description="Create new MVI Classes">
+            <add-to-group
+                    group-id="ProjectViewPopupMenu"
+                    anchor="after"
+                    relative-to-action="WeighingNewGroup"/>
+            <action
+                    id="CreateFeature"
+                    class="com.github.chrisjanusa.kmpmvi.feature.CreateFeatureAction"
+                    text="Create Feature Package"
+                    description="Create all files required for a feature"
+                    icon="AllIcons.Actions.ModuleDirectory">
+                <keyboard-shortcut keymap="$default" first-keystroke="meta alt F"/>
+            </action>
+        </group>
+    </actions>
 </idea-plugin>
