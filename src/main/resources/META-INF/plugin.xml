@@ -1,6 +1,6 @@
 <!-- Plugin Configuration File. Read more: https://plugins.jetbrains.com/docs/intellij/plugin-configuration-file.html -->
 <idea-plugin>
-    <id>com.github.chrisjanusa.kmpmvi</id>
+    <id>com.github.chrisjanusa.mvi</id>
     <name>KMP-MVI</name>
     <vendor>chrisjanusa</vendor>
 
@@ -12,7 +12,7 @@
     <actions>
         <group
                 id="org.intellij.sdk.action.NewMVI"
-                class="com.github.chrisjanusa.kmpmvi.KmpMviGroup"
+                class="com.github.chrisjanusa.mvi.MviGroup"
                 popup="true"
                 text="New MVI"
                 description="Create new MVI Classes">
@@ -21,8 +21,16 @@
                     anchor="after"
                     relative-to-action="WeighingNewGroup"/>
             <action
+                    id="CreateApp"
+                    class="com.github.chrisjanusa.mvi.app.CreateAppAction"
+                    text="Initialize App Infrastructure"
+                    description="Create all infrastructure files for an app"
+                    icon="AllIcons.Modules.GeneratedSourceRoot">
+                <keyboard-shortcut keymap="$default" first-keystroke="meta alt A"/>
+            </action>
+            <action
                     id="CreateFeature"
-                    class="com.github.chrisjanusa.kmpmvi.feature.CreateFeatureAction"
+                    class="com.github.chrisjanusa.mvi.feature.CreateFeatureAction"
                     text="Create Feature Package"
                     description="Create all files required for a feature"
                     icon="AllIcons.Actions.ModuleDirectory">

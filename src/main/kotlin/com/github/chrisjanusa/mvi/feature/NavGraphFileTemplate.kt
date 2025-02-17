@@ -1,7 +1,7 @@
-package com.github.chrisjanusa.kmpmvi.feature
+package com.github.chrisjanusa.mvi.feature
 
-import com.github.chrisjanusa.kmpmvi.file_managment.capitalize
-import com.github.chrisjanusa.kmpmvi.foundation.FileTemplate
+import com.github.chrisjanusa.mvi.file_managment.capitalize
+import com.github.chrisjanusa.mvi.foundation.FileTemplate
 
 class NavGraphFileTemplate(private val featureName: String): FileTemplate("${featureName.capitalize()}NavGraph") {
     override fun createContent(rootPackage: String): String =

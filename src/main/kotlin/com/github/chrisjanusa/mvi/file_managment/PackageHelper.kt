@@ -1,10 +1,10 @@
-package com.github.chrisjanusa.kmpmvi.file_managment
+package com.github.chrisjanusa.mvi.file_managment
 
 import com.intellij.openapi.vfs.VirtualFile
 import com.intellij.psi.PsiDirectory
 
 fun String.pathToPackage(): String {
-    return this.substringAfter("commonMain/").substringAfter("/").replace('/', '.')
+    return this.substringAfter("main/").substringAfter("/").replace('/', '.')
 }
 
 fun PsiDirectory.getPackage() = virtualFile.getPackage()

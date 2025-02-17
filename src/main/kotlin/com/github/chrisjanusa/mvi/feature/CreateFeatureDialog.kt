@@ -1,4 +1,4 @@
-package com.github.chrisjanusa.kmpmvi.feature
+package com.github.chrisjanusa.mvi.feature
 
 import com.intellij.openapi.ui.DialogWrapper
 import com.intellij.openapi.ui.ValidationInfo

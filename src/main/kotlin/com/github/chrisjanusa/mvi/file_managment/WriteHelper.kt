@@ -1,4 +1,4 @@
-package com.github.chrisjanusa.kmpmvi.file_managment
+package com.github.chrisjanusa.mvi.file_managment
 
 import com.intellij.openapi.application.WriteAction
 import com.intellij.openapi.project.Project

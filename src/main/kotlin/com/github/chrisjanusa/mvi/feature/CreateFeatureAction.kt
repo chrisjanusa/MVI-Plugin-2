@@ -1,9 +1,8 @@
-package com.github.chrisjanusa.kmpmvi.feature
+package com.github.chrisjanusa.mvi.feature
 
-import com.github.chrisjanusa.kmpmvi.file_managment.createSubDirectory
-import com.github.chrisjanusa.kmpmvi.file_managment.getRootDir
-import com.github.chrisjanusa.kmpmvi.file_managment.isInCommonCode
-import com.github.chrisjanusa.kmpmvi.file_managment.isRootPackageOrDirectChild
+import com.github.chrisjanusa.mvi.file_managment.createSubDirectory
+import com.github.chrisjanusa.mvi.file_managment.getRootDir
+import com.github.chrisjanusa.mvi.file_managment.isRootPackageOrDirectChild
 import com.intellij.openapi.actionSystem.ActionUpdateThread
 import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent
@@ -35,7 +34,7 @@ class CreateFeatureAction : AnAction("Create _Feature") {
 
     companion object {
         fun isEnabled(event: AnActionEvent): Boolean {
-            return event.isRootPackageOrDirectChild() && event.isInCommonCode()
+            return event.isRootPackageOrDirectChild()
         }
     }
 }

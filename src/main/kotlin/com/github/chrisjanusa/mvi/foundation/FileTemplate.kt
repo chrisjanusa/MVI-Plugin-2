@@ -1,6 +1,6 @@
-package com.github.chrisjanusa.kmpmvi.foundation
+package com.github.chrisjanusa.mvi.foundation
 
-import com.github.chrisjanusa.kmpmvi.file_managment.*
+import com.github.chrisjanusa.mvi.file_managment.*
 import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.actionSystem.PlatformDataKeys
 import com.intellij.psi.PsiDirectory

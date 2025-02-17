@@ -1,4 +1,4 @@
-package com.github.chrisjanusa.kmpmvi.feature
+package com.github.chrisjanusa.mvi.feature
 
 data class CreateFeaturePromptResult(
     var featureName: String = "",
