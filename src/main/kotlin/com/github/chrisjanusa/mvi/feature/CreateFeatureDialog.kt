@@ -2,7 +2,11 @@ package com.github.chrisjanusa.mvi.feature
 
 import com.intellij.openapi.ui.DialogWrapper
 import com.intellij.openapi.ui.ValidationInfo
-import com.intellij.ui.dsl.builder.*
+import com.intellij.ui.dsl.builder.Cell
+import com.intellij.ui.dsl.builder.bindSelected
+import com.intellij.ui.dsl.builder.bindText
+import com.intellij.ui.dsl.builder.panel
+import com.intellij.ui.dsl.builder.selected
 import javax.swing.JCheckBox
 import javax.swing.JComponent
 
@@ -12,7 +16,6 @@ internal class CreateFeatureDialog(private val createFeaturePromptResult: Create
         init()
         this.title = "Create a New Feature Module"
     }
-    var navGraphCheckbox: Cell<JCheckBox>? = null
 
     override fun createCenterPanel(): JComponent {
         return panel {
@@ -33,28 +36,11 @@ internal class CreateFeatureDialog(private val createFeaturePromptResult: Create
             }
             group("What to Generate?") {
                 row {
-                    checkBox("Generate service module")
-                        .bindSelected(createFeaturePromptResult::createServiceModule)
+                    checkBox("Generate shared state")
+                        .bindSelected(createFeaturePromptResult::createSharedState)
                 }
                 row {
-                    checkBox("Generate domain module")
-                        .bindSelected(createFeaturePromptResult::createDomainModelModule)
-                }
-                row {
-                    checkBox("Generate shared viewmodel")
-                        .bindSelected(createFeaturePromptResult::createSharedViewModel)
-                        .onIsModified {
-                            if (createFeaturePromptResult.createSharedViewModel) {
-                                navGraphCheckbox?.selected(true)
-                                navGraphCheckbox?.enabled(false)
-                            } else {
-                                navGraphCheckbox?.enabled(true)
-                            }
-                            return@onIsModified true
-                        }
-                }
-                row {
-                    navGraphCheckbox = checkBox("Generate nav graph")
+                    checkBox("Generate nav graph")
                         .bindSelected(createFeaturePromptResult::createNavGraph)
                 }
                 row {

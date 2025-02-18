@@ -4,16 +4,9 @@ import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.actionSystem.PlatformDataKeys
 import com.intellij.openapi.vfs.VirtualFile
 import com.intellij.psi.PsiDirectory
-import com.intellij.psi.PsiManager
 
 fun AnActionEvent.isRootPackageOrDirectChild(): Boolean {
-    return isRootPackageOrDirectChildGivenRoot(getRootPackageFile())
-}
-
-private fun AnActionEvent.isRootPackageOrDirectChildGivenRoot(rootFile: VirtualFile?): Boolean {
-    val rootPackage = rootFile ?: return false
-    val selectedFile = getData(PlatformDataKeys.VIRTUAL_FILE) ?: return false
-    return selectedFile == rootPackage || rootPackage.children.contains(selectedFile)
+    return isPackageOrDirectChild(getRootPackageFile())
 }
 
 fun AnActionEvent.getRootPackageFile(): VirtualFile? {
@@ -21,7 +14,7 @@ fun AnActionEvent.getRootPackageFile(): VirtualFile? {
 }
 
 fun AnActionEvent.isUninitializedRootPackageOrDirectChild(): Boolean {
-    return isRootPackageOrDirectChildGivenRoot(getUninitializedRootPackageFile())
+    return isPackageOrDirectChild(getUninitializedRootPackageFile())
 }
 
 fun AnActionEvent.getUninitializedRootPackageFile(): VirtualFile? {
@@ -37,17 +30,11 @@ private fun AnActionEvent.findParentOfFile(fileName: String): VirtualFile?  {
 }
 
 fun AnActionEvent.getRootDir(): PsiDirectory? {
-    return getRootDirFromFile(getRootPackageFile())
+    return getDirFromFile(getRootPackageFile())
 }
 
 fun AnActionEvent.getUninitializedRootDir(): PsiDirectory? {
-    return getRootDirFromFile(getUninitializedRootPackageFile())
-}
-
-private fun AnActionEvent.getRootDirFromFile(rootFile: VirtualFile?): PsiDirectory? {
-    val rootPackage = rootFile ?: return null
-    val project = getData(PlatformDataKeys.PROJECT) ?: return null
-    return PsiManager.getInstance(project).findDirectory(rootPackage)
+    return getDirFromFile(getUninitializedRootPackageFile())
 }
 
 fun AnActionEvent.getRootPackage(): String =

@@ -6,22 +6,33 @@ import com.intellij.psi.PsiDirectory
 import com.intellij.psi.PsiFileFactory
 import com.intellij.util.ThrowableRunnable
 
-fun createSubDirectory(parentDirectory: PsiDirectory, name: String, afterDirectoryCreated: (PsiDirectory) -> Unit = {}) {
-    if (parentDirectory.findSubdirectory(name) == null) {
+fun PsiDirectory.createSubDirectory(name: String, afterDirectoryCreated: (PsiDirectory) -> Unit = {}) {
+    val existingDir = findSubdirectory(name)
+    if (existingDir == null) {
         WriteAction.run(ThrowableRunnable {
-            afterDirectoryCreated(parentDirectory.createSubdirectory(name))
+            afterDirectoryCreated(createSubdirectory(name))
+        })
+    } else {
+        afterDirectoryCreated(existingDir)
+    }
+}
+
+fun PsiDirectory.createFileInDirectory(project: Project, fileName: String, content: String) {
+    if(findFile(fileName) == null) {
+        WriteAction.run(ThrowableRunnable {
+            val file =
+                PsiFileFactory.getInstance(project).createFileFromText(
+                    fileName,
+                    KotlinFileType,
+                    content
+                )
+            add(file)
         })
     }
 }
 
-fun createFileInDirectory(project: Project, directory: PsiDirectory, fileName: String, content: String) {
+fun PsiDirectory.deleteFileInDirectory(fileName: String) {
     WriteAction.run(ThrowableRunnable {
-        val file =
-            PsiFileFactory.getInstance(project).createFileFromText(
-                fileName,
-                KotlinFileType,
-                content
-            )
-        directory.add(file)
+        findFile(fileName)?.delete()
     })
 }

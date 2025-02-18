@@ -1,7 +1,7 @@
 <!-- Plugin Configuration File. Read more: https://plugins.jetbrains.com/docs/intellij/plugin-configuration-file.html -->
 <idea-plugin>
     <id>com.github.chrisjanusa.mvi</id>
-    <name>KMP-MVI</name>
+    <name>MVI</name>
     <vendor>chrisjanusa</vendor>
 
     <depends>com.intellij.modules.platform</depends>
@@ -35,6 +35,22 @@
                     description="Create all files required for a feature"
                     icon="AllIcons.Actions.ModuleDirectory">
                 <keyboard-shortcut keymap="$default" first-keystroke="meta alt F"/>
+            </action>
+            <action
+                    id="CreateNavGraph"
+                    class="com.github.chrisjanusa.mvi.feature.nav.CreateNavGraphAction"
+                    text="Create Nav Graph for Feature"
+                    description="Create a Nav Graph for the feature"
+                    icon="AllIcons.Graph.Layout">
+                <keyboard-shortcut keymap="$default" first-keystroke="meta alt N"/>
+            </action>
+            <action
+                    id="CreateDomainModel"
+                    class="com.github.chrisjanusa.mvi.feature.domain_model.CreateDomainModelAction"
+                    text="Create Domain Model"
+                    description="Create a domain model for a feature"
+                    icon="AllIcons.Actions.AddFile">
+                <keyboard-shortcut keymap="$default" first-keystroke="meta alt D"/>
             </action>
         </group>
     </actions>

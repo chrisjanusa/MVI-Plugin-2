@@ -19,7 +19,7 @@ class MainActivityFileTemplate(private val appName: String) : FileTemplate("Main
                         "import androidx.navigation.compose.rememberNavController\n" +
                         "import $rootPackage.app.nav.NavManager\n" +
                         "import $rootPackage.common.helper.getClassName\n" +
-                        "import $rootPackage.ui.theme.${appName}AndroidTheme\n" +
+                        "import $rootPackage.ui.theme.${appName}Theme\n" +
                         "import org.koin.compose.viewmodel.koinViewModel\n" +
                         "import org.koin.core.parameter.parametersOf\n" +
                         "\n" +

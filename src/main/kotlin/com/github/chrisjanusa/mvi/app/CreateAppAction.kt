@@ -1,16 +1,40 @@
 package com.github.chrisjanusa.mvi.app
 
 
-import com.github.chrisjanusa.mvi.app.file_templates.*
+import com.github.chrisjanusa.mvi.app.file_templates.ActivityViewModelFileTemplate
+import com.github.chrisjanusa.mvi.app.file_templates.ApplicationFileTemplate
+import com.github.chrisjanusa.mvi.app.file_templates.InitKoinFileTemplate
+import com.github.chrisjanusa.mvi.app.file_templates.KoinModulesFileTemplate
+import com.github.chrisjanusa.mvi.app.file_templates.MainActivityFileTemplate
+import com.github.chrisjanusa.mvi.app.file_templates.NavEffectFileTemplate
+import com.github.chrisjanusa.mvi.app.file_templates.NavManagerFileTemplate
 import com.github.chrisjanusa.mvi.app.file_templates.common.ClassNameHelperFileTemplate
 import com.github.chrisjanusa.mvi.app.file_templates.common.NavActionFileTemplate
-import com.github.chrisjanusa.mvi.app.file_templates.foundation.*
+import com.github.chrisjanusa.mvi.app.file_templates.foundation.ActionFileTemplate
+import com.github.chrisjanusa.mvi.app.file_templates.foundation.EffectFileTemplate
+import com.github.chrisjanusa.mvi.app.file_templates.foundation.PluginFileTemplate
+import com.github.chrisjanusa.mvi.app.file_templates.foundation.SliceUpdateFileTemplate
 import com.github.chrisjanusa.mvi.app.file_templates.foundation.nav.NavComponentFileTemplate
 import com.github.chrisjanusa.mvi.app.file_templates.foundation.nav.NavComponentIdFileTemplate
 import com.github.chrisjanusa.mvi.app.file_templates.foundation.state.SliceFileTemplate
 import com.github.chrisjanusa.mvi.app.file_templates.foundation.state.StateFileTemplate
-import com.github.chrisjanusa.mvi.app.file_templates.foundation.viewmodel.*
-import com.github.chrisjanusa.mvi.file_managment.*
+import com.github.chrisjanusa.mvi.app.file_templates.foundation.viewmodel.BaseViewModelFileTemplate
+import com.github.chrisjanusa.mvi.app.file_templates.foundation.viewmodel.NoSlicePluginViewModelFileTemplate
+import com.github.chrisjanusa.mvi.app.file_templates.foundation.viewmodel.ParentViewModelFileTemplate
+import com.github.chrisjanusa.mvi.app.file_templates.foundation.viewmodel.PluginViewModelFileTemplate
+import com.github.chrisjanusa.mvi.app.file_templates.foundation.viewmodel.SharedViewModelFileTemplate
+import com.github.chrisjanusa.mvi.file_managment.capitalize
+import com.github.chrisjanusa.mvi.file_managment.createSubDirectory
+import com.github.chrisjanusa.mvi.file_managment.deleteFileInDirectory
+import com.github.chrisjanusa.mvi.file_managment.getPackage
+import com.github.chrisjanusa.mvi.file_managment.getUninitializedRootDir
+import com.github.chrisjanusa.mvi.file_managment.getUninitializedRootPackageFile
+import com.github.chrisjanusa.mvi.file_managment.isUninitializedRootPackageOrDirectChild
+import com.github.chrisjanusa.mvi.library.getLibraryManager
+import com.github.chrisjanusa.mvi.library.librarygroup.addCoroutines
+import com.github.chrisjanusa.mvi.library.librarygroup.addKoin
+import com.github.chrisjanusa.mvi.library.librarygroup.addNavigation
+import com.github.chrisjanusa.mvi.library.librarygroup.addSerialization
 import com.intellij.openapi.actionSystem.ActionUpdateThread
 import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent
@@ -24,50 +48,57 @@ class CreateAppAction : AnAction("Initialize _App") {
         val isCancelled = !dialog.showAndGet()
         if (isCancelled) return
         val root = event.getUninitializedRootDir() ?: return
-        createSubDirectory(root, "foundation") { foundationDir ->
-            ActionFileTemplate().createFileInDir(event, foundationDir)
-            EffectFileTemplate().createFileInDir(event, foundationDir)
-            PluginFileTemplate().createFileInDir(event, foundationDir)
-            SliceUpdateFileTemplate().createFileInDir(event, foundationDir)
-            createSubDirectory(foundationDir, "nav") { navDir ->
-                NavComponentIdFileTemplate().createFileInDir(event, navDir)
-                NavComponentFileTemplate().createFileInDir(event, navDir)
+        val libraryManager = event.getLibraryManager()
+        libraryManager?.addKoin()
+        libraryManager?.addNavigation()
+        libraryManager?.addCoroutines()
+        libraryManager?.addSerialization()
+        libraryManager?.writeToGradle()
+        root.createSubDirectory( "foundation") { foundationDir ->
+            ActionFileTemplate().createFileInDir(event, foundationDir, rootPackage)
+            EffectFileTemplate().createFileInDir(event, foundationDir, rootPackage)
+            PluginFileTemplate().createFileInDir(event, foundationDir, rootPackage)
+            SliceUpdateFileTemplate().createFileInDir(event, foundationDir, rootPackage)
+            foundationDir.createSubDirectory("nav") { navDir ->
+                NavComponentIdFileTemplate().createFileInDir(event, navDir, rootPackage)
+                NavComponentFileTemplate().createFileInDir(event, navDir, rootPackage)
             }
-            createSubDirectory(foundationDir, "state") { stateDir ->
-                StateFileTemplate().createFileInDir(event, stateDir)
-                SliceFileTemplate().createFileInDir(event, stateDir)
+            foundationDir.createSubDirectory("state") { stateDir ->
+                StateFileTemplate().createFileInDir(event, stateDir, rootPackage)
+                SliceFileTemplate().createFileInDir(event, stateDir, rootPackage)
             }
-            createSubDirectory(foundationDir, "viewmodel") { viewmodelDir ->
-                BaseViewModelFileTemplate().createFileInDir(event, viewmodelDir)
-                NoSlicePluginViewModelFileTemplate().createFileInDir(event, viewmodelDir)
-                ParentViewModelFileTemplate().createFileInDir(event, viewmodelDir)
-                PluginViewModelFileTemplate().createFileInDir(event, viewmodelDir)
-                SharedViewModelFileTemplate().createFileInDir(event, viewmodelDir)
-            }
-        }
-        createSubDirectory(root, "common") { commonDir ->
-            createSubDirectory(commonDir, "nav") { navDir ->
-                NavActionFileTemplate().createFileInDir(event, navDir)
-            }
-            createSubDirectory(commonDir, "helper") { helperDir ->
-                ClassNameHelperFileTemplate().createFileInDir(event, helperDir)
+            foundationDir.createSubDirectory("viewmodel") { viewmodelDir ->
+                BaseViewModelFileTemplate().createFileInDir(event, viewmodelDir, rootPackage)
+                NoSlicePluginViewModelFileTemplate().createFileInDir(event, viewmodelDir, rootPackage)
+                ParentViewModelFileTemplate().createFileInDir(event, viewmodelDir, rootPackage)
+                PluginViewModelFileTemplate().createFileInDir(event, viewmodelDir, rootPackage)
+                SharedViewModelFileTemplate().createFileInDir(event, viewmodelDir, rootPackage)
             }
         }
-        createSubDirectory(root, "app") { appDir ->
-            ActivityViewModelFileTemplate().createFileInDir(event, appDir)
-            MainActivityFileTemplate(createAppPromptResult.appName).createFileInDir(event, appDir)
-            ApplicationFileTemplate(createAppPromptResult.appName).createFileInDir(event, appDir)
-            createSubDirectory(appDir, "di") { diDir ->
-                InitKoinFileTemplate().createFileInDir(event, diDir)
-                KoinModulesFileTemplate().createFileInDir(event, diDir)
+        root.createSubDirectory("common") { commonDir ->
+            commonDir.createSubDirectory("nav") { navDir ->
+                NavActionFileTemplate().createFileInDir(event, navDir, rootPackage)
             }
-            createSubDirectory(appDir, "nav") { navDir ->
-                NavManagerFileTemplate().createFileInDir(event, navDir)
-            }
-            createSubDirectory(appDir, "effect") { effectDir ->
-                NavEffectFileTemplate().createFileInDir(event, effectDir)
+            commonDir.createSubDirectory("helper") { helperDir ->
+                ClassNameHelperFileTemplate().createFileInDir(event, helperDir, rootPackage)
             }
         }
+        root.createSubDirectory("app") { appDir ->
+            ActivityViewModelFileTemplate().createFileInDir(event, appDir, rootPackage)
+            MainActivityFileTemplate(createAppPromptResult.appName).createFileInDir(event, appDir, rootPackage)
+            ApplicationFileTemplate(createAppPromptResult.appName).createFileInDir(event, appDir, rootPackage)
+            appDir.createSubDirectory("di") { diDir ->
+                InitKoinFileTemplate().createFileInDir(event, diDir, rootPackage)
+                KoinModulesFileTemplate().createFileInDir(event, diDir, rootPackage)
+            }
+            appDir.createSubDirectory("nav") { navDir ->
+                NavManagerFileTemplate().createFileInDir(event, navDir, rootPackage)
+            }
+            appDir.createSubDirectory("effect") { effectDir ->
+                NavEffectFileTemplate().createFileInDir(event, effectDir, rootPackage)
+            }
+        }
+        root.deleteFileInDirectory("MainActivity.kt")
     }
 
     override fun update(event: AnActionEvent) {

@@ -1,4 +1,4 @@
-package com.github.chrisjanusa.mvi.foundation
+package com.github.chrisjanusa.mvi.library
 
 data class LibraryGroup(
     val libraryGroupName: String,

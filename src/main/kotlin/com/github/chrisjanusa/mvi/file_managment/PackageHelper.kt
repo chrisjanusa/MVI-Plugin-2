@@ -1,5 +1,7 @@
 package com.github.chrisjanusa.mvi.file_managment
 
+import com.intellij.openapi.actionSystem.AnActionEvent
+import com.intellij.openapi.actionSystem.PlatformDataKeys
 import com.intellij.openapi.vfs.VirtualFile
 import com.intellij.psi.PsiDirectory
 
@@ -11,5 +13,11 @@ fun PsiDirectory.getPackage() = virtualFile.getPackage()
 
 fun VirtualFile.getPackage(): String {
     return path.pathToPackage()
+}
+
+fun AnActionEvent.isPackageOrDirectChild(targetPackage: VirtualFile?): Boolean {
+    val rootPackage = targetPackage ?: return false
+    val selectedFile = getData(PlatformDataKeys.VIRTUAL_FILE) ?: return false
+    return selectedFile == rootPackage || rootPackage.children.contains(selectedFile)
 }
 
