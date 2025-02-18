@@ -35,6 +35,7 @@ import com.github.chrisjanusa.mvi.library.librarygroup.addCoroutines
 import com.github.chrisjanusa.mvi.library.librarygroup.addKoin
 import com.github.chrisjanusa.mvi.library.librarygroup.addNavigation
 import com.github.chrisjanusa.mvi.library.librarygroup.addSerialization
+import com.github.chrisjanusa.mvi.manifest.getManifestManager
 import com.intellij.openapi.actionSystem.ActionUpdateThread
 import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent
@@ -54,6 +55,9 @@ class CreateAppAction : AnAction("Initialize _App") {
         libraryManager?.addCoroutines()
         libraryManager?.addSerialization()
         libraryManager?.writeToGradle()
+        val manifestManager = event.getManifestManager()
+        manifestManager?.addApplication(createAppPromptResult.appName)
+        manifestManager?.writeToGradle()
         root.createSubDirectory( "foundation") { foundationDir ->
             ActionFileTemplate().createFileInDir(event, foundationDir, rootPackage)
             EffectFileTemplate().createFileInDir(event, foundationDir, rootPackage)
