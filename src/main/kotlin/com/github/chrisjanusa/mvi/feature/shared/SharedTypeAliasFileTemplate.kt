@@ -10,7 +10,7 @@ class SharedTypeAliasFileTemplate(private val featureName: String): FileTemplate
                         "import $rootPackage.foundation.SliceUpdateEffect\n" +
                         "import $rootPackage.foundation.StateEffect\n" +
                         "import $rootPackage.foundation.StateSliceEffect\n" +
-                        "import $rootPackage.book.shared.BookSharedState\n" +
+                        "import $rootPackage.$featureName.shared.${featureName.capitalize()}SharedState\n" +
                         "import $rootPackage.foundation.state.NoSlice\n" +
                         "\n" +
                         "internal typealias ${featureName.capitalize()}SharedEffect = Effect<${featureName.capitalize()}SharedState, NoSlice>\n" +

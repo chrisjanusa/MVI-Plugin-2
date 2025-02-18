@@ -1,7 +1,6 @@
 package com.github.chrisjanusa.mvi.file_managment
 
 import com.intellij.openapi.actionSystem.AnActionEvent
-import com.intellij.openapi.actionSystem.PlatformDataKeys
 import com.intellij.openapi.vfs.VirtualFile
 import com.intellij.psi.PsiDirectory
 
@@ -10,7 +9,7 @@ fun AnActionEvent.isRootPackageOrDirectChild(): Boolean {
 }
 
 fun AnActionEvent.getRootPackageFile(): VirtualFile? {
-    return findParentOfFile("app")
+    return findParentOfFile("foundation")
 }
 
 fun AnActionEvent.isUninitializedRootPackageOrDirectChild(): Boolean {
@@ -18,15 +17,7 @@ fun AnActionEvent.isUninitializedRootPackageOrDirectChild(): Boolean {
 }
 
 fun AnActionEvent.getUninitializedRootPackageFile(): VirtualFile? {
-    return findParentOfFile("MainActivity.kt")
-}
-
-private fun AnActionEvent.findParentOfFile(fileName: String): VirtualFile?  {
-    var currFile = getData(PlatformDataKeys.VIRTUAL_FILE) ?: return null
-    while (currFile != null && currFile.findChild(fileName) == null) {
-        currFile = currFile.parent
-    }
-    return currFile
+    return findParentOfFile("MainActivity.kt", "app")
 }
 
 fun AnActionEvent.getRootDir(): PsiDirectory? {

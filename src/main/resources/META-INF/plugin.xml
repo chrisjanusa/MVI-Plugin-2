@@ -45,6 +45,14 @@
                 <keyboard-shortcut keymap="$default" first-keystroke="meta alt N"/>
             </action>
             <action
+                    id="CreateSharedState"
+                    class="com.github.chrisjanusa.mvi.feature.shared.CreateSharedStateAction"
+                    text="Create Shared State for Plugins in Feature"
+                    description="Create a shared state for plugins in feature that will send slice updates when the state changes"
+                    icon="AllIcons.CodeWithMe.CwmShared">
+                <keyboard-shortcut keymap="$default" first-keystroke="meta alt S"/>
+            </action>
+            <action
                     id="CreateDomainModel"
                     class="com.github.chrisjanusa.mvi.feature.domain_model.CreateDomainModelAction"
                     text="Create Domain Model"

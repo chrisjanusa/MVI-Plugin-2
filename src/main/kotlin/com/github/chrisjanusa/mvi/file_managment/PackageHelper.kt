@@ -16,8 +16,8 @@ fun VirtualFile.getPackage(): String {
 }
 
 fun AnActionEvent.isPackageOrDirectChild(targetPackage: VirtualFile?): Boolean {
-    val rootPackage = targetPackage ?: return false
+    targetPackage ?: return false
     val selectedFile = getData(PlatformDataKeys.VIRTUAL_FILE) ?: return false
-    return selectedFile == rootPackage || rootPackage.children.contains(selectedFile)
+    return selectedFile == targetPackage || targetPackage.children.contains(selectedFile)
 }
 

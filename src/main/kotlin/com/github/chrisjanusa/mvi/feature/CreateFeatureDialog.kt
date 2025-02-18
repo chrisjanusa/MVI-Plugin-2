@@ -2,12 +2,10 @@ package com.github.chrisjanusa.mvi.feature
 
 import com.intellij.openapi.ui.DialogWrapper
 import com.intellij.openapi.ui.ValidationInfo
-import com.intellij.ui.dsl.builder.Cell
 import com.intellij.ui.dsl.builder.bindSelected
 import com.intellij.ui.dsl.builder.bindText
 import com.intellij.ui.dsl.builder.panel
 import com.intellij.ui.dsl.builder.selected
-import javax.swing.JCheckBox
 import javax.swing.JComponent
 
 internal class CreateFeatureDialog(private val createFeaturePromptResult: CreateFeaturePromptResult) :

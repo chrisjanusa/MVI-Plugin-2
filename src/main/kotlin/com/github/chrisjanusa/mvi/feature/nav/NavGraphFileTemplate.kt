@@ -11,7 +11,8 @@ class NavGraphFileTemplate(private val featureName: String): FileTemplate("${fea
                 "\n" +
                 "object ${featureName.capitalize()}NavGraph: NavGraph(\n" +
                 "    startDestination = // TODO add start destination,\n" +
-                "    destinations = listOf(),\n" +
+                "    destinations = listOf(\n" +
+                "),\n" +
                 "    componentClass = ${featureName.capitalize()}GraphNavComponentId::class\n" +
                 ")\n" +
                 "\n" +

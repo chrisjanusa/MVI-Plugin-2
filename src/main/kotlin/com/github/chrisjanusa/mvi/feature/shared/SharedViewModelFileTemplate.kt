@@ -7,9 +7,9 @@ class SharedViewModelFileTemplate(private val featureName: String): FileTemplate
     override fun createContent(rootPackage: String): String =
                 "import $rootPackage.foundation.Action\n" +
                         "import $rootPackage.foundation.SliceUpdate\n" +
-                        "import $rootPackage.book.shared.BookSharedAction\n" +
-                        "import $rootPackage.book.shared.BookSharedState\n" +
-                        "import $rootPackage.book.shared.OnChildActionReceivedEffect\n" +
+                        "import $rootPackage.$featureName.shared.${featureName.capitalize()}SharedAction\n" +
+                        "import $rootPackage.$featureName.shared.${featureName.capitalize()}SharedState\n" +
+                        "import $rootPackage.$featureName.shared.OnChildActionReceivedEffect\n" +
                         "import $rootPackage.foundation.OnAppAction\n" +
                         "import $rootPackage.foundation.state.NoSlice\n" +
                         "import $rootPackage.foundation.viewmodel.SharedViewModel\n" +
@@ -17,7 +17,7 @@ class SharedViewModelFileTemplate(private val featureName: String): FileTemplate
                         "\n" +
                         "\n" +
                         "class ${featureName.capitalize()}SharedViewModel(onAppAction: OnAppAction) : SharedViewModel<${featureName.capitalize()}SharedState>(onAppAction) {\n" +
-                        "    private val sliceUpdateEffectList = listOf(\n" +
+                        "    private val sliceUpdateEffectList: List<${featureName.capitalize()}SharedEffect> = listOf(\n" +
                         "    )\n" +
                         "\n" +
                         "    override val effectList: List<${featureName.capitalize()}SharedEffect> = sliceUpdateEffectList + listOf(\n" +

@@ -9,7 +9,7 @@ import com.intellij.openapi.actionSystem.ActionUpdateThread
 import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent
 
-class CreateNavGraphAction : AnAction("Create _Feature") {
+class CreateNavGraphAction : AnAction("Create _Nav Graph") {
     override fun actionPerformed(event: AnActionEvent) {
         val featureFile = event.getFeaturePackageFile() ?: return
         event.getDirFromFile(featureFile)?.createSubDirectory("nav") { navDir ->

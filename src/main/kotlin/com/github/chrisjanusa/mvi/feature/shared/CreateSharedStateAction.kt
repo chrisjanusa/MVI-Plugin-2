@@ -9,7 +9,7 @@ import com.intellij.openapi.actionSystem.ActionUpdateThread
 import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent
 
-class CreateSharedStateAction : AnAction("Create _Feature") {
+class CreateSharedStateAction : AnAction("Create _Shared State") {
     override fun actionPerformed(event: AnActionEvent) {
         val featureFile = event.getFeaturePackageFile() ?: return
         event.getDirFromFile(featureFile)?.createSubDirectory("shared") { sharedDir ->
