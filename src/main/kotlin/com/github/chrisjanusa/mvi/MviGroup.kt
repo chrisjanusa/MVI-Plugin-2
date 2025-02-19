@@ -5,6 +5,8 @@ import com.github.chrisjanusa.mvi.feature.CreateFeatureAction
 import com.github.chrisjanusa.mvi.feature.domain_model.CreateDomainModelAction
 import com.github.chrisjanusa.mvi.feature.nav.CreateNavGraphAction
 import com.github.chrisjanusa.mvi.feature.shared.CreateSharedStateAction
+import com.github.chrisjanusa.mvi.plugin.PluginAction
+import com.github.chrisjanusa.mvi.plugin.slice.AddSliceAction
 import com.intellij.openapi.actionSystem.ActionUpdateThread
 import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.actionSystem.DefaultActionGroup
@@ -16,7 +18,9 @@ class MviGroup : DefaultActionGroup() {
                     CreateAppAction.isEnabled(event) ||
                 CreateDomainModelAction.isEnabled(event) ||
                 CreateNavGraphAction.isEnabled(event) ||
-                CreateSharedStateAction.isEnabled(event)
+                CreateSharedStateAction.isEnabled(event) ||
+                AddSliceAction.isEnabled(event) ||
+                PluginAction.isEnabled(event)
     }
 
     override fun getActionUpdateThread(): ActionUpdateThread {

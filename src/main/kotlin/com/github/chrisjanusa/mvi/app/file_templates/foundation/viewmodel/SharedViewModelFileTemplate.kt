@@ -2,7 +2,7 @@ package com.github.chrisjanusa.mvi.app.file_templates.foundation.viewmodel
 
 import com.github.chrisjanusa.mvi.foundation.FileTemplate
 
-class SharedViewModelFileTemplate : FileTemplate("SharedViewModel") {
+internal class SharedViewModelFileTemplate : FileTemplate("SharedViewModel") {
     override fun createContent(rootPackage: String): String =
                 "import androidx.lifecycle.viewModelScope\n" +
                         "import $rootPackage.foundation.SliceUpdate\n" +

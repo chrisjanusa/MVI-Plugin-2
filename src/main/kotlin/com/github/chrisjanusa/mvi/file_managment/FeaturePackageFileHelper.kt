@@ -12,5 +12,5 @@ fun AnActionEvent.isFeaturePackageOrDirectChild(): Boolean {
 }
 
 fun AnActionEvent.getFeaturePackageFile(): VirtualFile? {
-    return findParentOfFile("plugin")
+    return findParentOfFile("plugin") ?: findParentOfFile("service") ?: findParentOfFile("domain_model")
 }

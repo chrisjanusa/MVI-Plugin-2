@@ -3,7 +3,7 @@ package com.github.chrisjanusa.mvi.feature.shared
 import com.github.chrisjanusa.mvi.file_managment.capitalize
 import com.github.chrisjanusa.mvi.foundation.FileTemplate
 
-class SharedViewModelFileTemplate(private val featureName: String): FileTemplate("${featureName.capitalize()}SharedViewModel") {
+internal class SharedViewModelFileTemplate(private val featureName: String): FileTemplate("${featureName.capitalize()}SharedViewModel") {
     override fun createContent(rootPackage: String): String =
                 "import $rootPackage.foundation.Action\n" +
                         "import $rootPackage.foundation.SliceUpdate\n" +

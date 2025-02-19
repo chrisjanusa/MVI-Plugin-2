@@ -19,7 +19,6 @@ import com.github.chrisjanusa.mvi.app.file_templates.foundation.nav.NavComponent
 import com.github.chrisjanusa.mvi.app.file_templates.foundation.state.SliceFileTemplate
 import com.github.chrisjanusa.mvi.app.file_templates.foundation.state.StateFileTemplate
 import com.github.chrisjanusa.mvi.app.file_templates.foundation.viewmodel.BaseViewModelFileTemplate
-import com.github.chrisjanusa.mvi.app.file_templates.foundation.viewmodel.NoSlicePluginViewModelFileTemplate
 import com.github.chrisjanusa.mvi.app.file_templates.foundation.viewmodel.ParentViewModelFileTemplate
 import com.github.chrisjanusa.mvi.app.file_templates.foundation.viewmodel.PluginViewModelFileTemplate
 import com.github.chrisjanusa.mvi.app.file_templates.foundation.viewmodel.SharedViewModelFileTemplate
@@ -73,7 +72,6 @@ class CreateAppAction : AnAction("Initialize _App") {
             }
             foundationDir.createSubDirectory("viewmodel") { viewmodelDir ->
                 BaseViewModelFileTemplate().createFileInDir(event, viewmodelDir, rootPackage)
-                NoSlicePluginViewModelFileTemplate().createFileInDir(event, viewmodelDir, rootPackage)
                 ParentViewModelFileTemplate().createFileInDir(event, viewmodelDir, rootPackage)
                 PluginViewModelFileTemplate().createFileInDir(event, viewmodelDir, rootPackage)
                 SharedViewModelFileTemplate().createFileInDir(event, viewmodelDir, rootPackage)

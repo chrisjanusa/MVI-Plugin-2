@@ -1,6 +1,5 @@
 package com.github.chrisjanusa.mvi.app
 
-import com.github.chrisjanusa.mvi.feature.CreateFeaturePromptResult
 import com.intellij.openapi.ui.DialogWrapper
 import com.intellij.openapi.ui.ValidationInfo
 import com.intellij.ui.dsl.builder.*

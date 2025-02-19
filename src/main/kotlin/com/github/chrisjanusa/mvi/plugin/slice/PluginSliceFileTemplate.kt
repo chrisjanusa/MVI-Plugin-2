@@ -1,0 +1,12 @@
+package com.github.chrisjanusa.mvi.plugin.slice
+
+import com.github.chrisjanusa.mvi.file_managment.capitalize
+import com.github.chrisjanusa.mvi.foundation.FileTemplate
+
+internal class PluginSliceFileTemplate(pluginName: String) : FileTemplate("${pluginName.capitalize()}Slice") {
+    override fun createContent(rootPackage: String): String =
+                "import $rootPackage.foundation.state.Slice\n" +
+                        "\n" +
+                        "data class $fileName(\n" +
+                        ") : Slice\n"
+}

@@ -3,7 +3,7 @@ package com.github.chrisjanusa.mvi.feature.shared
 import com.github.chrisjanusa.mvi.file_managment.capitalize
 import com.github.chrisjanusa.mvi.foundation.FileTemplate
 
-class SharedEffectFileTemplate(private val featureName: String): FileTemplate("${featureName.capitalize()}SharedEffect") {
+internal class SharedEffectFileTemplate(private val featureName: String): FileTemplate("${featureName.capitalize()}SharedEffect") {
     override fun createContent(rootPackage: String): String =
                 "import $rootPackage.foundation.Action\n" +
                         "import $rootPackage.$featureName.shared.generated.${featureName.capitalize()}SharedActionEffect\n" +

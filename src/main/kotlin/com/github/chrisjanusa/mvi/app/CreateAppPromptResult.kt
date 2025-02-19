@@ -1,5 +1,5 @@
 package com.github.chrisjanusa.mvi.app
 
-data class CreateAppPromptResult(
+internal data class CreateAppPromptResult(
     var appName: String = "",
 )

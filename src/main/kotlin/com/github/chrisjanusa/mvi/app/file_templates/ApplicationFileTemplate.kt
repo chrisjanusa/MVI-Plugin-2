@@ -2,7 +2,7 @@ package com.github.chrisjanusa.mvi.app.file_templates
 
 import com.github.chrisjanusa.mvi.foundation.FileTemplate
 
-class ApplicationFileTemplate(private val appName: String): FileTemplate("${appName}Application") {
+internal class ApplicationFileTemplate(private val appName: String): FileTemplate("${appName}Application") {
     override fun createContent(rootPackage: String): String =
                 "import android.app.Application\n" +
                         "import $rootPackage.app.di.initKoin\n" +

@@ -2,7 +2,7 @@ package com.github.chrisjanusa.mvi.app.file_templates
 
 import com.github.chrisjanusa.mvi.foundation.FileTemplate
 
-class MainActivityFileTemplate(private val appName: String) : FileTemplate("MainActivity") {
+internal class MainActivityFileTemplate(private val appName: String) : FileTemplate("MainActivity") {
     override fun createContent(rootPackage: String): String =
                 "import android.os.Bundle\n" +
                         "import androidx.activity.ComponentActivity\n" +

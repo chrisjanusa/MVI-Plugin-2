@@ -2,7 +2,7 @@ package com.github.chrisjanusa.mvi.app.file_templates.foundation
 
 import com.github.chrisjanusa.mvi.foundation.FileTemplate
 
-class EffectFileTemplate : FileTemplate("Effect") {
+internal class EffectFileTemplate : FileTemplate("Effect") {
     override fun createContent(rootPackage: String): String =
         "import $rootPackage.foundation.state.Slice\n" +
                 "import $rootPackage.foundation.state.State\n" +

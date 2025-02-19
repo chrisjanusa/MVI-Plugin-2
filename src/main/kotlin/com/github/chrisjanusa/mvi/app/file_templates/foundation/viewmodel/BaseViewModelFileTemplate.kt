@@ -2,7 +2,7 @@ package com.github.chrisjanusa.mvi.app.file_templates.foundation.viewmodel
 
 import com.github.chrisjanusa.mvi.foundation.FileTemplate
 
-class BaseViewModelFileTemplate : FileTemplate("BaseViewModel") {
+internal class BaseViewModelFileTemplate : FileTemplate("BaseViewModel") {
     override fun createContent(rootPackage: String): String =
                 "import androidx.lifecycle.ViewModel\n" +
                         "import androidx.lifecycle.viewModelScope\n" +

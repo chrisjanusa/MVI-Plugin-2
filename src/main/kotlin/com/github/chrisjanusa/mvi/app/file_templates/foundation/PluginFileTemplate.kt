@@ -2,7 +2,7 @@ package com.github.chrisjanusa.mvi.app.file_templates.foundation
 
 import com.github.chrisjanusa.mvi.foundation.FileTemplate
 
-class PluginFileTemplate : FileTemplate("Plugin") {
+internal class PluginFileTemplate : FileTemplate("Plugin") {
     override fun createContent(rootPackage: String): String =
                 "import androidx.compose.foundation.layout.fillMaxSize\n" +
                         "import androidx.compose.runtime.Composable\n" +

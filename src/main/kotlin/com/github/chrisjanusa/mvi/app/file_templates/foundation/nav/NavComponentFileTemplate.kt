@@ -2,7 +2,7 @@ package com.github.chrisjanusa.mvi.app.file_templates.foundation.nav
 
 import com.github.chrisjanusa.mvi.foundation.FileTemplate
 
-class NavComponentFileTemplate : FileTemplate("NavComponent") {
+internal class NavComponentFileTemplate : FileTemplate("NavComponent") {
     override fun createContent(rootPackage: String): String =
         "import androidx.compose.animation.AnimatedContentScope\n" +
                 "import androidx.compose.animation.AnimatedContentTransitionScope\n" +

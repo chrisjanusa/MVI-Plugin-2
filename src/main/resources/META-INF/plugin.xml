@@ -29,6 +29,14 @@
                 <keyboard-shortcut keymap="$default" first-keystroke="meta alt A"/>
             </action>
             <action
+                    id="CreatePlugin"
+                    class="com.github.chrisjanusa.mvi.plugin.PluginAction"
+                    text="Create New Plugin"
+                    description="Creates a new plugin and all related files"
+                    icon="AllIcons.Nodes.PluginJB">
+                <keyboard-shortcut keymap="$default" first-keystroke="meta alt P"/>
+            </action>
+            <action
                     id="CreateFeature"
                     class="com.github.chrisjanusa.mvi.feature.CreateFeatureAction"
                     text="Create Feature Package"
@@ -59,6 +67,14 @@
                     description="Create a domain model for a feature"
                     icon="AllIcons.Actions.AddFile">
                 <keyboard-shortcut keymap="$default" first-keystroke="meta alt D"/>
+            </action>
+            <action
+                    id="AddSlice"
+                    class="com.github.chrisjanusa.mvi.plugin.slice.AddSliceAction"
+                    text="Add Slice to Plugin"
+                    description="Adds a slice to this plugin and updates all plugin components to support the slice"
+                    icon="AllIcons.RunConfigurations.Remote">
+                <keyboard-shortcut keymap="$default" first-keystroke="meta alt S"/>
             </action>
         </group>
     </actions>

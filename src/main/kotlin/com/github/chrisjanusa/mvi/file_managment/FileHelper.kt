@@ -12,4 +12,12 @@ internal fun AnActionEvent.findParentOfFile(fileName: String, excludeFileName: S
     return if (currFile.isValidFile()) currFile else null
 }
 
+internal fun AnActionEvent.findChildOfFile(fileName: String, excludeFileName: String = ""): VirtualFile?  {
+    var currFile = getData(PlatformDataKeys.VIRTUAL_FILE) ?: return null
+    while (currFile.isValidFile() && (currFile.name == excludeFileName || currFile.parent.name != fileName)) {
+        currFile = currFile.parent
+    }
+    return if (currFile.isValidFile()) currFile else null
+}
+
 fun VirtualFile.isValidFile() = name != "/"

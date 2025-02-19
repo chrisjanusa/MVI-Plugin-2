@@ -2,7 +2,7 @@ package com.github.chrisjanusa.mvi.app.file_templates
 
 import com.github.chrisjanusa.mvi.foundation.FileTemplate
 
-class NavEffectFileTemplate : FileTemplate("NavEffect") {
+internal class NavEffectFileTemplate : FileTemplate("NavEffect") {
     override fun createContent(rootPackage: String): String =
                 "import $rootPackage.app.nav.NavManager\n" +
                         "import $rootPackage.common.nav.CoreNavAction\n" +

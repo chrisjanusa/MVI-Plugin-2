@@ -2,7 +2,7 @@ package com.github.chrisjanusa.mvi.app.file_templates
 
 import com.github.chrisjanusa.mvi.foundation.FileTemplate
 
-class KoinModulesFileTemplate : FileTemplate("KoinModule") {
+internal class KoinModulesFileTemplate : FileTemplate("KoinModule") {
     override fun createContent(rootPackage: String): String =
                 "import $rootPackage.app.AppViewModel\n" +
                 "import org.koin.core.module.dsl.viewModel\n" +

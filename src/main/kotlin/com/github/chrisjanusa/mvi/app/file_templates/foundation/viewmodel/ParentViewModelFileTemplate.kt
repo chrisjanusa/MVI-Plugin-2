@@ -2,7 +2,7 @@ package com.github.chrisjanusa.mvi.app.file_templates.foundation.viewmodel
 
 import com.github.chrisjanusa.mvi.foundation.FileTemplate
 
-class ParentViewModelFileTemplate : FileTemplate("ParentViewModel") {
+internal class ParentViewModelFileTemplate : FileTemplate("ParentViewModel") {
     override fun createContent(rootPackage: String): String =
                 "import $rootPackage.foundation.Action\n" +
                         "import $rootPackage.foundation.SliceUpdate\n" +

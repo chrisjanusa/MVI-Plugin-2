@@ -3,7 +3,7 @@ package com.github.chrisjanusa.mvi.feature.nav
 import com.github.chrisjanusa.mvi.file_managment.capitalize
 import com.github.chrisjanusa.mvi.foundation.FileTemplate
 
-class NavGraphFileTemplate(private val featureName: String): FileTemplate("${featureName.capitalize()}NavGraph") {
+internal class NavGraphFileTemplate(private val featureName: String): FileTemplate("${featureName.capitalize()}NavGraph") {
     override fun createContent(rootPackage: String): String =
                 "import $rootPackage.foundation.nav.NavGraph\n" +
                 "import $rootPackage.foundation.nav.NavComponentId\n" +

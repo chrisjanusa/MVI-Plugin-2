@@ -2,7 +2,7 @@ package com.github.chrisjanusa.mvi.app.file_templates.foundation.viewmodel
 
 import com.github.chrisjanusa.mvi.foundation.FileTemplate
 
-class PluginViewModelFileTemplate : FileTemplate("PluginViewModel") {
+internal class PluginViewModelFileTemplate : FileTemplate("PluginViewModel") {
     override fun createContent(rootPackage: String): String =
                 "import androidx.lifecycle.viewModelScope\n" +
                         "import $rootPackage.foundation.Action\n" +
