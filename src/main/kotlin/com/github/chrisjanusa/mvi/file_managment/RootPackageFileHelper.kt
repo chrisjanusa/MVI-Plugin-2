@@ -21,11 +21,11 @@ fun AnActionEvent.getUninitializedRootPackageFile(): VirtualFile? {
 }
 
 fun AnActionEvent.getRootDir(): PsiDirectory? {
-    return getDirFromFile(getRootPackageFile())
+    return getRootPackageFile().getDirectory(this)
 }
 
 fun AnActionEvent.getUninitializedRootDir(): PsiDirectory? {
-    return getDirFromFile(getUninitializedRootPackageFile())
+    return getUninitializedRootPackageFile().getDirectory(this)
 }
 
 fun AnActionEvent.getRootPackage(): String =

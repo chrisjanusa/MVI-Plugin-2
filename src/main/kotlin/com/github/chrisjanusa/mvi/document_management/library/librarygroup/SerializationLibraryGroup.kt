@@ -1,9 +1,9 @@
-package com.github.chrisjanusa.mvi.library.librarygroup
+package com.github.chrisjanusa.mvi.document_management.library.librarygroup
 
-import com.github.chrisjanusa.mvi.library.Library
-import com.github.chrisjanusa.mvi.library.LibraryGroup
-import com.github.chrisjanusa.mvi.library.LibraryManager
-import com.github.chrisjanusa.mvi.library.LibraryPlugin
+import com.github.chrisjanusa.mvi.document_management.library.Library
+import com.github.chrisjanusa.mvi.document_management.library.LibraryGroup
+import com.github.chrisjanusa.mvi.document_management.library.LibraryManager
+import com.github.chrisjanusa.mvi.document_management.library.LibraryPlugin
 
 fun LibraryManager.addSerialization() {
     addPluginLibrary(

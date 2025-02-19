@@ -21,6 +21,14 @@
                     anchor="after"
                     relative-to-action="WeighingNewGroup"/>
             <action
+                    id="AddEffect"
+                    class="com.github.chrisjanusa.mvi.plugin.effect.AddEffectAction"
+                    text="Add Effect to Plugin"
+                    description="Creates effect and adds it to be monitored by the plugin"
+                    icon="AllIcons.Actions.EnableNewUi">
+                <keyboard-shortcut keymap="$default" first-keystroke="meta alt E"/>
+            </action>
+            <action
                     id="CreateApp"
                     class="com.github.chrisjanusa.mvi.app.CreateAppAction"
                     text="Initialize App Infrastructure"
@@ -74,6 +82,14 @@
                     text="Add Slice to Plugin"
                     description="Adds a slice to this plugin and updates all plugin components to support the slice"
                     icon="AllIcons.RunConfigurations.Remote">
+                <keyboard-shortcut keymap="$default" first-keystroke="meta alt S"/>
+            </action>
+            <action
+                    id="RemoveSlice"
+                    class="com.github.chrisjanusa.mvi.plugin.slice.RemoveSliceAction"
+                    text="Remove Slice from Plugin"
+                    description="Removes slice from this plugin and updates all plugin components to use NoSlice"
+                    icon="AllIcons.Actions.GC">
                 <keyboard-shortcut keymap="$default" first-keystroke="meta alt S"/>
             </action>
         </group>

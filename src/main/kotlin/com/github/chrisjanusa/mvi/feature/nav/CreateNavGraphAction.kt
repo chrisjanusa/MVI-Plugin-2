@@ -2,7 +2,7 @@ package com.github.chrisjanusa.mvi.feature.nav
 
 import com.github.chrisjanusa.mvi.file_managment.capitalize
 import com.github.chrisjanusa.mvi.file_managment.createSubDirectory
-import com.github.chrisjanusa.mvi.file_managment.getDirFromFile
+import com.github.chrisjanusa.mvi.file_managment.getDirectory
 import com.github.chrisjanusa.mvi.file_managment.getFeaturePackageFile
 import com.github.chrisjanusa.mvi.file_managment.isFeaturePackageOrDirectChild
 import com.intellij.openapi.actionSystem.ActionUpdateThread
@@ -12,7 +12,7 @@ import com.intellij.openapi.actionSystem.AnActionEvent
 class CreateNavGraphAction : AnAction("Create _Nav Graph") {
     override fun actionPerformed(event: AnActionEvent) {
         val featureFile = event.getFeaturePackageFile() ?: return
-        event.getDirFromFile(featureFile)?.createSubDirectory("nav") { navDir ->
+        featureFile.getDirectory(event)?.createSubDirectory("nav") { navDir ->
             NavGraphFileTemplate(featureFile.name).createFileInDir(event, navDir)
         }
     }

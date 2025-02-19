@@ -22,6 +22,12 @@ import com.github.chrisjanusa.mvi.app.file_templates.foundation.viewmodel.BaseVi
 import com.github.chrisjanusa.mvi.app.file_templates.foundation.viewmodel.ParentViewModelFileTemplate
 import com.github.chrisjanusa.mvi.app.file_templates.foundation.viewmodel.PluginViewModelFileTemplate
 import com.github.chrisjanusa.mvi.app.file_templates.foundation.viewmodel.SharedViewModelFileTemplate
+import com.github.chrisjanusa.mvi.document_management.library.getLibraryManager
+import com.github.chrisjanusa.mvi.document_management.library.librarygroup.addCoroutines
+import com.github.chrisjanusa.mvi.document_management.library.librarygroup.addKoin
+import com.github.chrisjanusa.mvi.document_management.library.librarygroup.addNavigation
+import com.github.chrisjanusa.mvi.document_management.library.librarygroup.addSerialization
+import com.github.chrisjanusa.mvi.document_management.manifest.getManifestManager
 import com.github.chrisjanusa.mvi.file_managment.capitalize
 import com.github.chrisjanusa.mvi.file_managment.createSubDirectory
 import com.github.chrisjanusa.mvi.file_managment.deleteFileInDirectory
@@ -29,12 +35,6 @@ import com.github.chrisjanusa.mvi.file_managment.getPackage
 import com.github.chrisjanusa.mvi.file_managment.getUninitializedRootDir
 import com.github.chrisjanusa.mvi.file_managment.getUninitializedRootPackageFile
 import com.github.chrisjanusa.mvi.file_managment.isUninitializedRootPackageOrDirectChild
-import com.github.chrisjanusa.mvi.library.getLibraryManager
-import com.github.chrisjanusa.mvi.library.librarygroup.addCoroutines
-import com.github.chrisjanusa.mvi.library.librarygroup.addKoin
-import com.github.chrisjanusa.mvi.library.librarygroup.addNavigation
-import com.github.chrisjanusa.mvi.library.librarygroup.addSerialization
-import com.github.chrisjanusa.mvi.manifest.getManifestManager
 import com.intellij.openapi.actionSystem.ActionUpdateThread
 import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent
@@ -56,7 +56,7 @@ class CreateAppAction : AnAction("Initialize _App") {
         libraryManager?.writeToGradle()
         val manifestManager = event.getManifestManager()
         manifestManager?.addApplication(createAppPromptResult.appName)
-        manifestManager?.writeToGradle()
+        manifestManager?.writeToDisk()
         root.createSubDirectory( "foundation") { foundationDir ->
             ActionFileTemplate().createFileInDir(event, foundationDir, rootPackage)
             EffectFileTemplate().createFileInDir(event, foundationDir, rootPackage)

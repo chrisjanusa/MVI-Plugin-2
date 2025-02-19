@@ -1,4 +1,4 @@
-package com.github.chrisjanusa.mvi.library
+package com.github.chrisjanusa.mvi.document_management.library
 
 data class LibraryGroup(
     val libraryGroupName: String,

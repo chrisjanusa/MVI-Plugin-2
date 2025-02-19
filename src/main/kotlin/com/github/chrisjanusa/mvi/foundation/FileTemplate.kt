@@ -15,7 +15,5 @@ abstract class FileTemplate(internal val fileName: String) {
         dir.createFileInDirectory(project, "$fileName.kt", content)
     }
 
-    internal fun String.addIf(condition: () -> Boolean) = if (condition()) this else ""
-
     abstract fun createContent(rootPackage: String): String
 }

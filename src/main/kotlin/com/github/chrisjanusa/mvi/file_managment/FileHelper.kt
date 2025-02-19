@@ -20,4 +20,5 @@ internal fun AnActionEvent.findChildOfFile(fileName: String, excludeFileName: St
     return if (currFile.isValidFile()) currFile else null
 }
 
+fun AnActionEvent.getCurrentFile() = getData(PlatformDataKeys.VIRTUAL_FILE)
 fun VirtualFile.isValidFile() = name != "/"

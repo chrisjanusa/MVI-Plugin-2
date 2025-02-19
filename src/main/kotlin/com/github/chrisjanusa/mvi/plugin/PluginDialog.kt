@@ -11,7 +11,7 @@ internal class PluginDialog(private val pluginPromptResult: PluginPromptResult) 
     DialogWrapper(false) {
     init {
         init()
-        this.title = "Initialize MVI App Module"
+        this.title = "Create a New Plugin"
     }
 
     override fun createCenterPanel(): JComponent {

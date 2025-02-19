@@ -1,4 +1,4 @@
-package com.github.chrisjanusa.mvi.library
+package com.github.chrisjanusa.mvi.document_management.library
 
 import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.application.ApplicationManager

@@ -2,7 +2,7 @@ package com.github.chrisjanusa.mvi.plugin
 
 
 import com.github.chrisjanusa.mvi.file_managment.createSubDirectory
-import com.github.chrisjanusa.mvi.file_managment.getDirFromFile
+import com.github.chrisjanusa.mvi.file_managment.getDirectory
 import com.github.chrisjanusa.mvi.file_managment.getFeaturePackageFile
 import com.github.chrisjanusa.mvi.file_managment.isFeaturePackageOrDirectChild
 import com.github.chrisjanusa.mvi.plugin.file_templates.PluginActionFileTemplate
@@ -31,7 +31,7 @@ class PluginAction : AnAction("Add _Plugin") {
         val hasState = pluginPromptResult.createState
         val hasSlice = pluginPromptResult.createSlice
         val isNavDestination = pluginPromptResult.createNavDestination
-        event.getDirFromFile(pluginDirFile)?.createSubDirectory( pluginPromptResult.pluginName) { pluginDir ->
+        pluginDirFile.getDirectory(event)?.createSubDirectory( pluginPromptResult.pluginName) { pluginDir ->
             PluginEffectFileTemplate(pluginName).createFileInDir(event, pluginDir)
             PluginActionFileTemplate(pluginName, hasState, hasSlice).createFileInDir(event, pluginDir)
             if (hasState) {

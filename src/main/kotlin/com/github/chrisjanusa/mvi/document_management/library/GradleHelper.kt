@@ -1,4 +1,4 @@
-package com.github.chrisjanusa.mvi.library
+package com.github.chrisjanusa.mvi.document_management.library
 
 import com.github.chrisjanusa.mvi.file_managment.getProjectDirFile
 import com.intellij.openapi.actionSystem.*
@@ -6,11 +6,6 @@ import com.intellij.openapi.editor.Document
 import com.intellij.openapi.fileEditor.FileDocumentManager
 import com.intellij.openapi.ui.Messages
 import javax.swing.SwingUtilities
-
-
-const val DEPENDENCIES = "dependencies"
-const val PLUGINS = "plugins"
-const val ANDROID = "android"
 
 fun AnActionEvent.getGradle(): Document? {
     val projectBaseDir = getProjectDirFile() ?: return null
