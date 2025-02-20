@@ -1,6 +1,6 @@
 package com.github.chrisjanusa.mvi.feature.nav
 
-import com.github.chrisjanusa.mvi.file_managment.capitalize
+import com.github.chrisjanusa.mvi.file_managment.toPascalCase
 import com.github.chrisjanusa.mvi.file_managment.createSubDirectory
 import com.github.chrisjanusa.mvi.file_managment.getDirectory
 import com.github.chrisjanusa.mvi.file_managment.getFeaturePackageFile
@@ -29,7 +29,7 @@ class CreateNavGraphAction : AnAction("Create _Nav Graph") {
         fun isEnabled(event: AnActionEvent): Boolean {
             if (!event.isFeaturePackageOrDirectChild()) return false
             val featureFile = event.getFeaturePackageFile() ?: return false
-            val navGraphName = "${featureFile.name.capitalize()}NavGraph.kt"
+            val navGraphName = "${featureFile.name.toPascalCase()}NavGraph.kt"
             return featureFile.findChild("nav")?.findChild(navGraphName) == null
         }
     }

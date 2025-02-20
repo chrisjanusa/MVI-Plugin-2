@@ -1,10 +1,12 @@
 package com.github.chrisjanusa.mvi.plugin
 
+import com.github.chrisjanusa.mvi.ui.TextFieldDependentLabelSuffix
+import com.github.chrisjanusa.mvi.ui.nameField
 import com.intellij.openapi.ui.DialogWrapper
-import com.intellij.openapi.ui.ValidationInfo
 import com.intellij.ui.dsl.builder.bindSelected
-import com.intellij.ui.dsl.builder.bindText
 import com.intellij.ui.dsl.builder.panel
+import com.intellij.ui.dsl.builder.selected
+import com.intellij.ui.layout.ComponentPredicate
 import javax.swing.JComponent
 
 internal class PluginDialog(private val pluginPromptResult: PluginPromptResult) :
@@ -16,35 +18,41 @@ internal class PluginDialog(private val pluginPromptResult: PluginPromptResult) 
 
     override fun createCenterPanel(): JComponent {
         return panel {
-            row("Plugin Name:") {
-                textField()
-                    .comment("plugin_name")
-                    .bindText(pluginPromptResult::pluginName)
-                    .validationOnInput { textField ->
-                        val text = textField.text
-                        if (text.any { it.isLetter() && !it.isLowerCase() }) {
-                            return@validationOnInput ValidationInfo("Plugin name must be lowercase", textField)
-                        } else if (text.any { !it.isLetter() && it != '_' }) {
-                            return@validationOnInput ValidationInfo("Plugin name must be all letters and underscores", textField)
-                        } else {
-                            return@validationOnInput null
-                        }
-                    }
-            }
+            lateinit var navDestinationEnabled: ComponentPredicate
+            lateinit var sliceEnabled: ComponentPredicate
+            lateinit var stateEnabled: ComponentPredicate
             group("What to Generate?") {
                 row {
-                    checkBox("Has state?")
+                    stateEnabled = checkBox("Has state?")
                         .bindSelected(pluginPromptResult::createState)
+                        .selected
                 }
                 row {
-                    checkBox("Has slice?")
+                    sliceEnabled = checkBox("Has slice?")
                         .bindSelected(pluginPromptResult::createSlice)
+                        .selected
                 }
                 row {
-                    checkBox("Is a nav destination?")
+                    navDestinationEnabled = checkBox("Is a nav destination?")
                         .bindSelected(pluginPromptResult::createNavDestination)
+                        .selected
                 }
             }
+            nameField(
+                type = "Plugin",
+                bindingField = pluginPromptResult::pluginName,
+                suffixes = listOf(
+                    TextFieldDependentLabelSuffix.SnakeCaseSuffix(" - (package name)"),
+                    TextFieldDependentLabelSuffix.PascalCaseSuffix("Plugin"),
+                    TextFieldDependentLabelSuffix.PascalCaseSuffix("ViewModel"),
+                    TextFieldDependentLabelSuffix.PascalCaseSuffix("Action"),
+                    TextFieldDependentLabelSuffix.PascalCaseSuffix("Content"),
+                    TextFieldDependentLabelSuffix.PascalCaseSuffix("Effect"),
+                    TextFieldDependentLabelSuffix.PascalCaseSuffix("NavDestination", navDestinationEnabled),
+                    TextFieldDependentLabelSuffix.PascalCaseSuffix("State", stateEnabled),
+                    TextFieldDependentLabelSuffix.PascalCaseSuffix("Slice", sliceEnabled),
+                )
+            )
         }
     }
 }

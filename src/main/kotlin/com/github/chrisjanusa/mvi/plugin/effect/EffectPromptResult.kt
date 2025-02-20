@@ -4,9 +4,12 @@ internal data class EffectPromptResult(
     var effectName: String = "",
     var effectType: EffectType = EffectType.ACTION_ONLY,
     var filterForAction: Boolean = false,
-    var actionToFilterFor: String? = null,
-    var navAction: String? = null,
+    var actionToFilterFor: String? = noActionFilterText,
+    var navAction: String? = noNavActionText,
 )
+
+const val noActionFilterText = "No Action Filter"
+const val noNavActionText = "No Nav Action"
 
 internal enum class EffectType {
     ACTION_ONLY,

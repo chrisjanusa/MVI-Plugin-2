@@ -5,6 +5,7 @@ import com.github.chrisjanusa.mvi.file_managment.createSubDirectory
 import com.github.chrisjanusa.mvi.file_managment.getDirectory
 import com.github.chrisjanusa.mvi.file_managment.getFeaturePackageFile
 import com.github.chrisjanusa.mvi.file_managment.isFeaturePackageOrDirectChild
+import com.github.chrisjanusa.mvi.file_managment.toSnakeCase
 import com.github.chrisjanusa.mvi.plugin.file_templates.PluginActionFileTemplate
 import com.github.chrisjanusa.mvi.plugin.file_templates.PluginContentFileTemplate
 import com.github.chrisjanusa.mvi.plugin.file_templates.PluginEffectFileTemplate
@@ -27,7 +28,7 @@ class PluginAction : AnAction("Add _Plugin") {
         val isCancelled = !dialog.showAndGet()
         if (isCancelled) return
         val pluginDirFile = featurePackage?.findChild("plugin") ?: return
-        val pluginName = pluginPromptResult.pluginName
+        val pluginName = pluginPromptResult.pluginName.toSnakeCase()
         val hasState = pluginPromptResult.createState
         val hasSlice = pluginPromptResult.createSlice
         val isNavDestination = pluginPromptResult.createNavDestination

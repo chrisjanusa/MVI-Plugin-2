@@ -22,3 +22,4 @@ internal fun AnActionEvent.findChildOfFile(fileName: String, excludeFileName: St
 
 fun AnActionEvent.getCurrentFile() = getData(PlatformDataKeys.VIRTUAL_FILE)
 fun VirtualFile.isValidFile() = name != "/"
+fun VirtualFile.findChildFile(name: String) = this.findChild("$name.kt")

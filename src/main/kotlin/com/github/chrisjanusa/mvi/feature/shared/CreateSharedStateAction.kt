@@ -1,6 +1,6 @@
 package com.github.chrisjanusa.mvi.feature.shared
 
-import com.github.chrisjanusa.mvi.file_managment.capitalize
+import com.github.chrisjanusa.mvi.file_managment.toPascalCase
 import com.github.chrisjanusa.mvi.file_managment.createSubDirectory
 import com.github.chrisjanusa.mvi.file_managment.getDirectory
 import com.github.chrisjanusa.mvi.file_managment.getFeaturePackageFile
@@ -35,7 +35,7 @@ class CreateSharedStateAction : AnAction("Create _Shared State") {
         fun isEnabled(event: AnActionEvent): Boolean {
             if (!event.isFeaturePackageOrDirectChild()) return false
             val featureFile = event.getFeaturePackageFile() ?: return false
-            val navGraphName = "${featureFile.name.capitalize()}SharedState.kt"
+            val navGraphName = "${featureFile.name.toPascalCase()}SharedState.kt"
             return featureFile.findChild("shared")?.findChild(navGraphName) == null
         }
     }

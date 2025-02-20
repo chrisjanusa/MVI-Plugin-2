@@ -28,13 +28,13 @@ import com.github.chrisjanusa.mvi.document_management.library.librarygroup.addKo
 import com.github.chrisjanusa.mvi.document_management.library.librarygroup.addNavigation
 import com.github.chrisjanusa.mvi.document_management.library.librarygroup.addSerialization
 import com.github.chrisjanusa.mvi.document_management.manifest.getManifestManager
-import com.github.chrisjanusa.mvi.file_managment.capitalize
 import com.github.chrisjanusa.mvi.file_managment.createSubDirectory
 import com.github.chrisjanusa.mvi.file_managment.deleteFileInDirectory
 import com.github.chrisjanusa.mvi.file_managment.getPackage
 import com.github.chrisjanusa.mvi.file_managment.getUninitializedRootDir
 import com.github.chrisjanusa.mvi.file_managment.getUninitializedRootPackageFile
 import com.github.chrisjanusa.mvi.file_managment.isUninitializedRootPackageOrDirectChild
+import com.github.chrisjanusa.mvi.file_managment.toPascalCase
 import com.intellij.openapi.actionSystem.ActionUpdateThread
 import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent
@@ -42,7 +42,7 @@ import com.intellij.openapi.actionSystem.AnActionEvent
 class CreateAppAction : AnAction("Initialize _App") {
     override fun actionPerformed(event: AnActionEvent) {
         val rootPackage = event.getUninitializedRootPackageFile()?.getPackage() ?: ""
-        val initialAppName = rootPackage.substringAfterLast(".").capitalize()
+        val initialAppName = rootPackage.substringAfterLast(".").toPascalCase()
         val createAppPromptResult = CreateAppPromptResult(appName = initialAppName)
         val dialog = CreateAppDialog(createAppPromptResult)
         val isCancelled = !dialog.showAndGet()
@@ -55,7 +55,8 @@ class CreateAppAction : AnAction("Initialize _App") {
         libraryManager?.addSerialization()
         libraryManager?.writeToGradle()
         val manifestManager = event.getManifestManager()
-        manifestManager?.addApplication(createAppPromptResult.appName)
+        val appName = createAppPromptResult.appName.toPascalCase()
+        manifestManager?.addApplication(appName)
         manifestManager?.writeToDisk()
         root.createSubDirectory( "foundation") { foundationDir ->
             ActionFileTemplate().createFileInDir(event, foundationDir, rootPackage)
@@ -87,8 +88,8 @@ class CreateAppAction : AnAction("Initialize _App") {
         }
         root.createSubDirectory("app") { appDir ->
             ActivityViewModelFileTemplate().createFileInDir(event, appDir, rootPackage)
-            MainActivityFileTemplate(createAppPromptResult.appName).createFileInDir(event, appDir, rootPackage)
-            ApplicationFileTemplate(createAppPromptResult.appName).createFileInDir(event, appDir, rootPackage)
+            MainActivityFileTemplate(appName).createFileInDir(event, appDir, rootPackage)
+            ApplicationFileTemplate(appName).createFileInDir(event, appDir, rootPackage)
             appDir.createSubDirectory("di") { diDir ->
                 InitKoinFileTemplate().createFileInDir(event, diDir, rootPackage)
                 KoinModulesFileTemplate().createFileInDir(event, diDir, rootPackage)

@@ -1,8 +1,9 @@
 package com.github.chrisjanusa.mvi.app
 
+import com.github.chrisjanusa.mvi.ui.TextFieldDependentLabelSuffix
+import com.github.chrisjanusa.mvi.ui.nameField
 import com.intellij.openapi.ui.DialogWrapper
-import com.intellij.openapi.ui.ValidationInfo
-import com.intellij.ui.dsl.builder.*
+import com.intellij.ui.dsl.builder.panel
 import javax.swing.JComponent
 
 internal class CreateAppDialog(private val createAppPromptResult: CreateAppPromptResult) :
@@ -14,24 +15,32 @@ internal class CreateAppDialog(private val createAppPromptResult: CreateAppPromp
 
     override fun createCenterPanel(): JComponent {
         return panel {
-            row("App Name:") {
-                textField()
-                    .comment("AppName (PascalCase)")
-                    .bindText(createAppPromptResult::appName)
-                    .validationOnInput { textField ->
-                        val text = textField.text
-                        text.forEachIndexed { index, char ->
-                            if (index == 0) {
-                                if (!char.isUpperCase()) {
-                                    return@validationOnInput ValidationInfo("Feature name must be PascalCase", textField)
-                                }
-                            }
-                            if (!char.isLetter()) {
-                                return@validationOnInput ValidationInfo("Feature name must be only characters", textField)
-                            }
-                        }
-                        return@validationOnInput null
-                    }
+            nameField(
+                type = "App Model",
+                bindingField = createAppPromptResult::appName,
+                suffixes = listOf(
+                    TextFieldDependentLabelSuffix.PascalCaseSuffix("Application")
+                ),
+                addSeparator = false,
+                initialText = createAppPromptResult.appName
+            )
+            row {
+                label("    • InitKoin")
+            }
+            row {
+                label("    • KoinModule")
+            }
+            row {
+                label("    • NavEffect")
+            }
+            row {
+                label("    • MainActivity")
+            }
+            row {
+                label("    • ActivityViewModel")
+            }
+            row {
+                label("    • NavManager")
             }
         }
     }

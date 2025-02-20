@@ -1,11 +1,12 @@
 package com.github.chrisjanusa.mvi.plugin.file_templates
 
-import com.github.chrisjanusa.mvi.file_managment.capitalize
+import com.github.chrisjanusa.mvi.file_managment.toPascalCase
 import com.github.chrisjanusa.mvi.foundation.FileTemplate
+import com.github.chrisjanusa.mvi.foundation.addIf
 
-internal class PluginTypeAliasFileTemplate(private val featureName: String, private val pluginName: String, private val hasState: Boolean, private val hasSlice: Boolean) : FileTemplate("${pluginName.capitalize()}TypeAlias") {
+internal class PluginTypeAliasFileTemplate(private val featureName: String, private val pluginName: String, private val hasState: Boolean, private val hasSlice: Boolean) : FileTemplate("${pluginName.toPascalCase()}TypeAlias") {
     override fun createContent(rootPackage: String): String {
-        val pluginCapitalized = pluginName.capitalize()
+        val pluginCapitalized = pluginName.toPascalCase()
         val state = if (hasState) "${pluginCapitalized}State" else "NoState"
         val slice = if (hasSlice) "${pluginCapitalized}Slice" else "NoSlice"
         return "import $rootPackage.foundation.ActionEffect\n" +

@@ -1,7 +1,7 @@
 package com.github.chrisjanusa.mvi.document_management.manifest
 
 import com.github.chrisjanusa.mvi.document_management.DocumentManager
-import com.github.chrisjanusa.mvi.file_managment.capitalize
+import com.github.chrisjanusa.mvi.file_managment.toPascalCase
 import com.github.chrisjanusa.mvi.file_managment.getProjectDirFile
 import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.editor.Document
@@ -13,7 +13,7 @@ class ManifestManager(
 ) : DocumentManager(manifest) {
 
     fun addApplication(appName: String) {
-        addAfterFirst("      android:name=\".app.${appName.capitalize()}Application\"") { line ->
+        addAfterFirst("      android:name=\".app.${appName.toPascalCase()}Application\"") { line ->
             line.contains("<application")
         }
     }

@@ -11,22 +11,47 @@
 
     <actions>
         <group
-                id="org.intellij.sdk.action.NewMVI"
+                id="org.intellij.sdk.action.MVIEditor"
+                class="com.github.chrisjanusa.mvi.MviEditorGroup"
+                popup="true"
+                text="MVI"
+                icon="AllIcons.Actions.EnableNewUi"
+                description="Manage MVI Classes">
+            <add-to-group
+                    group-id="EditorPopupMenu"
+                    anchor="first"/>
+        </group>
+        <group
+                id="org.intellij.sdk.action.MVIFile"
                 class="com.github.chrisjanusa.mvi.MviGroup"
                 popup="true"
-                text="New MVI"
-                description="Create new MVI Classes">
+                text="MVI"
+                icon="AllIcons.Actions.EnableNewUi"
+                description="Manage MVI Classes">
             <add-to-group
                     group-id="ProjectViewPopupMenu"
-                    anchor="after"
-                    relative-to-action="WeighingNewGroup"/>
+                    anchor="first"/>
             <action
                     id="AddEffect"
                     class="com.github.chrisjanusa.mvi.plugin.effect.AddEffectAction"
                     text="Add Effect to Plugin"
                     description="Creates effect and adds it to be monitored by the plugin"
-                    icon="AllIcons.Actions.EnableNewUi">
+                    icon="AllIcons.Vcs.Merge">
+                <add-to-group
+                        group-id="org.intellij.sdk.action.MVIEditor"
+                        anchor="first"/>
                 <keyboard-shortcut keymap="$default" first-keystroke="meta alt E"/>
+            </action>
+            <action
+                    id="AddAction"
+                    class="com.github.chrisjanusa.mvi.plugin.action.AddActionAction"
+                    text="Add Action to Plugin"
+                    description="Creates action"
+                    icon="AllIcons.Nodes.Alias">
+                <add-to-group
+                        group-id="org.intellij.sdk.action.MVIEditor"
+                        anchor="first"/>
+                <keyboard-shortcut keymap="$default" first-keystroke="meta alt A"/>
             </action>
             <action
                     id="CreateApp"

@@ -6,6 +6,7 @@ import com.github.chrisjanusa.mvi.feature.domain_model.CreateDomainModelAction
 import com.github.chrisjanusa.mvi.feature.nav.CreateNavGraphAction
 import com.github.chrisjanusa.mvi.feature.shared.CreateSharedStateAction
 import com.github.chrisjanusa.mvi.plugin.PluginAction
+import com.github.chrisjanusa.mvi.plugin.action.AddActionAction
 import com.github.chrisjanusa.mvi.plugin.effect.AddEffectAction
 import com.github.chrisjanusa.mvi.plugin.slice.AddSliceAction
 import com.github.chrisjanusa.mvi.plugin.slice.RemoveSliceAction
@@ -24,7 +25,8 @@ class MviGroup : DefaultActionGroup() {
                 AddSliceAction.isEnabled(event) ||
                 PluginAction.isEnabled(event) ||
                 RemoveSliceAction.isEnabled(event) ||
-                AddEffectAction.isEnabled(event)
+                AddEffectAction.isEnabled(event) ||
+                AddActionAction.isEnabled(event)
     }
 
     override fun getActionUpdateThread(): ActionUpdateThread {

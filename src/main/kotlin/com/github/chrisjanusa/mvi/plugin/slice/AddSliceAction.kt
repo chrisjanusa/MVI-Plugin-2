@@ -2,11 +2,13 @@ package com.github.chrisjanusa.mvi.plugin.slice
 
 
 import com.github.chrisjanusa.mvi.document_management.StateSliceDocumentManager
-import com.github.chrisjanusa.mvi.file_managment.capitalize
+import com.github.chrisjanusa.mvi.file_managment.toPascalCase
 import com.github.chrisjanusa.mvi.file_managment.createSubDirectory
+import com.github.chrisjanusa.mvi.file_managment.findChildFile
 import com.github.chrisjanusa.mvi.file_managment.getDirectory
 import com.github.chrisjanusa.mvi.file_managment.getFeaturePackageFile
 import com.github.chrisjanusa.mvi.file_managment.getPluginPackageFile
+import com.github.chrisjanusa.mvi.file_managment.getRootPackage
 import com.intellij.openapi.actionSystem.ActionUpdateThread
 import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent
@@ -26,7 +28,7 @@ class AddSliceAction : AnAction("Add _Slice") {
                 pluginName,
             ).createFileInDir(event, generatedDir)
         }
-        val pluginCapitalized = pluginName.capitalize()
+        val pluginCapitalized = pluginName.toPascalCase()
         addSliceToAction(pluginCapitalized, pluginPackage, event)
         addSliceToPlugin(pluginCapitalized, pluginPackage, event)
         addSliceToViewModel(pluginCapitalized, pluginPackage, event)
@@ -35,23 +37,24 @@ class AddSliceAction : AnAction("Add _Slice") {
     }
 
     private fun addSliceToAction(pluginCapitalized: String, pluginPackage: VirtualFile, event: AnActionEvent) {
-        val actionFile = pluginPackage.findChild("${pluginCapitalized}Action") ?: return
+        val actionFile = pluginPackage.findChildFile("${pluginCapitalized}Action") ?: return
         val document = FileDocumentManager.getInstance().getDocument(actionFile) ?: return
         val documentManager = StateSliceDocumentManager(document, event)
+        documentManager.removeImport("${event.getRootPackage()}.foundation.state.NoSlice")
         documentManager.addSlice()
         documentManager.writeToDisk()
     }
 
     private fun addSliceToPlugin(pluginCapitalized: String, pluginPackage: VirtualFile, event: AnActionEvent) {
         val generatedPackage = pluginPackage.findChild("generated")
-        val file = generatedPackage?.findChild("${pluginCapitalized}Plugin") ?: return
+        val file = generatedPackage?.findChildFile("${pluginCapitalized}Plugin") ?: return
         val document = FileDocumentManager.getInstance().getDocument(file) ?: return
         val documentManager = StateSliceDocumentManager(document, event)
         documentManager.findAndReplaceIfNotExists(
-            oldValue = "            modifier = modifier, \n",
-            newValue = "            modifier = modifier, \n" +
-                       "            slice = slice, \n",
-            existStringCheck = "            slice = slice, \n"
+            oldValue = "            modifier = modifier,\n",
+            newValue = "            modifier = modifier,\n" +
+                       "            slice = slice,\n",
+            existStringCheck = "            slice = slice,\n"
         )
         documentManager.addSlice()
         documentManager.writeToDisk()
@@ -59,23 +62,30 @@ class AddSliceAction : AnAction("Add _Slice") {
 
     private fun addSliceToViewModel(pluginCapitalized: String, pluginPackage: VirtualFile, event: AnActionEvent) {
         val generatedPackage = pluginPackage.findChild("generated")
-        val file = generatedPackage?.findChild("${pluginCapitalized}ViewModel") ?: return
+        val file = generatedPackage?.findChildFile("${pluginCapitalized}ViewModel") ?: return
         val document = FileDocumentManager.getInstance().getDocument(file) ?: return
         val documentManager = StateSliceDocumentManager(document, event)
         documentManager.findAndReplace(
             oldValue = "    override val initialSlice = NoSlice\n",
-            newValue = "    override val initialSlice = ${pluginCapitalized}Slice()\n" +
-                    "    override fun getSliceFlow() =\n" +
-                    "        parentViewModel?.getFilteredSliceUpdateFlow<${pluginCapitalized}SliceUpdate>()?.map { it.slice }\n",
+            newValue = "    override val initialSlice = ${pluginCapitalized}Slice()\n"
 
             )
+
+        documentManager.findAndReplace(
+            oldValue = "    override fun getSliceFlow(): Flow<NoSlice>? = null\n",
+            newValue = "    override fun getSliceFlow() =\n" +
+                    "        parentViewModel?.getFilteredSliceUpdateFlow<${pluginCapitalized}SliceUpdate>()?.map { it.slice }\n",
+        )
+        documentManager.removeImport("kotlinx.coroutines.flow.Flow")
+        documentManager.addImport("kotlinx.coroutines.flow.map")
+        documentManager.addImport("${event.getRootPackage()}.foundation.viewmodel.getFilteredSliceUpdateFlow")
         documentManager.addSlice()
         documentManager.writeToDisk()
     }
 
     private fun addSliceToTypeAlias(pluginCapitalized: String, pluginPackage: VirtualFile, event: AnActionEvent) {
         val generatedPackage = pluginPackage.findChild("generated")
-        val file = generatedPackage?.findChild("${pluginCapitalized}TypeAlias") ?: return
+        val file = generatedPackage?.findChildFile("${pluginCapitalized}TypeAlias") ?: return
         val document = FileDocumentManager.getInstance().getDocument(file) ?: return
         val documentManager = StateSliceDocumentManager(document, event)
         documentManager.addSlice()
@@ -83,17 +93,17 @@ class AddSliceAction : AnAction("Add _Slice") {
     }
 
     private fun addSliceToContent(pluginCapitalized: String, pluginPackage: VirtualFile, event: AnActionEvent) {
-        val generatedPackage = pluginPackage.findChild("generated")
-        val file = generatedPackage?.findChild("${pluginCapitalized}Content") ?: return
+        val generatedPackage = pluginPackage.findChild("ui")
+        val file = generatedPackage?.findChildFile("${pluginCapitalized}Content") ?: return
         val document = FileDocumentManager.getInstance().getDocument(file) ?: return
         val documentManager = StateSliceDocumentManager(document, event)
         documentManager.findAndReplaceIfNotExists(
-            oldValue = "    modifier: Modifier, \n",
-            newValue = "    modifier: Modifier, \n" +
-                       "    slice: ${pluginCapitalized}Slice, \n",
-            existStringCheck = "    slice: ${pluginCapitalized}Slice, \n"
+            oldValue = "    modifier: Modifier,\n",
+            newValue = "    modifier: Modifier,\n" +
+                       "    slice: ${pluginCapitalized}Slice,\n",
+            existStringCheck = "    slice: ${pluginCapitalized}Slice,\n"
         )
-        documentManager.addSlice()
+        documentManager.addSlicePackage()
         documentManager.writeToDisk()
     }
 
@@ -108,7 +118,7 @@ class AddSliceAction : AnAction("Add _Slice") {
     companion object {
         fun isEnabled(event: AnActionEvent): Boolean {
             val pluginPackage = event.getPluginPackageFile() ?: return false
-            val slice = pluginPackage.findChild("${pluginPackage.name.capitalize()}Slice")
+            val slice = pluginPackage.findChild("${pluginPackage.name.toPascalCase()}Slice.kt")
             return slice == null
         }
     }

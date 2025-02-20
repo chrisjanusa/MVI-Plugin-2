@@ -8,6 +8,7 @@ import com.github.chrisjanusa.mvi.feature.shared.SharedViewModelFileTemplate
 import com.github.chrisjanusa.mvi.file_managment.createSubDirectory
 import com.github.chrisjanusa.mvi.file_managment.getRootDir
 import com.github.chrisjanusa.mvi.file_managment.isRootPackageOrDirectChild
+import com.github.chrisjanusa.mvi.file_managment.toSnakeCase
 import com.intellij.openapi.actionSystem.ActionUpdateThread
 import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent
@@ -19,21 +20,22 @@ class CreateFeatureAction : AnAction("Create _Feature") {
         val isCancelled = !dialog.showAndGet()
         if (isCancelled) return
         val root = event.getRootDir() ?: return
-        root.createSubDirectory(createFeaturePromptResult.featureName.lowercase()) { featureDir ->
+        val featureName = createFeaturePromptResult.featureName.toSnakeCase()
+        root.createSubDirectory(featureName) { featureDir ->
             featureDir.createSubDirectory("plugin")
             if (createFeaturePromptResult.createSharedState || createFeaturePromptResult.createNavGraph) {
                 featureDir.createSubDirectory("nav") { navDir ->
-                    NavGraphFileTemplate(createFeaturePromptResult.featureName).createFileInDir(event, navDir)
+                    NavGraphFileTemplate(featureName).createFileInDir(event, navDir)
                 }
             }
             if (createFeaturePromptResult.createSharedState) {
                 featureDir.createSubDirectory("shared") { sharedDir ->
-                    SharedEffectFileTemplate(createFeaturePromptResult.featureName).createFileInDir(event, sharedDir)
-                    SharedActionFileTemplate(createFeaturePromptResult.featureName).createFileInDir(event, sharedDir)
-                    SharedStateFileTemplate(createFeaturePromptResult.featureName).createFileInDir(event, sharedDir)
+                    SharedEffectFileTemplate(featureName).createFileInDir(event, sharedDir)
+                    SharedActionFileTemplate(featureName).createFileInDir(event, sharedDir)
+                    SharedStateFileTemplate(featureName).createFileInDir(event, sharedDir)
                     sharedDir.createSubDirectory("generated") { generatedDir ->
-                        SharedTypeAliasFileTemplate(createFeaturePromptResult.featureName).createFileInDir(event, generatedDir)
-                        SharedViewModelFileTemplate(createFeaturePromptResult.featureName).createFileInDir(event, generatedDir)
+                        SharedTypeAliasFileTemplate(featureName).createFileInDir(event, generatedDir)
+                        SharedViewModelFileTemplate(featureName).createFileInDir(event, generatedDir)
                     }
                 }
             }
