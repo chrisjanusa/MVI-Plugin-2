@@ -12,7 +12,7 @@
     <actions>
         <group
                 id="org.intellij.sdk.action.MVIEditor"
-                class="com.github.chrisjanusa.mvi.MviEditorGroup"
+                class="com.github.chrisjanusa.mvi.action_group.MviEditorGroup"
                 popup="true"
                 text="MVI"
                 icon="AllIcons.Actions.EnableNewUi"
@@ -23,7 +23,7 @@
         </group>
         <group
                 id="org.intellij.sdk.action.MVIFile"
-                class="com.github.chrisjanusa.mvi.MviGroup"
+                class="com.github.chrisjanusa.mvi.action_group.MviGroup"
                 popup="true"
                 text="MVI"
                 icon="AllIcons.Actions.EnableNewUi"
@@ -31,9 +31,10 @@
             <add-to-group
                     group-id="ProjectViewPopupMenu"
                     anchor="first"/>
+            <separator text = "Plugin" />
             <action
                     id="AddEffect"
-                    class="com.github.chrisjanusa.mvi.plugin.effect.AddEffectAction"
+                    class="com.github.chrisjanusa.mvi.package_generator.plugin.effect.AddEffectAction"
                     text="Add Effect to Plugin"
                     description="Creates effect and adds it to be monitored by the plugin"
                     icon="AllIcons.Vcs.Merge">
@@ -44,7 +45,7 @@
             </action>
             <action
                     id="AddAction"
-                    class="com.github.chrisjanusa.mvi.plugin.action.AddActionAction"
+                    class="com.github.chrisjanusa.mvi.package_generator.plugin.action.AddActionAction"
                     text="Add Action to Plugin"
                     description="Creates action"
                     icon="AllIcons.Nodes.Alias">
@@ -54,56 +55,8 @@
                 <keyboard-shortcut keymap="$default" first-keystroke="meta alt A"/>
             </action>
             <action
-                    id="CreateApp"
-                    class="com.github.chrisjanusa.mvi.app.CreateAppAction"
-                    text="Initialize App Infrastructure"
-                    description="Create all infrastructure files for an app"
-                    icon="AllIcons.Modules.GeneratedSourceRoot">
-                <keyboard-shortcut keymap="$default" first-keystroke="meta alt A"/>
-            </action>
-            <action
-                    id="CreatePlugin"
-                    class="com.github.chrisjanusa.mvi.plugin.PluginAction"
-                    text="Create New Plugin"
-                    description="Creates a new plugin and all related files"
-                    icon="AllIcons.Nodes.PluginJB">
-                <keyboard-shortcut keymap="$default" first-keystroke="meta alt P"/>
-            </action>
-            <action
-                    id="CreateFeature"
-                    class="com.github.chrisjanusa.mvi.feature.CreateFeatureAction"
-                    text="Create Feature Package"
-                    description="Create all files required for a feature"
-                    icon="AllIcons.Actions.ModuleDirectory">
-                <keyboard-shortcut keymap="$default" first-keystroke="meta alt F"/>
-            </action>
-            <action
-                    id="CreateNavGraph"
-                    class="com.github.chrisjanusa.mvi.feature.nav.CreateNavGraphAction"
-                    text="Create Nav Graph for Feature"
-                    description="Create a Nav Graph for the feature"
-                    icon="AllIcons.Graph.Layout">
-                <keyboard-shortcut keymap="$default" first-keystroke="meta alt N"/>
-            </action>
-            <action
-                    id="CreateSharedState"
-                    class="com.github.chrisjanusa.mvi.feature.shared.CreateSharedStateAction"
-                    text="Create Shared State for Plugins in Feature"
-                    description="Create a shared state for plugins in feature that will send slice updates when the state changes"
-                    icon="AllIcons.CodeWithMe.CwmShared">
-                <keyboard-shortcut keymap="$default" first-keystroke="meta alt S"/>
-            </action>
-            <action
-                    id="CreateDomainModel"
-                    class="com.github.chrisjanusa.mvi.feature.domain_model.CreateDomainModelAction"
-                    text="Create Domain Model"
-                    description="Create a domain model for a feature"
-                    icon="AllIcons.Actions.AddFile">
-                <keyboard-shortcut keymap="$default" first-keystroke="meta alt D"/>
-            </action>
-            <action
                     id="AddSlice"
-                    class="com.github.chrisjanusa.mvi.plugin.slice.AddSliceAction"
+                    class="com.github.chrisjanusa.mvi.package_generator.plugin.slice.AddSliceAction"
                     text="Add Slice to Plugin"
                     description="Adds a slice to this plugin and updates all plugin components to support the slice"
                     icon="AllIcons.RunConfigurations.Remote">
@@ -111,11 +64,61 @@
             </action>
             <action
                     id="RemoveSlice"
-                    class="com.github.chrisjanusa.mvi.plugin.slice.RemoveSliceAction"
+                    class="com.github.chrisjanusa.mvi.package_generator.plugin.slice.RemoveSliceAction"
                     text="Remove Slice from Plugin"
                     description="Removes slice from this plugin and updates all plugin components to use NoSlice"
                     icon="AllIcons.Actions.GC">
                 <keyboard-shortcut keymap="$default" first-keystroke="meta alt S"/>
+            </action>
+            <action
+                    id="CreatePlugin"
+                    class="com.github.chrisjanusa.mvi.package_generator.plugin.PluginAction"
+                    text="Create New Plugin"
+                    description="Creates a new plugin and all related files"
+                    icon="AllIcons.Nodes.PluginJB">
+                <keyboard-shortcut keymap="$default" first-keystroke="meta alt P"/>
+            </action>
+            <separator text = "Feature" />
+            <action
+                    id="CreateFeature"
+                    class="com.github.chrisjanusa.mvi.package_generator.feature.CreateFeatureAction"
+                    text="Create Feature Package"
+                    description="Create all files required for a feature"
+                    icon="AllIcons.Actions.ModuleDirectory">
+                <keyboard-shortcut keymap="$default" first-keystroke="meta alt F"/>
+            </action>
+            <action
+                    id="CreateNavGraph"
+                    class="com.github.chrisjanusa.mvi.package_generator.feature.nav.CreateNavGraphAction"
+                    text="Create Nav Graph for Feature"
+                    description="Create a Nav Graph for the feature"
+                    icon="AllIcons.Graph.Layout">
+                <keyboard-shortcut keymap="$default" first-keystroke="meta alt N"/>
+            </action>
+            <action
+                    id="CreateSharedState"
+                    class="com.github.chrisjanusa.mvi.package_generator.feature.shared.CreateSharedStateAction"
+                    text="Create Shared State for Plugins in Feature"
+                    description="Create a shared state for plugins in feature that will send slice updates when the state changes"
+                    icon="AllIcons.CodeWithMe.CwmShared">
+                <keyboard-shortcut keymap="$default" first-keystroke="meta alt S"/>
+            </action>
+            <action
+                    id="CreateDomainModel"
+                    class="com.github.chrisjanusa.mvi.package_generator.feature.domain_model.CreateDomainModelAction"
+                    text="Create Domain Model"
+                    description="Create a domain model for a feature"
+                    icon="AllIcons.Actions.AddFile">
+                <keyboard-shortcut keymap="$default" first-keystroke="meta alt D"/>
+            </action>
+            <separator text = "App" />
+            <action
+                    id="CreateApp"
+                    class="com.github.chrisjanusa.mvi.package_generator.app.CreateAppAction"
+                    text="Initialize App Infrastructure"
+                    description="Create all infrastructure files for an app"
+                    icon="AllIcons.Modules.GeneratedSourceRoot">
+                <keyboard-shortcut keymap="$default" first-keystroke="meta alt A"/>
             </action>
         </group>
     </actions>
