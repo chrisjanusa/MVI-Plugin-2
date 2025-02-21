@@ -1,17 +1,27 @@
 package com.github.chrisjanusa.mvi.feature.shared
 
-import com.github.chrisjanusa.mvi.file_managment.toPascalCase
+import com.github.chrisjanusa.mvi.file_managment.getFeaturePackageFile
 import com.github.chrisjanusa.mvi.foundation.FileTemplate
+import com.intellij.openapi.actionSystem.AnActionEvent
 
-internal class SharedEffectFileTemplate(private val featureName: String): FileTemplate("${featureName.toPascalCase()}SharedEffect") {
-    override fun createContent(rootPackage: String): String =
+internal class SharedEffectFileTemplate(
+    actionEvent: AnActionEvent,
+    featurePackage: String? = actionEvent.getFeaturePackageFile()?.name
+): FileTemplate(
+    actionEvent = actionEvent,
+    featurePackage = featurePackage
+) {
+    override val fileName: String
+        get() = "${featureName}SharedEffect"
+
+    override fun createContent(): String =
                 "import $rootPackage.foundation.Action\n" +
-                        "import $rootPackage.$featureName.shared.generated.${featureName.toPascalCase()}SharedActionEffect\n" +
+                        "import $rootPackage.$featurePackage.shared.generated.${featureName}SharedActionEffect\n" +
                         "import $rootPackage.foundation.OnAction\n" +
                         "import kotlinx.coroutines.flow.Flow\n" +
                         "import kotlinx.coroutines.flow.collectLatest\n" +
                         "\n" +
-                        "internal object OnChildActionReceivedEffect : ${featureName.toPascalCase()}SharedActionEffect() {\n" +
+                        "internal object OnChildActionReceivedEffect : ${featureName}SharedActionEffect() {\n" +
                         "\n" +
                         "    override suspend fun launchEffect(\n" +
                         "        actionFlow: Flow<Action>,\n" +

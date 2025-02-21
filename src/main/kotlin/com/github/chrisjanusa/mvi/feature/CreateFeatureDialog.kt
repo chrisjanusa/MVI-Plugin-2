@@ -1,6 +1,6 @@
 package com.github.chrisjanusa.mvi.feature
 
-import com.github.chrisjanusa.mvi.ui.TextFieldDependentLabelSuffix
+import com.github.chrisjanusa.mvi.ui.TextFieldDependentLabelText
 import com.github.chrisjanusa.mvi.ui.nameField
 import com.intellij.openapi.ui.DialogWrapper
 import com.intellij.ui.dsl.builder.bindSelected
@@ -39,15 +39,15 @@ internal class CreateFeatureDialog(private val createFeaturePromptResult: Create
                 type = "Feature",
                 bindingField = createFeaturePromptResult::featureName,
                 suffixes = listOf(
-                    TextFieldDependentLabelSuffix.SnakeCaseSuffix(" - (package name)"),
-                    TextFieldDependentLabelSuffix.SnakeCaseSuffix("/plugin - (package name)"),
-                    TextFieldDependentLabelSuffix.SnakeCaseSuffix("/nav - (package name)", navGraphEnabled),
-                    TextFieldDependentLabelSuffix.PascalCaseSuffix("NavGraph", navGraphEnabled),
-                    TextFieldDependentLabelSuffix.SnakeCaseSuffix("/shared - (package name)", sharedEnabled),
-                    TextFieldDependentLabelSuffix.PascalCaseSuffix("SharedState", sharedEnabled),
-                    TextFieldDependentLabelSuffix.PascalCaseSuffix("SharedViewModel", sharedEnabled),
-                    TextFieldDependentLabelSuffix.PascalCaseSuffix("SharedAction", sharedEnabled),
-                    TextFieldDependentLabelSuffix.PascalCaseSuffix("SharedEffect", sharedEnabled),
+                    TextFieldDependentLabelText.SnakeCaseText(suffix = " - (package name)"),
+                    TextFieldDependentLabelText.SnakeCaseText(suffix = "/plugin - (package name)"),
+                    TextFieldDependentLabelText.SnakeCaseText(suffix = "/nav - (package name)", visibleIf = navGraphEnabled),
+                    TextFieldDependentLabelText.PascalCaseText(suffix = "NavGraph", visibleIf = navGraphEnabled),
+                    TextFieldDependentLabelText.SnakeCaseText(suffix = "/shared - (package name)", visibleIf = sharedEnabled),
+                    TextFieldDependentLabelText.PascalCaseText(suffix = "SharedState", visibleIf = sharedEnabled),
+                    TextFieldDependentLabelText.PascalCaseText(suffix = "SharedViewModel", visibleIf = sharedEnabled),
+                    TextFieldDependentLabelText.PascalCaseText(suffix = "SharedAction", visibleIf = sharedEnabled),
+                    TextFieldDependentLabelText.PascalCaseText(suffix = "SharedEffect", visibleIf = sharedEnabled),
                 )
             )
         }

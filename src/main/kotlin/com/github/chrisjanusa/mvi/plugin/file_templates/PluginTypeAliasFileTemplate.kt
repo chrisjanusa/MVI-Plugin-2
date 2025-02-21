@@ -1,32 +1,43 @@
 package com.github.chrisjanusa.mvi.plugin.file_templates
 
-import com.github.chrisjanusa.mvi.file_managment.toPascalCase
+import com.github.chrisjanusa.mvi.file_managment.getPluginPackageFile
 import com.github.chrisjanusa.mvi.foundation.FileTemplate
 import com.github.chrisjanusa.mvi.foundation.addIf
+import com.intellij.openapi.actionSystem.AnActionEvent
 
-internal class PluginTypeAliasFileTemplate(private val featureName: String, private val pluginName: String, private val hasState: Boolean, private val hasSlice: Boolean) : FileTemplate("${pluginName.toPascalCase()}TypeAlias") {
-    override fun createContent(rootPackage: String): String {
-        val pluginCapitalized = pluginName.toPascalCase()
-        val state = if (hasState) "${pluginCapitalized}State" else "NoState"
-        val slice = if (hasSlice) "${pluginCapitalized}Slice" else "NoSlice"
+internal class PluginTypeAliasFileTemplate(
+    private val hasState: Boolean,
+    private val hasSlice: Boolean,
+    actionEvent: AnActionEvent,
+    pluginPackage: String? = actionEvent.getPluginPackageFile()?.name
+) : FileTemplate(
+    actionEvent = actionEvent,
+    pluginPackage = pluginPackage
+) {
+    override val fileName: String
+        get() = "${pluginName}TypeAlias"
+
+    override fun createContent(): String {
+        val state = if (hasState) "${pluginName}State" else "NoState"
+        val slice = if (hasSlice) "${pluginName}Slice" else "NoSlice"
         return "import $rootPackage.foundation.ActionEffect\n" +
                 "import $rootPackage.foundation.Effect\n" +
                 "import $rootPackage.foundation.NavEffect\n" +
                 "import $rootPackage.foundation.StateEffect\n" +
                 "import $rootPackage.foundation.StateSliceEffect\n" +
-                "import $rootPackage.$featureName.plugin.$pluginName.$slice\n".addIf { hasSlice } +
+                "import $rootPackage.$featureName.plugin.$pluginPackage.$slice\n".addIf { hasSlice } +
                 "import $rootPackage.foundation.state.NoSlice\n".addIf { !hasSlice } +
-                "import $rootPackage.$featureName.plugin.$pluginName.$state\n".addIf { hasState } +
+                "import $rootPackage.$featureName.plugin.$pluginPackage.$state\n".addIf { hasState } +
                 "import $rootPackage.foundation.state.NoState\n".addIf { !hasState } +
                 "\n" +
-                "internal abstract class ${pluginCapitalized}NavEffect: NavEffect<$state, $slice>()\n" +
+                "internal abstract class ${pluginName}NavEffect: NavEffect<$state, $slice>()\n" +
                 "\n" +
-                "internal typealias ${pluginCapitalized}Effect = Effect<$state, $slice>\n" +
+                "internal typealias ${pluginName}Effect = Effect<$state, $slice>\n" +
                 "\n" +
-                "internal typealias ${pluginCapitalized}StateEffect = StateEffect<$state, $slice>\n" +
+                "internal typealias ${pluginName}StateEffect = StateEffect<$state, $slice>\n" +
                 "\n" +
-                "internal typealias ${pluginCapitalized}StateSliceEffect = StateSliceEffect<$state, $slice>\n" +
+                "internal typealias ${pluginName}StateSliceEffect = StateSliceEffect<$state, $slice>\n" +
                 "\n" +
-                "internal typealias ${pluginCapitalized}ActionEffect = ActionEffect<$state, $slice>\n"
+                "internal typealias ${pluginName}ActionEffect = ActionEffect<$state, $slice>\n"
     }
 }

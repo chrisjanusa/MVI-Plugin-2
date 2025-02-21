@@ -59,46 +59,46 @@ class CreateAppAction : AnAction("Initialize _App") {
         manifestManager?.addApplication(appName)
         manifestManager?.writeToDisk()
         root.createSubDirectory( "foundation") { foundationDir ->
-            ActionFileTemplate().createFileInDir(event, foundationDir, rootPackage)
-            EffectFileTemplate().createFileInDir(event, foundationDir, rootPackage)
-            PluginFileTemplate().createFileInDir(event, foundationDir, rootPackage)
-            SliceUpdateFileTemplate().createFileInDir(event, foundationDir, rootPackage)
+            ActionFileTemplate(event, rootPackage).createFileInDir(foundationDir)
+            EffectFileTemplate(event, rootPackage).createFileInDir(foundationDir)
+            PluginFileTemplate(event, rootPackage).createFileInDir(foundationDir)
+            SliceUpdateFileTemplate(event, rootPackage).createFileInDir(foundationDir)
             foundationDir.createSubDirectory("nav") { navDir ->
-                NavComponentIdFileTemplate().createFileInDir(event, navDir, rootPackage)
-                NavComponentFileTemplate().createFileInDir(event, navDir, rootPackage)
+                NavComponentIdFileTemplate(event, rootPackage).createFileInDir(navDir)
+                NavComponentFileTemplate(event, rootPackage).createFileInDir(navDir)
             }
             foundationDir.createSubDirectory("state") { stateDir ->
-                StateFileTemplate().createFileInDir(event, stateDir, rootPackage)
-                SliceFileTemplate().createFileInDir(event, stateDir, rootPackage)
+                StateFileTemplate(event, rootPackage).createFileInDir(stateDir)
+                SliceFileTemplate(event, rootPackage).createFileInDir(stateDir)
             }
             foundationDir.createSubDirectory("viewmodel") { viewmodelDir ->
-                BaseViewModelFileTemplate().createFileInDir(event, viewmodelDir, rootPackage)
-                ParentViewModelFileTemplate().createFileInDir(event, viewmodelDir, rootPackage)
-                PluginViewModelFileTemplate().createFileInDir(event, viewmodelDir, rootPackage)
-                SharedViewModelFileTemplate().createFileInDir(event, viewmodelDir, rootPackage)
+                BaseViewModelFileTemplate(event, rootPackage).createFileInDir(viewmodelDir)
+                ParentViewModelFileTemplate(event, rootPackage).createFileInDir(viewmodelDir)
+                PluginViewModelFileTemplate(event, rootPackage).createFileInDir(viewmodelDir)
+                SharedViewModelFileTemplate(event, rootPackage).createFileInDir(viewmodelDir)
             }
         }
         root.createSubDirectory("common") { commonDir ->
             commonDir.createSubDirectory("nav") { navDir ->
-                NavActionFileTemplate().createFileInDir(event, navDir, rootPackage)
+                NavActionFileTemplate(event, rootPackage).createFileInDir(navDir)
             }
             commonDir.createSubDirectory("helper") { helperDir ->
-                ClassNameHelperFileTemplate().createFileInDir(event, helperDir, rootPackage)
+                ClassNameHelperFileTemplate(event, rootPackage).createFileInDir(helperDir)
             }
         }
         root.createSubDirectory("app") { appDir ->
-            ActivityViewModelFileTemplate().createFileInDir(event, appDir, rootPackage)
-            MainActivityFileTemplate(appName).createFileInDir(event, appDir, rootPackage)
-            ApplicationFileTemplate(appName).createFileInDir(event, appDir, rootPackage)
+            ActivityViewModelFileTemplate(event, rootPackage).createFileInDir(appDir)
+            MainActivityFileTemplate(appName, event, rootPackage).createFileInDir(appDir)
+            ApplicationFileTemplate(appName, event, rootPackage).createFileInDir(appDir)
             appDir.createSubDirectory("di") { diDir ->
-                InitKoinFileTemplate().createFileInDir(event, diDir, rootPackage)
-                KoinModulesFileTemplate().createFileInDir(event, diDir, rootPackage)
+                InitKoinFileTemplate(event, rootPackage).createFileInDir(diDir)
+                KoinModulesFileTemplate(event, rootPackage).createFileInDir(diDir)
             }
             appDir.createSubDirectory("nav") { navDir ->
-                NavManagerFileTemplate().createFileInDir(event, navDir, rootPackage)
+                NavManagerFileTemplate(event, rootPackage).createFileInDir(navDir)
             }
             appDir.createSubDirectory("effect") { effectDir ->
-                NavEffectFileTemplate().createFileInDir(event, effectDir, rootPackage)
+                NavEffectFileTemplate(event, rootPackage).createFileInDir(effectDir)
             }
         }
         root.deleteFileInDirectory("MainActivity.kt")

@@ -1,9 +1,20 @@
 package com.github.chrisjanusa.mvi.app.file_templates
 
 import com.github.chrisjanusa.mvi.foundation.FileTemplate
+import com.intellij.openapi.actionSystem.AnActionEvent
 
-internal class ApplicationFileTemplate(private val appName: String): FileTemplate("${appName}Application") {
-    override fun createContent(rootPackage: String): String =
+internal class ApplicationFileTemplate(
+    private val appName: String,
+    actionEvent: AnActionEvent,
+    rootPackage: String,
+) : FileTemplate(
+    actionEvent = actionEvent,
+    rootPackage = rootPackage
+) {
+    override val fileName: String
+        get() = "${appName}Application"
+
+    override fun createContent(): String =
                 "import android.app.Application\n" +
                         "import $rootPackage.app.di.initKoin\n" +
                         "import org.koin.android.ext.koin.androidContext\n" +

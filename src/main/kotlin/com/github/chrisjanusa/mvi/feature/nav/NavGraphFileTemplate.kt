@@ -1,24 +1,36 @@
 package com.github.chrisjanusa.mvi.feature.nav
 
-import com.github.chrisjanusa.mvi.file_managment.toPascalCase
+import com.github.chrisjanusa.mvi.file_managment.getFeaturePackageFile
 import com.github.chrisjanusa.mvi.foundation.FileTemplate
+import com.intellij.openapi.actionSystem.AnActionEvent
 
-internal class NavGraphFileTemplate(private val featureName: String): FileTemplate("${featureName.toPascalCase()}NavGraph") {
-    override fun createContent(rootPackage: String): String =
-                "import $rootPackage.foundation.nav.NavGraph\n" +
+internal class NavGraphFileTemplate(
+    actionEvent: AnActionEvent,
+    featurePackage: String? = actionEvent.getFeaturePackageFile()?.name
+): FileTemplate(
+    actionEvent = actionEvent,
+    featurePackage = featurePackage
+) {
+    override val fileName: String
+        get() = "${featureName}NavGraph"
+
+    override fun createContent(): String {
+        return "import $rootPackage.foundation.nav.NavGraph\n" +
                 "import $rootPackage.foundation.nav.NavComponentId\n" +
                 "import kotlinx.serialization.Serializable\n" +
                 "\n" +
-                "object ${featureName.toPascalCase()}NavGraph: NavGraph(\n" +
+                "object $fileName: NavGraph(\n" +
                 "    startDestination = // TODO add start destination,\n" +
                 "    destinations = listOf(\n" +
                 "    ),\n" +
-                "    componentClass = ${featureName.toPascalCase()}GraphNavComponentId::class\n" +
+                "    componentClass = ${fileName}ComponentId::class\n" +
                 "    )\n" +
                 ")\n" +
                 "\n" +
                 "@Serializable\n" +
-                "data object ${featureName.toPascalCase()}GraphNavComponentId : NavComponentId"
+                "data object ${fileName}ComponentId : NavComponentId"
+    }
+}
 
 //    fun generateBookNavGraph(rootPackage: String, featureName: String): FileSpec {
 //        val fileSpec = FileSpec.builder(
@@ -67,4 +79,3 @@ internal class NavGraphFileTemplate(private val featureName: String): FileTempla
 //
 //        return fileSpec.build()
 //    }
-}

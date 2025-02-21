@@ -1,10 +1,20 @@
 package com.github.chrisjanusa.mvi.plugin.file_templates
 
-import com.github.chrisjanusa.mvi.file_managment.toPascalCase
+import com.github.chrisjanusa.mvi.file_managment.getPluginPackageFile
 import com.github.chrisjanusa.mvi.foundation.FileTemplate
+import com.intellij.openapi.actionSystem.AnActionEvent
 
-internal class PluginStateFileTemplate(pluginName: String) : FileTemplate("${pluginName.toPascalCase()}State") {
-    override fun createContent(rootPackage: String): String =
+internal class PluginStateFileTemplate(
+    actionEvent: AnActionEvent,
+    pluginPackage: String? = actionEvent.getPluginPackageFile()?.name
+) : FileTemplate(
+    actionEvent = actionEvent,
+    pluginPackage = pluginPackage
+) {
+    override val fileName: String
+        get() = "${pluginName}State"
+
+    override fun createContent(): String =
                 "import $rootPackage.foundation.state.State\n" +
                         "\n" +
                         "data class $fileName(\n" +

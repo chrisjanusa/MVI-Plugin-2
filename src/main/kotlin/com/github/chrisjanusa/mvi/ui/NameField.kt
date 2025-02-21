@@ -9,7 +9,7 @@ import kotlin.reflect.KMutableProperty0
 fun Panel.nameField(
     type: String,
     bindingField: KMutableProperty0<String>,
-    suffixes: List<TextFieldDependentLabelSuffix>,
+    suffixes: List<TextFieldDependentLabelText>,
     addSeparator: Boolean = true,
     initialText: String = "",
 ) {

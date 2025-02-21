@@ -1,6 +1,6 @@
 package com.github.chrisjanusa.mvi.plugin.action
 
-import com.github.chrisjanusa.mvi.ui.TextFieldDependentLabelSuffix
+import com.github.chrisjanusa.mvi.ui.TextFieldDependentLabelText
 import com.github.chrisjanusa.mvi.ui.nameField
 import com.intellij.openapi.ui.DialogWrapper
 import com.intellij.ui.dsl.builder.Cell
@@ -25,7 +25,7 @@ internal class ActionDialog(private val actionPromptResult: ActionPromptResult) 
                 type = "Action",
                 bindingField = actionPromptResult::actionName,
                 suffixes = listOf(
-                    TextFieldDependentLabelSuffix.PascalCaseSuffix("")
+                    TextFieldDependentLabelText.PascalCaseText()
                 )
             )
 

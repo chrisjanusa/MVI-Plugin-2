@@ -1,9 +1,19 @@
 package com.github.chrisjanusa.mvi.app.file_templates
 
 import com.github.chrisjanusa.mvi.foundation.FileTemplate
+import com.intellij.openapi.actionSystem.AnActionEvent
 
-internal class ActivityViewModelFileTemplate : FileTemplate("ActivityViewModel") {
-    override fun createContent(rootPackage: String): String =
+internal class ActivityViewModelFileTemplate(
+    actionEvent: AnActionEvent,
+    rootPackage: String
+) : FileTemplate(
+    actionEvent = actionEvent,
+    rootPackage = rootPackage
+) {
+    override val fileName: String
+        get() = "ActivityViewModel"
+
+    override fun createContent(): String =
                 "import androidx.lifecycle.ViewModel\n" +
                         "import androidx.lifecycle.viewModelScope\n" +
                         "import $rootPackage.app.effect.OnBackClickEffect\n" +

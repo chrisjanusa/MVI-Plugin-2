@@ -1,25 +1,35 @@
 package com.github.chrisjanusa.mvi.feature.shared
 
-import com.github.chrisjanusa.mvi.file_managment.toPascalCase
+import com.github.chrisjanusa.mvi.file_managment.getFeaturePackageFile
 import com.github.chrisjanusa.mvi.foundation.FileTemplate
+import com.intellij.openapi.actionSystem.AnActionEvent
 
-internal class SharedTypeAliasFileTemplate(private val featureName: String): FileTemplate("${featureName.toPascalCase()}SharedTypeAlias") {
-    override fun createContent(rootPackage: String): String =
+internal class SharedTypeAliasFileTemplate(
+    actionEvent: AnActionEvent,
+    featurePackage: String? = actionEvent.getFeaturePackageFile()?.name
+): FileTemplate(
+    actionEvent = actionEvent,
+    featurePackage = featurePackage
+) {
+    override val fileName: String
+        get() = "${featureName}SharedTypeAlias"
+
+    override fun createContent(): String =
                 "import $rootPackage.foundation.ActionEffect\n" +
                         "import $rootPackage.foundation.Effect\n" +
                         "import $rootPackage.foundation.SliceUpdateEffect\n" +
                         "import $rootPackage.foundation.StateEffect\n" +
                         "import $rootPackage.foundation.StateSliceEffect\n" +
-                        "import $rootPackage.$featureName.shared.${featureName.toPascalCase()}SharedState\n" +
+                        "import $rootPackage.$featurePackage.shared.${featureName}SharedState\n" +
                         "import $rootPackage.foundation.state.NoSlice\n" +
                         "\n" +
-                        "internal typealias ${featureName.toPascalCase()}SharedEffect = Effect<${featureName.toPascalCase()}SharedState, NoSlice>\n" +
+                        "internal typealias ${featureName}SharedEffect = Effect<${featureName}SharedState, NoSlice>\n" +
                         "\n" +
-                        "internal typealias ${featureName.toPascalCase()}SharedStateEffect = StateEffect<${featureName.toPascalCase()}SharedState, NoSlice>\n" +
+                        "internal typealias ${featureName}SharedStateEffect = StateEffect<${featureName}SharedState, NoSlice>\n" +
                         "\n" +
-                        "internal typealias ${featureName.toPascalCase()}SharedStateSliceEffect = StateSliceEffect<${featureName.toPascalCase()}SharedState, NoSlice>\n" +
+                        "internal typealias ${featureName}SharedStateSliceEffect = StateSliceEffect<${featureName}SharedState, NoSlice>\n" +
                         "\n" +
-                        "internal typealias ${featureName.toPascalCase()}SharedSliceUpdateEffect = SliceUpdateEffect<${featureName.toPascalCase()}SharedState, NoSlice>\n" +
+                        "internal typealias ${featureName}SharedSliceUpdateEffect = SliceUpdateEffect<${featureName}SharedState, NoSlice>\n" +
                         "\n" +
-                        "internal typealias ${featureName.toPascalCase()}SharedActionEffect = ActionEffect<${featureName.toPascalCase()}SharedState, NoSlice>\n"
+                        "internal typealias ${featureName}SharedActionEffect = ActionEffect<${featureName}SharedState, NoSlice>\n"
 }

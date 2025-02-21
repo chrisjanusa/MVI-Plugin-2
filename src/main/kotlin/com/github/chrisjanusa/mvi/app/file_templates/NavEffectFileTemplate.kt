@@ -1,9 +1,19 @@
 package com.github.chrisjanusa.mvi.app.file_templates
 
 import com.github.chrisjanusa.mvi.foundation.FileTemplate
+import com.intellij.openapi.actionSystem.AnActionEvent
 
-internal class NavEffectFileTemplate : FileTemplate("NavEffect") {
-    override fun createContent(rootPackage: String): String =
+internal class NavEffectFileTemplate(
+    actionEvent: AnActionEvent,
+    rootPackage: String,
+) : FileTemplate(
+    actionEvent = actionEvent,
+    rootPackage = rootPackage
+) {
+    override val fileName: String
+        get() = "NavEffect"
+
+    override fun createContent(): String =
                 "import $rootPackage.app.nav.NavManager\n" +
                         "import $rootPackage.common.nav.CoreNavAction\n" +
                         "import $rootPackage.foundation.AppAction\n" +

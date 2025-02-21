@@ -1,9 +1,19 @@
 package com.github.chrisjanusa.mvi.app.file_templates.foundation.viewmodel
 
 import com.github.chrisjanusa.mvi.foundation.FileTemplate
+import com.intellij.openapi.actionSystem.AnActionEvent
 
-internal class PluginViewModelFileTemplate : FileTemplate("PluginViewModel") {
-    override fun createContent(rootPackage: String): String =
+internal class PluginViewModelFileTemplate(
+    actionEvent: AnActionEvent,
+    rootPackage: String
+) : FileTemplate(
+    actionEvent = actionEvent,
+    rootPackage = rootPackage
+) {
+    override val fileName: String
+        get() = "PluginViewModel"
+
+    override fun createContent(): String =
                 "import androidx.lifecycle.viewModelScope\n" +
                         "import $rootPackage.foundation.Action\n" +
                         "import $rootPackage.foundation.OnAppAction\n" +

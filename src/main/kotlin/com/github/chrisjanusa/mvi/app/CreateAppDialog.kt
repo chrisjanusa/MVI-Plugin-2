@@ -1,6 +1,6 @@
 package com.github.chrisjanusa.mvi.app
 
-import com.github.chrisjanusa.mvi.ui.TextFieldDependentLabelSuffix
+import com.github.chrisjanusa.mvi.ui.TextFieldDependentLabelText
 import com.github.chrisjanusa.mvi.ui.nameField
 import com.intellij.openapi.ui.DialogWrapper
 import com.intellij.ui.dsl.builder.panel
@@ -19,7 +19,9 @@ internal class CreateAppDialog(private val createAppPromptResult: CreateAppPromp
                 type = "App Model",
                 bindingField = createAppPromptResult::appName,
                 suffixes = listOf(
-                    TextFieldDependentLabelSuffix.PascalCaseSuffix("Application")
+                    TextFieldDependentLabelText.PascalCaseText(
+                        suffix = "Application"
+                    )
                 ),
                 addSeparator = false,
                 initialText = createAppPromptResult.appName

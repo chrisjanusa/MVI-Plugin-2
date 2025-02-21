@@ -33,39 +33,39 @@ class PluginAction : AnAction("Add _Plugin") {
         val hasSlice = pluginPromptResult.createSlice
         val isNavDestination = pluginPromptResult.createNavDestination
         pluginDirFile.getDirectory(event)?.createSubDirectory( pluginPromptResult.pluginName) { pluginDir ->
-            PluginEffectFileTemplate(pluginName).createFileInDir(event, pluginDir)
-            PluginActionFileTemplate(pluginName, hasState, hasSlice).createFileInDir(event, pluginDir)
+            PluginEffectFileTemplate(event, pluginName).createFileInDir(pluginDir)
+            PluginActionFileTemplate(hasState, hasSlice, event, pluginName).createFileInDir(pluginDir)
             if (hasState) {
-                PluginStateFileTemplate(pluginName).createFileInDir(event, pluginDir)
+                PluginStateFileTemplate(event, pluginName).createFileInDir(pluginDir)
             }
             if (hasSlice) {
-                PluginSliceFileTemplate(pluginName).createFileInDir(event, pluginDir)
+                PluginSliceFileTemplate(event, pluginName).createFileInDir(pluginDir)
             }
             pluginDir.createSubDirectory("ui") { uiDir ->
-                PluginContentFileTemplate(featurePackage.name, pluginName, hasState, hasSlice).createFileInDir(event, uiDir)
+                PluginContentFileTemplate(hasState, hasSlice, event, pluginName).createFileInDir(uiDir)
             }
             pluginDir.createSubDirectory("generated") { generatedDir ->
                 if (isNavDestination) {
-                    PluginNavDestinationFileTemplate(pluginName).createFileInDir(event, generatedDir)
+                    PluginNavDestinationFileTemplate(event, pluginName).createFileInDir(generatedDir)
                 }
-                PluginTypeAliasFileTemplate(featurePackage.name, pluginName, hasState, hasSlice).createFileInDir(event, generatedDir)
+                PluginTypeAliasFileTemplate(hasState, hasSlice, event, pluginName).createFileInDir(generatedDir)
                 PluginViewModelFileTemplate(
-                    featurePackage.name,
-                    pluginName,
                     hasState,
-                    hasSlice
-                ).createFileInDir(event, generatedDir)
+                    hasSlice,
+                    event,
+                    pluginName,
+                ).createFileInDir(generatedDir)
                 PluginFileTemplate(
-                    featurePackage.name,
-                    pluginName,
                     hasState,
-                    hasSlice
-                ).createFileInDir(event, generatedDir)
+                    hasSlice,
+                    event,
+                    pluginName,
+                ).createFileInDir(generatedDir)
                 if (hasSlice) {
                     PluginSliceUpdateFileTemplate(
-                        featurePackage.name,
+                        event,
                         pluginName,
-                    ).createFileInDir(event, generatedDir)
+                    ).createFileInDir(generatedDir)
                 }
             }
         }

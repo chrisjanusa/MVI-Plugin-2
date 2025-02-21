@@ -1,6 +1,6 @@
 package com.github.chrisjanusa.mvi.plugin.effect
 
-import com.github.chrisjanusa.mvi.ui.TextFieldDependentLabelSuffix
+import com.github.chrisjanusa.mvi.ui.TextFieldDependentLabelText
 import com.github.chrisjanusa.mvi.ui.nameField
 import com.intellij.openapi.ui.DialogWrapper
 import com.intellij.ui.dsl.builder.Cell
@@ -29,7 +29,9 @@ internal class EffectDialog(
                 type = "Effect",
                 bindingField = effectPromptResult::effectName,
                 suffixes = listOf(
-                    TextFieldDependentLabelSuffix.PascalCaseSuffix("Effect")
+                    TextFieldDependentLabelText.PascalCaseText(
+                        suffix = "Effect"
+                    )
                 )
             )
             lateinit var navEffectType: Cell<JRadioButton>

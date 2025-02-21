@@ -1,9 +1,20 @@
 package com.github.chrisjanusa.mvi.app.file_templates
 
 import com.github.chrisjanusa.mvi.foundation.FileTemplate
+import com.intellij.openapi.actionSystem.AnActionEvent
 
-internal class MainActivityFileTemplate(private val appName: String) : FileTemplate("MainActivity") {
-    override fun createContent(rootPackage: String): String =
+internal class MainActivityFileTemplate(
+    private val appName: String,
+    actionEvent: AnActionEvent,
+    rootPackage: String,
+) : FileTemplate(
+    actionEvent = actionEvent,
+    rootPackage = rootPackage
+) {
+    override val fileName: String
+        get() = "MainActivity"
+
+    override fun createContent(): String =
                 "import android.os.Bundle\n" +
                         "import androidx.activity.ComponentActivity\n" +
                         "import androidx.activity.compose.setContent\n" +

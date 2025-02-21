@@ -1,9 +1,19 @@
 package com.github.chrisjanusa.mvi.app.file_templates.foundation
 
 import com.github.chrisjanusa.mvi.foundation.FileTemplate
+import com.intellij.openapi.actionSystem.AnActionEvent
 
-internal class ActionFileTemplate : FileTemplate("Action") {
-    override fun createContent(rootPackage: String): String =
+internal class ActionFileTemplate(
+    actionEvent: AnActionEvent,
+    rootPackage: String
+) : FileTemplate(
+    actionEvent = actionEvent,
+    rootPackage = rootPackage
+) {
+    override val fileName: String
+        get() = "Action"
+
+    override fun createContent(): String =
                 "import $rootPackage.foundation.state.Slice\n" +
                 "import $rootPackage.foundation.state.State\n" +
                 "\n" +

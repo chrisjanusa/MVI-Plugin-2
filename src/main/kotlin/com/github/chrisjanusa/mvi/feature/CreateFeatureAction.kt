@@ -25,17 +25,17 @@ class CreateFeatureAction : AnAction("Create _Feature") {
             featureDir.createSubDirectory("plugin")
             if (createFeaturePromptResult.createSharedState || createFeaturePromptResult.createNavGraph) {
                 featureDir.createSubDirectory("nav") { navDir ->
-                    NavGraphFileTemplate(featureName).createFileInDir(event, navDir)
+                    NavGraphFileTemplate(event, featureName).createFileInDir(navDir)
                 }
             }
             if (createFeaturePromptResult.createSharedState) {
                 featureDir.createSubDirectory("shared") { sharedDir ->
-                    SharedEffectFileTemplate(featureName).createFileInDir(event, sharedDir)
-                    SharedActionFileTemplate(featureName).createFileInDir(event, sharedDir)
-                    SharedStateFileTemplate(featureName).createFileInDir(event, sharedDir)
+                    SharedEffectFileTemplate(event, featureName).createFileInDir(sharedDir)
+                    SharedActionFileTemplate(event, featureName).createFileInDir(sharedDir)
+                    SharedStateFileTemplate(event, featureName).createFileInDir(sharedDir)
                     sharedDir.createSubDirectory("generated") { generatedDir ->
-                        SharedTypeAliasFileTemplate(featureName).createFileInDir(event, generatedDir)
-                        SharedViewModelFileTemplate(featureName).createFileInDir(event, generatedDir)
+                        SharedTypeAliasFileTemplate(event, featureName).createFileInDir(generatedDir)
+                        SharedViewModelFileTemplate(event, featureName).createFileInDir(generatedDir)
                     }
                 }
             }

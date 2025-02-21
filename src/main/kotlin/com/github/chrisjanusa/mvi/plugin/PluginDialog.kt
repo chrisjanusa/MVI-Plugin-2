@@ -1,6 +1,6 @@
 package com.github.chrisjanusa.mvi.plugin
 
-import com.github.chrisjanusa.mvi.ui.TextFieldDependentLabelSuffix
+import com.github.chrisjanusa.mvi.ui.TextFieldDependentLabelText
 import com.github.chrisjanusa.mvi.ui.nameField
 import com.intellij.openapi.ui.DialogWrapper
 import com.intellij.ui.dsl.builder.bindSelected
@@ -42,15 +42,15 @@ internal class PluginDialog(private val pluginPromptResult: PluginPromptResult) 
                 type = "Plugin",
                 bindingField = pluginPromptResult::pluginName,
                 suffixes = listOf(
-                    TextFieldDependentLabelSuffix.SnakeCaseSuffix(" - (package name)"),
-                    TextFieldDependentLabelSuffix.PascalCaseSuffix("Plugin"),
-                    TextFieldDependentLabelSuffix.PascalCaseSuffix("ViewModel"),
-                    TextFieldDependentLabelSuffix.PascalCaseSuffix("Action"),
-                    TextFieldDependentLabelSuffix.PascalCaseSuffix("Content"),
-                    TextFieldDependentLabelSuffix.PascalCaseSuffix("Effect"),
-                    TextFieldDependentLabelSuffix.PascalCaseSuffix("NavDestination", navDestinationEnabled),
-                    TextFieldDependentLabelSuffix.PascalCaseSuffix("State", stateEnabled),
-                    TextFieldDependentLabelSuffix.PascalCaseSuffix("Slice", sliceEnabled),
+                    TextFieldDependentLabelText.SnakeCaseText(suffix = " - (package name)"),
+                    TextFieldDependentLabelText.PascalCaseText(suffix = "Plugin"),
+                    TextFieldDependentLabelText.PascalCaseText(suffix = "ViewModel"),
+                    TextFieldDependentLabelText.PascalCaseText(suffix = "Action"),
+                    TextFieldDependentLabelText.PascalCaseText(suffix = "Content"),
+                    TextFieldDependentLabelText.PascalCaseText(suffix = "Effect"),
+                    TextFieldDependentLabelText.PascalCaseText(suffix = "NavDestination", visibleIf = navDestinationEnabled),
+                    TextFieldDependentLabelText.PascalCaseText(suffix = "State", visibleIf = stateEnabled),
+                    TextFieldDependentLabelText.PascalCaseText(suffix = "Slice", visibleIf = sliceEnabled),
                 )
             )
         }

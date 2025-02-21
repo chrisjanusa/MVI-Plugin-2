@@ -1,10 +1,10 @@
 package com.github.chrisjanusa.mvi.feature.shared
 
-import com.github.chrisjanusa.mvi.file_managment.toPascalCase
 import com.github.chrisjanusa.mvi.file_managment.createSubDirectory
 import com.github.chrisjanusa.mvi.file_managment.getDirectory
 import com.github.chrisjanusa.mvi.file_managment.getFeaturePackageFile
 import com.github.chrisjanusa.mvi.file_managment.isFeaturePackageOrDirectChild
+import com.github.chrisjanusa.mvi.file_managment.toPascalCase
 import com.intellij.openapi.actionSystem.ActionUpdateThread
 import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent
@@ -13,12 +13,12 @@ class CreateSharedStateAction : AnAction("Create _Shared State") {
     override fun actionPerformed(event: AnActionEvent) {
         val featureFile = event.getFeaturePackageFile() ?: return
         featureFile.getDirectory(event)?.createSubDirectory("shared") { sharedDir ->
-            SharedEffectFileTemplate(featureFile.name).createFileInDir(event, sharedDir)
-            SharedActionFileTemplate(featureFile.name).createFileInDir(event, sharedDir)
-            SharedStateFileTemplate(featureFile.name).createFileInDir(event, sharedDir)
+            SharedEffectFileTemplate(event, featureFile.name).createFileInDir(sharedDir)
+            SharedActionFileTemplate(event, featureFile.name).createFileInDir(sharedDir)
+            SharedStateFileTemplate(event, featureFile.name).createFileInDir(sharedDir)
             sharedDir.createSubDirectory("generated") { generatedDir ->
-                SharedTypeAliasFileTemplate(featureFile.name).createFileInDir(event, generatedDir)
-                SharedViewModelFileTemplate(featureFile.name).createFileInDir(event, generatedDir)
+                SharedTypeAliasFileTemplate(event, featureFile.name).createFileInDir(generatedDir)
+                SharedViewModelFileTemplate(event, featureFile.name).createFileInDir(generatedDir)
             }
         }
     }

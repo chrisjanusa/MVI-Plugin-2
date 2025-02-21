@@ -1,19 +1,30 @@
 package com.github.chrisjanusa.mvi.plugin.file_templates
 
-import com.github.chrisjanusa.mvi.file_managment.toPascalCase
+import com.github.chrisjanusa.mvi.file_managment.getPluginPackageFile
 import com.github.chrisjanusa.mvi.foundation.FileTemplate
 import com.github.chrisjanusa.mvi.foundation.addIf
+import com.intellij.openapi.actionSystem.AnActionEvent
 
-internal class PluginContentFileTemplate(private val featureName: String, private val pluginName: String, private val hasState: Boolean, private val hasSlice: Boolean) : FileTemplate("${pluginName.toPascalCase()}Content") {
-    override fun createContent(rootPackage: String): String {
-        val pluginCapitalized = pluginName.toPascalCase()
-        val state = "${pluginCapitalized}State"
-        val slice = "${pluginCapitalized}Slice"
+internal class PluginContentFileTemplate(
+    private val hasState: Boolean,
+    private val hasSlice: Boolean,
+    actionEvent: AnActionEvent,
+    pluginPackage: String? = actionEvent.getPluginPackageFile()?.name
+) : FileTemplate(
+    actionEvent = actionEvent,
+    pluginPackage = pluginPackage
+) {
+    override val fileName: String
+        get() = "${pluginName}Content"
+
+    override fun createContent(): String {
+        val state = "${pluginName}State"
+        val slice = "${pluginName}Slice"
         return "import androidx.compose.runtime.Composable\n" +
                 "import androidx.compose.ui.Modifier\n" +
                 "import $rootPackage.foundation.OnAction\n" +
-                "import $rootPackage.$featureName.plugin.$pluginName.$slice\n".addIf { hasSlice } +
-                "import $rootPackage.$featureName.plugin.$pluginName.$state\n".addIf { hasState } +
+                "import $rootPackage.$featurePackage.plugin.$pluginPackage.$slice\n".addIf { hasSlice } +
+                "import $rootPackage.$featurePackage.plugin.$pluginPackage.$state\n".addIf { hasState } +
                 "\n" +
                 "@Composable\n" +
                 "internal fun $fileName(\n" +

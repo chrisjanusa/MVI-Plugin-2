@@ -1,9 +1,19 @@
 package com.github.chrisjanusa.mvi.app.file_templates.foundation.nav
 
 import com.github.chrisjanusa.mvi.foundation.FileTemplate
+import com.intellij.openapi.actionSystem.AnActionEvent
 
-internal class NavComponentFileTemplate : FileTemplate("NavComponent") {
-    override fun createContent(rootPackage: String): String =
+internal class NavComponentFileTemplate(
+    actionEvent: AnActionEvent,
+    rootPackage: String
+) : FileTemplate(
+    actionEvent = actionEvent,
+    rootPackage = rootPackage
+) {
+    override val fileName: String
+        get() = "NavComponent"
+
+    override fun createContent(): String =
         "import androidx.compose.animation.AnimatedContentScope\n" +
                 "import androidx.compose.animation.AnimatedContentTransitionScope\n" +
                 "import androidx.compose.animation.EnterTransition\n" +

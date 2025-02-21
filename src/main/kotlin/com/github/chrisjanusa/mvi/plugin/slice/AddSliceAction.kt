@@ -2,13 +2,12 @@ package com.github.chrisjanusa.mvi.plugin.slice
 
 
 import com.github.chrisjanusa.mvi.document_management.StateSliceDocumentManager
-import com.github.chrisjanusa.mvi.file_managment.toPascalCase
 import com.github.chrisjanusa.mvi.file_managment.createSubDirectory
 import com.github.chrisjanusa.mvi.file_managment.findChildFile
 import com.github.chrisjanusa.mvi.file_managment.getDirectory
-import com.github.chrisjanusa.mvi.file_managment.getFeaturePackageFile
 import com.github.chrisjanusa.mvi.file_managment.getPluginPackageFile
 import com.github.chrisjanusa.mvi.file_managment.getRootPackage
+import com.github.chrisjanusa.mvi.file_managment.toPascalCase
 import com.intellij.openapi.actionSystem.ActionUpdateThread
 import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent
@@ -17,16 +16,15 @@ import com.intellij.openapi.vfs.VirtualFile
 
 class AddSliceAction : AnAction("Add _Slice") {
     override fun actionPerformed(event: AnActionEvent) {
-        val featurePackage = event.getFeaturePackageFile() ?: return
         val pluginPackage = event.getPluginPackageFile() ?: return
         val pluginName = pluginPackage.name
         val pluginDir = pluginPackage.getDirectory(event) ?: return
-        PluginSliceFileTemplate(pluginName).createFileInDir(event, pluginDir)
+        PluginSliceFileTemplate(event, pluginName).createFileInDir(pluginDir)
         pluginDir.createSubDirectory("generated") { generatedDir ->
             PluginSliceUpdateFileTemplate(
-                featurePackage.name,
+                event,
                 pluginName,
-            ).createFileInDir(event, generatedDir)
+            ).createFileInDir(generatedDir)
         }
         val pluginCapitalized = pluginName.toPascalCase()
         addSliceToAction(pluginCapitalized, pluginPackage, event)

@@ -1,9 +1,19 @@
 package com.github.chrisjanusa.mvi.app.file_templates.foundation.viewmodel
 
 import com.github.chrisjanusa.mvi.foundation.FileTemplate
+import com.intellij.openapi.actionSystem.AnActionEvent
 
-internal class SharedViewModelFileTemplate : FileTemplate("SharedViewModel") {
-    override fun createContent(rootPackage: String): String =
+internal class SharedViewModelFileTemplate(
+    actionEvent: AnActionEvent,
+    rootPackage: String
+) : FileTemplate(
+    actionEvent = actionEvent,
+    rootPackage = rootPackage
+) {
+    override val fileName: String
+        get() = "SharedViewModel"
+
+    override fun createContent(): String =
                 "import androidx.lifecycle.viewModelScope\n" +
                         "import $rootPackage.foundation.SliceUpdate\n" +
                         "import $rootPackage.foundation.OnAppAction\n" +
