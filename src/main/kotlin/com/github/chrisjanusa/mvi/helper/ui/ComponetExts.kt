@@ -33,7 +33,7 @@ fun Cell<JBTextField>.validatePascalCase() =  validationOnInput { textField ->
 fun Cell<JBTextField>.validateChars() =  validationOnInput { textField ->
     val text = textField.text
     text.forEach { char ->
-        if (!char.isLetter() && char != '_') {
+        if (!char.isLetter() && char != '_' && char != ' ') {
             return@validationOnInput ValidationInfo("Name must be only characters and underscores", textField)
         }
     }

@@ -1,0 +1,23 @@
+package com.github.chrisjanusa.mvi.package_structure.manager.feature.plugin.generated
+
+import com.github.chrisjanusa.mvi.package_structure.manager.base.FileManager
+import com.github.chrisjanusa.mvi.package_structure.manager.feature.plugin.helper.IPluginFileManager
+import com.github.chrisjanusa.mvi.package_structure.manager.feature.plugin.helper.PluginFileManager
+import com.github.chrisjanusa.mvi.package_structure.manager.feature.plugin.helper.PluginFileNameProvider
+import com.intellij.openapi.vfs.VirtualFile
+
+class PluginSliceUpdateFileManager(file: VirtualFile, pluginFileManager: PluginFileManager = PluginFileManager(file)) :
+    IPluginFileManager by pluginFileManager, FileManager(file) {
+
+    companion object : PluginFileNameProvider("SliceUpdate") {
+        override fun createInstance(virtualFile: VirtualFile) = PluginSliceUpdateFileManager(virtualFile)
+        fun createNewInstance(insertionPackage: PluginGeneratedPackage): PluginSliceUpdateFileManager? {
+            val fileName = getFileName(insertionPackage.pluginName)
+            return insertionPackage.createNewFile(
+                fileName,
+                PluginSliceUpdateTemplate(insertionPackage, fileName)
+                    .createContent()
+            )?.let { PluginSliceUpdateFileManager(it) }
+        }
+    }
+}

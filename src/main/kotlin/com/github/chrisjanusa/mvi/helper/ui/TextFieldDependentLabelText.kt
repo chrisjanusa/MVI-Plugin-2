@@ -1,7 +1,7 @@
 package com.github.chrisjanusa.mvi.helper.ui
 
-import com.github.chrisjanusa.mvi.helper.file_managment.toPascalCase
-import com.github.chrisjanusa.mvi.helper.file_managment.toSnakeCase
+import com.github.chrisjanusa.mvi.helper.file_helper.toPascalCase
+import com.github.chrisjanusa.mvi.helper.file_helper.toSnakeCase
 import com.intellij.ui.layout.ComponentPredicate
 
 sealed class TextFieldDependentLabelText(

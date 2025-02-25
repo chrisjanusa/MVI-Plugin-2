@@ -33,6 +33,7 @@ repositories {
 dependencies {
     testImplementation(libs.junit)
     implementation("com.squareup:kotlinpoet:2.0.0")
+    implementation("org.jetbrains.kotlin:kotlin-stdlib")
 
     // IntelliJ Platform Gradle Plugin Dependencies Extension - read more: https://plugins.jetbrains.com/docs/intellij/tools-intellij-platform-gradle-plugin-dependencies-extension.html
     intellijPlatform {
