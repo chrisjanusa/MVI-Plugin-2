@@ -3,9 +3,15 @@ package com.github.chrisjanusa.mvi.package_structure.manager.feature.service.dat
 import com.github.chrisjanusa.mvi.package_structure.manager.feature.service.ServicePackage
 import com.intellij.openapi.vfs.VirtualFile
 
-abstract class DatabaseServiceFileManager(file: VirtualFile): IDatabaseServiceFileManager {
+class FeatureDatabaseFileManager(file: VirtualFile): IFeatureDatabaseFileManager {
     override val databasePackage by lazy {
-        FeatureDatabasePackage(file)
+        DatabasePackage(file.parent)
+    }
+    override val databaseName by lazy {
+        databasePackage.databaseName
+    }
+    override val databaseWrapperPackage by lazy {
+        databasePackage.databaseWrapperPackage
     }
     override val servicePackage: ServicePackage by lazy {
         databasePackage.servicePackage

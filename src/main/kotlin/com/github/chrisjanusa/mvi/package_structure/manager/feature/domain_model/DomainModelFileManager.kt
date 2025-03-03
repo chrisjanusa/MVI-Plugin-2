@@ -1,11 +1,11 @@
 package com.github.chrisjanusa.mvi.package_structure.manager.feature.domain_model
 
-import com.github.chrisjanusa.mvi.package_structure.manager.base.FileManager
 import com.github.chrisjanusa.mvi.package_structure.instance_companion.ChildInstanceCompanion
+import com.github.chrisjanusa.mvi.package_structure.manager.base.ModelFileManager
 import com.github.chrisjanusa.mvi.package_structure.parent_provider.FeatureChild
 import com.intellij.openapi.vfs.VirtualFile
 
-class DomainModelFileManager(actionFile: VirtualFile) : FileManager(actionFile), FeatureChild {
+class DomainModelFileManager(actionFile: VirtualFile) : ModelFileManager(actionFile), FeatureChild {
     val domainModelPackage: DomainModelPackage by lazy {
         DomainModelPackage(file.parent)
     }
@@ -18,6 +18,10 @@ class DomainModelFileManager(actionFile: VirtualFile) : FileManager(actionFile),
     override val rootPackage by lazy {
         domainModelPackage.rootPackage
     }
+    override val modelName: String
+        get() = name
+    override val typeName: String
+        get() = name
 
     companion object : ChildInstanceCompanion(DomainModelPackage) {
         override fun createInstance(virtualFile: VirtualFile) = DomainModelFileManager(virtualFile)

@@ -1,34 +1,65 @@
 package com.github.chrisjanusa.mvi.package_structure.manager.feature.service.remote
 
+import com.github.chrisjanusa.mvi.helper.file_helper.findChildFile
+import com.github.chrisjanusa.mvi.helper.file_helper.toPascalCase
+import com.github.chrisjanusa.mvi.package_structure.instance_companion.ChildInstanceCompanion
 import com.github.chrisjanusa.mvi.package_structure.instance_companion.InstanceCompanion
-import com.github.chrisjanusa.mvi.package_structure.instance_companion.StaticInstanceCompanion
 import com.github.chrisjanusa.mvi.package_structure.manager.PackageManager
-import com.github.chrisjanusa.mvi.package_structure.manager.feature.service.ServicePackage
-import com.github.chrisjanusa.mvi.package_structure.parent_provider.FeatureChild
+import com.github.chrisjanusa.mvi.package_structure.parent_provider.ServiceChild
 import com.intellij.openapi.vfs.VirtualFile
 
-class FeatureRemotePackage(file: VirtualFile): PackageManager(file), FeatureChild {
-    val servicePackage by lazy {
-        ServicePackage(file.parent)
+class FeatureRemotePackage(file: VirtualFile): PackageManager(file), ServiceChild {
+    val dataSource by lazy {
+        file.findChildFile(RemoteDataSourceFileManager.getFileName(dataSourceName))?.let { RemoteDataSourceFileManager(it) }
+    }
+    val dtos by lazy {
+        file.children.mapNotNull {
+            if (RemoteDtoFileManager.isInstance(it)) {
+                RemoteDtoFileManager(it)
+            } else {
+                null
+            }
+        }
+    }
+    val remoteWrapperPackage by lazy {
+        FeatureRemoteWrapperPackage(file.parent)
+    }
+    override val servicePackage by lazy {
+        remoteWrapperPackage.servicePackage
     }
     val featureName by lazy {
-        servicePackage.featureName
+        remoteWrapperPackage.featureName
     }
     override val featurePackage by lazy {
-        servicePackage.featurePackage
+        remoteWrapperPackage.featurePackage
     }
     override val rootPackage by lazy {
-        servicePackage.rootPackage
+        remoteWrapperPackage.rootPackage
+    }
+    val dataSourceName by lazy {
+        name.toPascalCase()
     }
 
-    companion object : StaticInstanceCompanion("remote") {
+    private fun createAllChildren(baseUrl: String, endpoint: String) {
+        RemoteDataSourceFileManager.createNewInstance(this, baseUrl, endpoint)
+        RemoteDtoFileManager.createNewInstance(this, dataSourceName.toPascalCase())
+    }
+
+    companion object : ChildInstanceCompanion(FeatureRemoteWrapperPackage) {
         override fun createInstance(virtualFile: VirtualFile) = FeatureRemotePackage(virtualFile)
 
         override val allChildrenInstanceCompanions: List<InstanceCompanion>
-            get() = listOf()
+            get() = listOf(RemoteDataSourceFileManager, RemoteDtoFileManager)
 
-        fun createNewInstance(insertionPackage: ServicePackage): FeatureRemotePackage? {
-            return insertionPackage.createNewDirectory(NAME)?.let { FeatureRemotePackage(it) }
+        fun createNewInstance(
+            insertionPackage: FeatureRemoteWrapperPackage,
+            dataSourceName: String,
+            baseUrl: String,
+            endpoint: String
+        ): FeatureRemotePackage? {
+            val dataSourcePackage = insertionPackage.createNewDirectory(dataSourceName)?.let { FeatureRemotePackage(it) }
+            dataSourcePackage?.createAllChildren(baseUrl, endpoint)
+            return dataSourcePackage
         }
     }
 }

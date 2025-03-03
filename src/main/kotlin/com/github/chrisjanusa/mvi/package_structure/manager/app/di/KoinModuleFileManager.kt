@@ -1,12 +1,14 @@
 package com.github.chrisjanusa.mvi.package_structure.manager.app.di
 
-import com.github.chrisjanusa.mvi.helper.file_helper.findChildFile
-import com.github.chrisjanusa.mvi.helper.file_helper.getAppPackageFile
-import com.github.chrisjanusa.mvi.helper.file_helper.toCamelCase
-import com.github.chrisjanusa.mvi.package_structure.manager.base.FileManager
 import com.github.chrisjanusa.mvi.package_structure.instance_companion.StaticChildInstanceCompanion
+import com.github.chrisjanusa.mvi.package_structure.manager.base.FileManager
+import com.github.chrisjanusa.mvi.package_structure.manager.feature.api.ApiFileManager
+import com.github.chrisjanusa.mvi.package_structure.manager.feature.plugin.generated.PluginViewModelFileManager
+import com.github.chrisjanusa.mvi.package_structure.manager.feature.service.database.DatabaseClassFileManager
+import com.github.chrisjanusa.mvi.package_structure.manager.feature.service.remote.RemoteDataSourceFileManager
+import com.github.chrisjanusa.mvi.package_structure.manager.feature.service.repository.RepositoryFileManager
+import com.github.chrisjanusa.mvi.package_structure.manager.feature.shared.generated.FeatureSharedViewModelFileManager
 import com.github.chrisjanusa.mvi.package_structure.parent_provider.RootChild
-import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.vfs.VirtualFile
 
 class KoinModuleFileManager(file: VirtualFile) : FileManager(file), RootChild {
@@ -20,97 +22,53 @@ class KoinModuleFileManager(file: VirtualFile) : FileManager(file), RootChild {
         diModule.koinInit
     }
 
-    fun addPluginViewModel(pluginName: String) {
+    fun addPluginViewModel(pluginViewModelManager: PluginViewModelFileManager) {
+        if (documentText.contains("named(getClassName<$pluginViewModelManager>())")) {
+            return
+        }
         addAfterFirst(
             lineToAdd = "    viewModel(\n" +
-            "        qualifier = named(getClassName<${pluginName}ViewModel>())\n" +
+            "        qualifier = named(getClassName<$pluginViewModelManager>())\n" +
             "    ) { parameters ->\n" +
-            "        ${pluginName}ViewModel(onAppAction = parameters.get(), parentViewModel = parameters.getOrNull())\n" +
+            "        $pluginViewModelManager(onAppAction = parameters.get(), parentViewModel = parameters.getOrNull())\n" +
             "    }.bind<PluginViewModel<*, *>>()\n"
         ) { line ->
             line.contains("viewModelModule")
         }
+        addImport(pluginViewModelManager.packagePath)
+        pluginViewModelManager.rootPackage.foundationPackage?.pluginViewModel?.packagePath?.let { addImport(it) }
+        pluginViewModelManager.rootPackage.commonPackage?.classNameHelper?.packagePath?.let { addImport(it) }
     }
 
-    fun addSharedViewModel(featureName: String) {
+    fun addSharedViewModel(sharedViewModelManager: FeatureSharedViewModelFileManager) {
+        if (documentText.contains("named(getClassName<$sharedViewModelManager>())")) {
+            return
+        }
         addAfterFirst(
             lineToAdd = "    viewModel(\n" +
-            "        qualifier = named(getClassName<${featureName}ViewModel>())\n" +
+            "        qualifier = named(getClassName<$sharedViewModelManager>())\n" +
             "    ) { parameters ->\n" +
-            "        ${featureName}ViewModel(onAppAction = parameters.get(), parentViewModel = parameters.getOrNull())\n" +
+            "        $sharedViewModelManager(onAppAction = parameters.get(), parentViewModel = parameters.getOrNull())\n" +
             "    }.bind<SharedViewModel<*, *>>()\n"
         ) { line ->
             line.contains("viewModelModule")
         }
+        addImport(sharedViewModelManager.packagePath)
+        addImport("org.koin.dsl.bind")
+        addImport("org.koin.core.qualifier.named")
+        sharedViewModelManager.rootPackage.foundationPackage?.sharedViewModel?.packagePath?.let { addImport(it) }
+        sharedViewModelManager.rootPackage.commonPackage?.classNameHelper?.packagePath?.let { addImport(it) }
     }
 
-    fun addDatabase(databaseName: String) {
-        val moduleName = "databaseModule"
-
-        val databaseDefinition =
-            "    single {\n" +
-            "        Room.databaseBuilder(\n" +
-            "            androidApplication(),\n" +
-            "            ${databaseName}Database::class.java,\n" +
-            "            ${databaseName}Database.DB_NAME\n" +
-            "        ).build()\n" +
-            "    }\n" +
-            "    single { get<${databaseName}Database>().${databaseName.toCamelCase()}Dao }\n"
-        val inserted = addAfterFirst(
-            lineToAdd = databaseDefinition
-        ) { line ->
-            line.contains(moduleName)
+    fun addRepository(repositoryManger: RepositoryFileManager, apiFileManager: ApiFileManager) {
+        if (documentText.contains("singleOf(::${repositoryManger})")) {
+            return
         }
-        if (!inserted) {
-            addToBottom(
-                text = "internal val $moduleName = module {\n" +
-                databaseDefinition +
-                "}"
-            )
-            koinInit?.addModule("databaseModule")
-        }
-    }
-
-    fun addRemote(dataSourceName: String) {
-        val moduleName = "remoteModule"
-        val dataSourceDefinition = "singleOf(::RemoteBookDataSource)\n"
-
-        val okHttpFactoryCreated = addAfterFirst(
-            lineToAdd = dataSourceDefinition
-        ) { line ->
-            line.contains("single { OkHttp.create() }")
-        }
-        if (!okHttpFactoryCreated) {
-            val okHttpDefinition =
-                "    single {\n" +
-                "        HttpClientFactory.create(get())\n" +
-                "    }\n" +
-                "    single { OkHttp.create() }"
-            val remoteModuleExists = addAfterFirst(
-                lineToAdd = okHttpDefinition
-            ) { line ->
-                line.contains(moduleName)
-            }
-            if (!remoteModuleExists) {
-                addToBottom(
-                    text =
-                    "internal val $moduleName = module {\n" +
-                    okHttpDefinition +
-                    "\n}"
-                )
-                koinInit?.addModule(moduleName)
-            }
-            addAfterFirst(
-                lineToAdd = dataSourceDefinition
-            ) { line ->
-                line.contains("single { OkHttp.create() }")
-            }
-        }
-    }
-
-    fun addRepository(repositoryName: String) {
         val moduleName = "repositoryModule"
-        val repositoryDefinition = "singleOf(::${repositoryName}Repository).bind<I${repositoryName}Repository>()\n"
+        val repositoryDefinition = "singleOf(::${repositoryManger}).bind<I${apiFileManager}>()\n"
+        addImport(repositoryManger.packagePath)
+        addImport(apiFileManager.packagePath)
+        addImport("org.koin.core.module.dsl.singleOf")
 
         val moduleExists = addAfterFirst(
             lineToAdd = repositoryDefinition
@@ -128,6 +86,74 @@ class KoinModuleFileManager(file: VirtualFile) : FileManager(file), RootChild {
         }
     }
 
+    fun addDatabase(databaseManger: DatabaseClassFileManager) {
+        if (documentText.contains("get<${databaseManger}>")) {
+            return
+        }
+        val moduleName = "databaseModule"
+        val databaseDefinition =
+        "    single {\n" +
+        "        Room.databaseBuilder(\n" +
+        "            androidApplication(),\n" +
+        "            ${databaseManger}::class.java,\n" +
+        "            ${databaseManger}.DB_NAME\n" +
+        "        ).build()\n" +
+        "    }\n" +
+        "    single { get<${databaseManger}>().${databaseManger.daoInstance} }\n"
+        addImport(databaseManger.packagePath)
+        addImport("org.koin.android.ext.koin.androidApplication")
+        addImport("androidx.room.Room")
+
+        val moduleExists = addAfterFirst(
+            lineToAdd = databaseDefinition
+        ) { line ->
+            line.contains(moduleName)
+        }
+        if (!moduleExists) {
+            addToBottom(
+                text =
+                "internal val $moduleName = module {\n" +
+                databaseDefinition +
+                "}"
+            )
+            koinInit?.addModule(moduleName)
+        }
+    }
+
+    fun addRemoteDataSource(remoteDataSourceFileManager: RemoteDataSourceFileManager) {
+        if (documentText.contains("singleOf(::${remoteDataSourceFileManager})")) {
+            return
+        }
+        val moduleName = "remoteModule"
+        val remoteDefinition =
+            "    singleOf(::${remoteDataSourceFileManager})\n"
+        addImport(remoteDataSourceFileManager.packagePath)
+        addImport("org.koin.core.module.dsl.singleOf")
+
+        val moduleExists = addAfterFirst(
+            lineToAdd = remoteDefinition
+        ) { line ->
+            line.contains(moduleName)
+        }
+        if (!moduleExists) {
+            addToBottom(
+                text =
+                "internal val $moduleName = module {\n" +
+                "    single {\n" +
+                "        HttpClientFactory.create(get())\n" +
+                "    }\n" +
+                "    single { OkHttp.create() }\n" +
+                remoteDefinition +
+                "}"
+            )
+            remoteDataSourceFileManager.rootPackage.commonPackage?.servicePackage?.remotePackage?.httpClientFactory?.packagePath?.let {
+                addImport(it)
+            }
+            addImport("io.ktor.client.engine.okhttp.OkHttp")
+            koinInit?.addModule(moduleName)
+        }
+    }
+
     companion object : StaticChildInstanceCompanion("KoinModule", AppDiPackage) {
         override fun createInstance(virtualFile: VirtualFile) = KoinModuleFileManager(virtualFile)
         fun createNewInstance(insertionPackage: AppDiPackage): KoinModuleFileManager? {
@@ -138,15 +164,4 @@ class KoinModuleFileManager(file: VirtualFile) : FileManager(file), RootChild {
             )?.let { KoinModuleFileManager(it) }
         }
     }
-}
-
-private fun AnActionEvent.getKoinModule(): VirtualFile? {
-    val projectBaseDir = getAppPackageFile() ?: return null
-    val diDirFile = projectBaseDir.findChild("di") ?: return null
-    return diDirFile.findChildFile("KoinModule")
-}
-
-fun AnActionEvent.getKoinModuleManager(): KoinModuleFileManager? {
-    val koinModule = getKoinModule() ?: return null
-    return KoinModuleFileManager(koinModule)
 }

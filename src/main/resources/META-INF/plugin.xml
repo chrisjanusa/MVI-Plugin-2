@@ -111,11 +111,35 @@
             </action>
             <action
                     id="CreateRepository"
-                    class="com.github.chrisjanusa.mvi.action.feature.repository.RepositoryAction"
+                    class="com.github.chrisjanusa.mvi.action.feature.service.repository.RepositoryAction"
                     text="Create Repository"
                     description="Create a repository and api"
                     icon="AllIcons.General.InheritedMethod">
                 <keyboard-shortcut keymap="$default" first-keystroke="meta alt R"/>
+            </action>
+            <action
+                    id="CreateDatabase"
+                    class="com.github.chrisjanusa.mvi.action.feature.service.database.DatabaseAction"
+                    text="Create Database"
+                    description="Create a database and dao"
+                    icon="AllIcons.Nodes.DataTables">
+                <keyboard-shortcut keymap="$default" first-keystroke="meta alt D"/>
+            </action>
+            <action
+                    id="CreateRemoteDataSource"
+                    class="com.github.chrisjanusa.mvi.action.feature.service.remote.RemoteDataSourceAction"
+                    text="Create Remote Data Source"
+                    description="Create a data source and dto"
+                    icon="AllIcons.Webreferences.WebSocket">
+                <keyboard-shortcut keymap="$default" first-keystroke="meta alt W"/>
+            </action>
+            <action
+                    id="CreateMapper"
+                    class="com.github.chrisjanusa.mvi.action.feature.service.mapper.MapperAction"
+                    text="Create Mapper"
+                    description="Create a mapper between models"
+                    icon="AllIcons.Actions.MoveToButton.">
+                <keyboard-shortcut keymap="$default" first-keystroke="meta alt M"/>
             </action>
             <separator text = "App" />
             <action

@@ -3,14 +3,14 @@ package com.github.chrisjanusa.mvi.package_structure.manager.feature.service.rep
 import com.github.chrisjanusa.mvi.package_structure.instance_companion.StaticSuffixChildInstanceCompanion
 import com.github.chrisjanusa.mvi.package_structure.manager.base.FileManager
 import com.github.chrisjanusa.mvi.package_structure.manager.feature.service.ServicePackage
-import com.github.chrisjanusa.mvi.package_structure.parent_provider.FeatureChild
+import com.github.chrisjanusa.mvi.package_structure.parent_provider.ServiceChild
 import com.intellij.openapi.vfs.VirtualFile
 
-class RepositoryFileManager(file: VirtualFile) : FileManager(file), FeatureChild {
+class RepositoryFileManager(file: VirtualFile) : FileManager(file), ServiceChild {
     val repositoryPackage by lazy {
         FeatureRepositoryPackage(file)
     }
-    val servicePackage: ServicePackage by lazy {
+    override val servicePackage: ServicePackage by lazy {
         repositoryPackage.servicePackage
     }
 
@@ -36,7 +36,6 @@ class RepositoryFileManager(file: VirtualFile) : FileManager(file), FeatureChild
         fun getFileName(repositoryName: String) = "$repositoryName$SUFFIX"
         fun createNewInstance(insertionPackage: FeatureRepositoryPackage, repositoryName: String): RepositoryFileManager? {
             val fileName = getFileName(repositoryName)
-            insertionPackage.rootPackage.koinModule?.addRepository(repositoryName)
             return insertionPackage.createNewFile(
                 fileName,
                 RepositoryTemplate(insertionPackage, fileName)

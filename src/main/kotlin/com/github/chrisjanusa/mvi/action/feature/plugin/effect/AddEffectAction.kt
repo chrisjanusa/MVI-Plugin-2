@@ -2,10 +2,10 @@ package com.github.chrisjanusa.mvi.action.feature.plugin.effect
 
 
 import com.github.chrisjanusa.mvi.helper.file_helper.toPascalCase
-import com.github.chrisjanusa.mvi.package_structure.manager.feature.plugin.PluginEffectFileManager
 import com.github.chrisjanusa.mvi.package_structure.getManager
 import com.github.chrisjanusa.mvi.package_structure.getPluginPackage
 import com.github.chrisjanusa.mvi.package_structure.getRootPackage
+import com.github.chrisjanusa.mvi.package_structure.manager.feature.plugin.PluginEffectFileManager
 import com.intellij.openapi.actionSystem.ActionUpdateThread
 import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent
@@ -15,9 +15,9 @@ class AddEffectAction : AnAction("Add _Effect") {
         val pluginPackage = event.getPluginPackage() ?: return
         val effectDocumentManager = pluginPackage.pluginEffect ?: return
 
-        val actionPackage = pluginPackage.pluginAction
-        val regularActionNames = actionPackage?.getAllRegularActions() ?: emptyList()
-        val pluginNavActionNames = actionPackage?.getAllNavActions() ?: listOf()
+        val pluginAction = pluginPackage.pluginAction
+        val regularActionNames = pluginAction?.getAllRegularActions() ?: emptyList()
+        val pluginNavActionNames = pluginAction?.getAllNavActions() ?: listOf()
 
         val coreNavActionNames = event
             .getRootPackage()

@@ -4,11 +4,11 @@ import com.github.chrisjanusa.mvi.package_structure.instance_companion.InstanceC
 import com.github.chrisjanusa.mvi.package_structure.instance_companion.StaticInstanceCompanion
 import com.github.chrisjanusa.mvi.package_structure.manager.PackageManager
 import com.github.chrisjanusa.mvi.package_structure.manager.feature.service.ServicePackage
-import com.github.chrisjanusa.mvi.package_structure.parent_provider.FeatureChild
+import com.github.chrisjanusa.mvi.package_structure.parent_provider.ServiceChild
 import com.intellij.openapi.vfs.VirtualFile
 
-class FeatureRepositoryPackage(file: VirtualFile): PackageManager(file), FeatureChild {
-    val servicePackage by lazy {
+class FeatureRepositoryPackage(file: VirtualFile): PackageManager(file), ServiceChild {
+    override val servicePackage by lazy {
         ServicePackage(file.parent)
     }
     val featureName by lazy {

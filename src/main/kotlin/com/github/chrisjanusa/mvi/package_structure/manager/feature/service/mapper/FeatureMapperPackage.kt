@@ -3,12 +3,13 @@ package com.github.chrisjanusa.mvi.package_structure.manager.feature.service.map
 import com.github.chrisjanusa.mvi.package_structure.instance_companion.InstanceCompanion
 import com.github.chrisjanusa.mvi.package_structure.instance_companion.StaticInstanceCompanion
 import com.github.chrisjanusa.mvi.package_structure.manager.PackageManager
+import com.github.chrisjanusa.mvi.package_structure.manager.base.ModelFileManager
 import com.github.chrisjanusa.mvi.package_structure.manager.feature.service.ServicePackage
-import com.github.chrisjanusa.mvi.package_structure.parent_provider.FeatureChild
+import com.github.chrisjanusa.mvi.package_structure.parent_provider.ServiceChild
 import com.intellij.openapi.vfs.VirtualFile
 
-class FeatureMapperPackage(file: VirtualFile): PackageManager(file), FeatureChild {
-    val servicePackage by lazy {
+class FeatureMapperPackage(file: VirtualFile): PackageManager(file), ServiceChild {
+    override val servicePackage by lazy {
         ServicePackage(file.parent)
     }
     val featureName by lazy {
@@ -20,13 +21,21 @@ class FeatureMapperPackage(file: VirtualFile): PackageManager(file), FeatureChil
     override val rootPackage by lazy {
         servicePackage.rootPackage
     }
+    val mappers by lazy {
+        file.children.map { MapperFileManager(it) }
+    }
+
+    fun addMapper(from: ModelFileManager, to: ModelFileManager) {
+        val mapperFileManager = MapperFileManager.createNewInstance(this, from.modelName)
+        mapperFileManager?.addMapper(from, to)
+    }
 
     companion object : StaticInstanceCompanion("mapper") {
         override fun createInstance(virtualFile: VirtualFile) = FeatureMapperPackage(virtualFile)
 
 
         override val allChildrenInstanceCompanions: List<InstanceCompanion>
-            get() = listOf(ServicePackage)
+            get() = listOf(MapperFileManager)
 
         fun createNewInstance(insertionPackage: ServicePackage): FeatureMapperPackage? {
             return insertionPackage.createNewDirectory(NAME)?.let { FeatureMapperPackage(it) }

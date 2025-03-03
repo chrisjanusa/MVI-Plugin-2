@@ -1,4 +1,4 @@
-package com.github.chrisjanusa.mvi.action.feature.repository
+package com.github.chrisjanusa.mvi.action.feature.service.repository
 
 import com.github.chrisjanusa.mvi.helper.file_helper.isInsideFeaturePackage
 import com.github.chrisjanusa.mvi.helper.file_helper.toPascalCase
@@ -17,10 +17,12 @@ class RepositoryAction : AnAction("Create _Repository") {
         val isCancelled = !dialog.showAndGet()
         if (isCancelled) return
 
-        featurePackage.createApiPackage()?.createRepository(repositoryPromptResult.name.toPascalCase())
-        featurePackage.createServicePackage()?.createRepositoryPackage()?.createRepository(repositoryPromptResult.name.toPascalCase())
-        val koinModule = featurePackage.rootPackage.koinModule
-        koinModule?.addRepository(repositoryPromptResult.name.toPascalCase())
+        val apiFileManager = featurePackage.createApiPackage()?.createRepository(repositoryPromptResult.name.toPascalCase())
+        val repositoryFileManager = featurePackage.createServicePackage()?.createRepositoryPackage()?.createRepository(repositoryPromptResult.name.toPascalCase())
+        if (repositoryFileManager != null && apiFileManager != null) {
+            val koinModule = featurePackage.rootPackage.koinModule
+            koinModule?.addRepository(repositoryFileManager, apiFileManager)
+        }
     }
 
     override fun update(event: AnActionEvent) {

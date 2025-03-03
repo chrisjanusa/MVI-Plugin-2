@@ -1,35 +1,36 @@
-package com.github.chrisjanusa.mvi.action.feature.repository
+package com.github.chrisjanusa.mvi.action.feature.service.database
 
 import com.github.chrisjanusa.mvi.helper.ui.TextFieldDependentLabelText
 import com.github.chrisjanusa.mvi.helper.ui.nameField
+import com.github.chrisjanusa.mvi.helper.ui.stringListInputPanel
 import com.intellij.openapi.ui.DialogWrapper
 import com.intellij.ui.dsl.builder.panel
 import javax.swing.JComponent
 
-internal class RepositoryDialog(private val repositoryPromptResult: RepositoryPromptResult, private val initialName: String = "") :
+internal class DatabaseDialog(private val databasePromptResult: DatabasePromptResult, private val initialName: String = "") :
     DialogWrapper(false) {
     init {
         init()
-        this.title = "Add a Domain Model to Feature"
+        this.title = "Add a Database to Feature"
     }
 
     override fun createCenterPanel(): JComponent {
         return panel {
             nameField(
-                type = "Repository",
-                bindingField = repositoryPromptResult::name,
+                type = "Database",
+                bindingField = databasePromptResult::name,
                 suffixes = listOf(
                     TextFieldDependentLabelText.PascalCaseText(
-                        suffix = "Repository"
+                        suffix = "Database"
                     ),
                     TextFieldDependentLabelText.PascalCaseText(
-                        prefix = "I",
-                        suffix = "Repository",
+                        suffix = "Dao",
                     )
                 ),
                 addSeparator = false,
                 initialText = initialName,
             )
+            stringListInputPanel("Entity", databasePromptResult.entityNames, "Entity")
         }
     }
 }

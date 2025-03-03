@@ -17,12 +17,15 @@ class FeatureSharedViewModelFileManager(
         fun createNewInstance(insertionPackage: SharedGeneratedPackage): FeatureSharedViewModelFileManager? {
             val fileName = getFileName(insertionPackage.featureName)
             if (insertionPackage.viewModel == null) {
-                insertionPackage.rootPackage.koinModule?.addSharedViewModel(insertionPackage.featureName)
-                return insertionPackage.createNewFile(
+                val sharedViewModel = insertionPackage.createNewFile(
                     fileName,
                     FeatureSharedViewModelTemplate(insertionPackage, fileName)
                         .createContent()
                 )?.let { FeatureSharedViewModelFileManager(it) }
+                if (sharedViewModel != null) {
+                    insertionPackage.rootPackage.koinModule?.addSharedViewModel(sharedViewModel)
+                }
+                return sharedViewModel
             } else {
                 return insertionPackage.viewModel
             }

@@ -67,8 +67,7 @@ class PluginViewModelFileManager(
             hasSlice: Boolean
         ): PluginViewModelFileManager? {
             val fileName = getFileName(insertionPackage.pluginName)
-            insertionPackage.rootPackage.koinModule?.addPluginViewModel(insertionPackage.pluginName)
-            return insertionPackage.createNewFile(
+            val pluginViewModel = insertionPackage.createNewFile(
                 fileName,
                 PluginViewModelTemplate(
                     hasState = hasState,
@@ -77,6 +76,10 @@ class PluginViewModelFileManager(
                     fileName = fileName
                 ).createContent()
             )?.let { PluginViewModelFileManager(it) }
+            if (pluginViewModel != null) {
+                insertionPackage.rootPackage.koinModule?.addPluginViewModel(pluginViewModel)
+            }
+            return pluginViewModel
         }
     }
 }

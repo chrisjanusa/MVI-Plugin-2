@@ -7,6 +7,7 @@ import com.github.chrisjanusa.mvi.package_structure.manager.PackageManager
 import com.github.chrisjanusa.mvi.package_structure.manager.RootPackage
 import com.github.chrisjanusa.mvi.package_structure.manager.common.helper.CommonHelperPackage
 import com.github.chrisjanusa.mvi.package_structure.manager.common.nav.CommonNavPackage
+import com.github.chrisjanusa.mvi.package_structure.manager.common.service.CommonServicePackage
 import com.github.chrisjanusa.mvi.package_structure.parent_provider.RootDirectChild
 import com.intellij.openapi.vfs.VirtualFile
 
@@ -28,6 +29,18 @@ class CommonPackage(file: VirtualFile) : PackageManager(file), RootDirectChild {
     }
     val classNameHelper by lazy {
         helperPackage?.classNameHelper
+    }
+    val servicePackage by lazy {
+        file.findChild(CommonServicePackage.NAME)?.let { CommonServicePackage(it) }
+    }
+    val databasePackage by lazy {
+        servicePackage?.databasePackage
+    }
+    val typeConverterPackage by lazy {
+        servicePackage?.typeConverterPackage
+    }
+    val typeConverters by lazy {
+        servicePackage?.typeConverters
     }
 
     private fun createAllChildren() {
