@@ -4,17 +4,10 @@ import com.intellij.openapi.vfs.VirtualFile
 
 abstract class ModelFileManager(modelFile: VirtualFile) : FileManager(modelFile) {
     fun getAllProperties(): Map<String, String> {
-        var withinClassProperties = false
         val propertyLines = mutableListOf<String>()
         documentLines.forEach {
-            if (it.contains(")")) {
-                withinClassProperties = false
-            }
-            if (withinClassProperties) {
+            if (it.contains("val ")) {
                 propertyLines.add(it)
-            }
-            if (it.contains("data class")) {
-                withinClassProperties = true
             }
         }
         return propertyLines.associate {

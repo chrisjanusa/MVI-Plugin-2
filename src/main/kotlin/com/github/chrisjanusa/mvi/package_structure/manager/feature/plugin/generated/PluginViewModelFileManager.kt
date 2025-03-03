@@ -78,6 +78,7 @@ class PluginViewModelFileManager(
             )?.let { PluginViewModelFileManager(it) }
             if (pluginViewModel != null) {
                 insertionPackage.rootPackage.koinModule?.addPluginViewModel(pluginViewModel)
+                insertionPackage.rootPackage.koinModule?.writeToDisk()
             }
             return pluginViewModel
         }

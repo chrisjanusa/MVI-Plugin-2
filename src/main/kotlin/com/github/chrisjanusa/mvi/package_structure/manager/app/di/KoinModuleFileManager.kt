@@ -83,6 +83,7 @@ class KoinModuleFileManager(file: VirtualFile) : FileManager(file), RootChild {
                 "}"
             )
             koinInit?.addModule(moduleName)
+            koinInit?.writeToDisk()
         }
     }
 
@@ -117,6 +118,7 @@ class KoinModuleFileManager(file: VirtualFile) : FileManager(file), RootChild {
                 "}"
             )
             koinInit?.addModule(moduleName)
+            koinInit?.writeToDisk()
         }
     }
 
@@ -151,6 +153,7 @@ class KoinModuleFileManager(file: VirtualFile) : FileManager(file), RootChild {
             }
             addImport("io.ktor.client.engine.okhttp.OkHttp")
             koinInit?.addModule(moduleName)
+            koinInit?.writeToDisk()
         }
     }
 

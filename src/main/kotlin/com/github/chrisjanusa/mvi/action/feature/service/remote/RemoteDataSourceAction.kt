@@ -19,14 +19,23 @@ class RemoteDataSourceAction : AnAction("Create Remote Data _Source") {
         val isCancelled = !dialog.showAndGet()
         if (isCancelled) return
 
-        featurePackage.rootPackage.commonPackage?.servicePackage?.createData()
-        featurePackage.rootPackage.commonPackage?.servicePackage?.createRemoteHelpers()
-        featurePackage.projectPackage?.libraryManager?.addKoin()
-        featurePackage.projectPackage?.libraryManager?.addKtor()
+        val commonServicePackage = featurePackage.rootPackage.commonPackage?.createServicePackage()
+        commonServicePackage?.createData()
+        commonServicePackage?.createRemoteHelpers()
+        val libraryManager = featurePackage.projectPackage?.libraryManager
+        libraryManager?.addKoin()
+        libraryManager?.addKtor()
+        libraryManager?.writeToGradle()
 
         val dataSourcePackage = featurePackage.createServicePackage()?.createRemoteDataSource(remotePromptResult.name.toPascalCase(), remotePromptResult.baseUrl, remotePromptResult.endpoint)
         val koinModule = featurePackage.rootPackage.koinModule
-        dataSourcePackage?.dataSource?.let { koinModule?.addRemoteDataSource(it) }
+        val manifest = featurePackage.rootPackage.projectPackage?.manifest
+        manifest?.addPermission("android.permission.INTERNET")
+        manifest?.writeToDisk()
+        dataSourcePackage?.dataSource?.let {
+            koinModule?.addRemoteDataSource(it)
+            koinModule?.writeToDisk()
+        }
     }
 
     override fun update(event: AnActionEvent) {

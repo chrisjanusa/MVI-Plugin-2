@@ -15,9 +15,9 @@ internal class RemoteDataSourceTemplate(
 ) {
 
     override fun createContent(): String {
-        return "import ${rootPackage?.commonPackage?.servicePackage}.data.DataError\n" +
-        "import ${rootPackage?.commonPackage?.servicePackage}.data.Result\n" +
-        "import ${rootPackage?.commonPackage?.servicePackage}.remote.safeCall\n" +
+        return "import ${rootPackage?.commonPackage?.servicePackage?.dataPackage?.dataError?.packagePath}\n" +
+        "import ${rootPackage?.commonPackage?.servicePackage?.packagePath}.data.Result\n" +
+        "import ${rootPackage?.commonPackage?.servicePackage?.packagePath}.remote.safeCall\n" +
         "import io.ktor.client.HttpClient\n" +
         "import io.ktor.client.request.get\n" +
         "import io.ktor.client.request.parameter\n" +
@@ -25,14 +25,12 @@ internal class RemoteDataSourceTemplate(
         "class $fileName(\n" +
         "    private val httpClient: HttpClient\n" +
         ") {\n" +
-        "    suspend fun searchBooks(query: String, resultLimit: Int? = null) : Result<${dataSourceName}ResponseDTO, DataError.Remote> {\n" +
+        "    suspend fun WHAT_IS_THIS_DATA_SOURCE_DOING() : Result<${dataSourceName}ResponseDTO, DataError.Remote> {\n" +
         "        return safeCall {\n" +
         "            httpClient.get(\n" +
-        "                urlString = \"\$BASE_URL/$endpoint\"\n" +
+        "                urlString = \"\${BASE_URL}$endpoint\"\n" +
         "            ) {\n" +
         "                // example query parameter: parameter(\"q\", query)\n" +
-        "                parameter(\"limit\", resultLimit)\n" +
-        "                parameter(\"language\", \"eng\")\n" +
         "            }\n" +
         "        }\n" +
         "    }\n" +

@@ -24,6 +24,7 @@ class FeatureSharedViewModelFileManager(
                 )?.let { FeatureSharedViewModelFileManager(it) }
                 if (sharedViewModel != null) {
                     insertionPackage.rootPackage.koinModule?.addSharedViewModel(sharedViewModel)
+                    insertionPackage.rootPackage.koinModule?.writeToDisk()
                 }
                 return sharedViewModel
             } else {

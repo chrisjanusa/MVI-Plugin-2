@@ -2,13 +2,13 @@ package com.github.chrisjanusa.mvi.action.app
 
 
 import com.github.chrisjanusa.mvi.helper.file_helper.toPascalCase
-import com.github.chrisjanusa.mvi.package_structure.manager.project.library.librarygroup.addSerialization
 import com.github.chrisjanusa.mvi.package_structure.getManagerOfType
 import com.github.chrisjanusa.mvi.package_structure.getRootPackage
 import com.github.chrisjanusa.mvi.package_structure.manager.RootPackage
 import com.github.chrisjanusa.mvi.package_structure.manager.project.library.librarygroup.addCoroutines
 import com.github.chrisjanusa.mvi.package_structure.manager.project.library.librarygroup.addKoin
 import com.github.chrisjanusa.mvi.package_structure.manager.project.library.librarygroup.addNavigation
+import com.github.chrisjanusa.mvi.package_structure.manager.project.library.librarygroup.addSerialization
 import com.intellij.openapi.actionSystem.ActionUpdateThread
 import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent
@@ -31,13 +31,15 @@ class CreateAppAction : AnAction("Initialize _App") {
         libraryManager?.addSerialization()
         libraryManager?.writeToGradle()
 
-        val manifestManager = projectPackage?.manifest
         val appName = createAppPromptResult.appName.toPascalCase()
-        manifestManager?.addApplication(appName)
-        manifestManager?.writeToDisk()
 
         rootPackage.createAllChildren(appName)
         rootPackage.deleteFile("MainActivity.kt")
+
+        val manifestManager = projectPackage?.manifest
+        manifestManager?.addApplication(appName)
+        rootPackage.appPackage?.activity?.let { manifestManager?.updateActivityName(it) }
+        manifestManager?.writeToDisk()
     }
 
     override fun update(event: AnActionEvent) {

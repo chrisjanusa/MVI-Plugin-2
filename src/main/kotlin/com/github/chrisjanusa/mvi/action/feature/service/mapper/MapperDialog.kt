@@ -5,9 +5,8 @@ import com.intellij.openapi.ui.DialogWrapper
 import com.intellij.ui.dsl.builder.Cell
 import com.intellij.ui.dsl.builder.bindItem
 import com.intellij.ui.dsl.builder.panel
-import com.intellij.ui.dsl.builder.selected
+import javax.swing.JComboBox
 import javax.swing.JComponent
-import javax.swing.JRadioButton
 
 internal class MapperDialog(
     private val mapperPromptResult: MapperPromptResult,
@@ -23,58 +22,80 @@ internal class MapperDialog(
 
     override fun createCenterPanel(): JComponent {
         return panel {
-            lateinit var domainModelFrom: Cell<JRadioButton>
-            lateinit var entityFrom: Cell<JRadioButton>
-            lateinit var dtoFrom: Cell<JRadioButton>
+            lateinit var fromComboBox: Cell<JComboBox<ModelFileManager>>
             buttonsGroup("What type of model are you mapping from?") {
                 row {
-                    domainModelFrom = radioButton("Domain Model")
+                    radioButton("Domain Model")
+                        .component
+                        .addActionListener {
+                            fromComboBox.component.removeAllItems()
+                            domainModels.forEach {
+                                fromComboBox.component.addItem(it)
+                            }
+                        }
                 }
                 row {
-                    entityFrom = radioButton("Entity")
+                    radioButton("Entity")
+                        .component
+                        .addActionListener {
+                            fromComboBox.component.removeAllItems()
+                            entities.forEach {
+                                fromComboBox.component.addItem(it)
+                            }
+                        }
                 }
                 row {
-                    dtoFrom = radioButton("DTO")
+                    radioButton("DTO")
+                        .component
+                        .addActionListener {
+                            fromComboBox.component.removeAllItems()
+                            dtos.forEach {
+                                fromComboBox.component.addItem(it)
+                            }
+                        }
                 }
             }
-            row("Domain Model to convert from:") {
-                comboBox(items = domainModels)
+            row("Model to convert from:") {
+                fromComboBox = comboBox(items = domainModels)
                     .bindItem(mapperPromptResult::from)
-            }.visibleIf(domainModelFrom.selected)
-            row("Entity to convert from:") {
-                comboBox(items = entities)
-                    .bindItem(mapperPromptResult::from)
-            }.visibleIf(entityFrom.selected)
-            row("Dto to convert from:") {
-                comboBox(items = dtos)
-                    .bindItem(mapperPromptResult::from)
-            }.visibleIf(dtoFrom.selected)
-            lateinit var domainModelTo: Cell<JRadioButton>
-            lateinit var entityTo: Cell<JRadioButton>
-            lateinit var dtoTo: Cell<JRadioButton>
+            }
+            lateinit var toComboBox: Cell<JComboBox<ModelFileManager>>
             buttonsGroup("What type of model are you mapping to?") {
                 row {
-                    domainModelTo = radioButton("Domain Model")
+                    radioButton("Domain Model")
+                        .component
+                        .addActionListener {
+                            toComboBox.component.removeAllItems()
+                            domainModels.forEach {
+                                toComboBox.component.addItem(it)
+                            }
+                        }
                 }
                 row {
-                    entityTo = radioButton("Entity")
+                    radioButton("Entity")
+                        .component
+                        .addActionListener {
+                            toComboBox.component.removeAllItems()
+                            entities.forEach {
+                                toComboBox.component.addItem(it)
+                            }
+                        }
                 }
                 row {
-                    dtoTo = radioButton("DTO")
+                    radioButton("DTO")
+                        .component
+                        .addActionListener {
+                            toComboBox.component.removeAllItems()
+                            dtos.forEach {
+                                toComboBox.component.addItem(it)
+                            }
+                        }
                 }
             }
-            row("Domain Model to convert to:") {
-                comboBox(items = domainModels)
+            row("Model to convert to:") {
+                toComboBox = comboBox(items = domainModels)
                     .bindItem(mapperPromptResult::to)
-            }.visibleIf(domainModelTo.selected)
-            row("Entity to convert to:") {
-                comboBox(items = entities)
-                    .bindItem(mapperPromptResult::to)
-            }.visibleIf(entityTo.selected)
-            row("Dto to convert to:") {
-                comboBox(items = dtos)
-                    .bindItem(mapperPromptResult::to)
-            }.visibleIf(dtoTo.selected)
+            }
         }
     }
 }

@@ -20,8 +20,8 @@ internal class DatabaseClassTemplate(
         "\n" +
         "@Database(\n" +
         "    entities = [\n" +
-        entities.joinToString(separator = "\n") {
-        "        ${it.toEntityFileName()}::class,"
+        entities.joinToString(separator = "") {
+        "        ${it.toEntityFileName()}::class,\n"
         } +
         "    ],\n" +
         "    version = 1\n" +

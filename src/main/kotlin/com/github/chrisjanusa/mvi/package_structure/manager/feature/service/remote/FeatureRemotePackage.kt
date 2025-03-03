@@ -2,6 +2,7 @@ package com.github.chrisjanusa.mvi.package_structure.manager.feature.service.rem
 
 import com.github.chrisjanusa.mvi.helper.file_helper.findChildFile
 import com.github.chrisjanusa.mvi.helper.file_helper.toPascalCase
+import com.github.chrisjanusa.mvi.helper.file_helper.toSnakeCase
 import com.github.chrisjanusa.mvi.package_structure.instance_companion.ChildInstanceCompanion
 import com.github.chrisjanusa.mvi.package_structure.instance_companion.InstanceCompanion
 import com.github.chrisjanusa.mvi.package_structure.manager.PackageManager
@@ -42,7 +43,7 @@ class FeatureRemotePackage(file: VirtualFile): PackageManager(file), ServiceChil
 
     private fun createAllChildren(baseUrl: String, endpoint: String) {
         RemoteDataSourceFileManager.createNewInstance(this, baseUrl, endpoint)
-        RemoteDtoFileManager.createNewInstance(this, dataSourceName.toPascalCase())
+        RemoteDtoFileManager.createNewInstance(this, "${dataSourceName.toPascalCase()}Response")
     }
 
     companion object : ChildInstanceCompanion(FeatureRemoteWrapperPackage) {
@@ -57,7 +58,7 @@ class FeatureRemotePackage(file: VirtualFile): PackageManager(file), ServiceChil
             baseUrl: String,
             endpoint: String
         ): FeatureRemotePackage? {
-            val dataSourcePackage = insertionPackage.createNewDirectory(dataSourceName)?.let { FeatureRemotePackage(it) }
+            val dataSourcePackage = insertionPackage.createNewDirectory(dataSourceName.toSnakeCase())?.let { FeatureRemotePackage(it) }
             dataSourcePackage?.createAllChildren(baseUrl, endpoint)
             return dataSourcePackage
         }

@@ -22,6 +22,7 @@ class RepositoryAction : AnAction("Create _Repository") {
         if (repositoryFileManager != null && apiFileManager != null) {
             val koinModule = featurePackage.rootPackage.koinModule
             koinModule?.addRepository(repositoryFileManager, apiFileManager)
+            koinModule?.writeToDisk()
         }
     }
 

@@ -15,8 +15,8 @@ internal class DatabaseEntityTemplate(
         return "import androidx.room.Entity\n" +
         "import androidx.room.PrimaryKey\n" +
         "\n" +
+        "// Composite Key Example: @Entity(primaryKeys = [\"firstName\", \"lastName\"])\n" +
         "@Entity\n" +
-        "// Composite Key Example: @Entity(primaryKeys = [\"firstName\", \"lastName\"])" +
         "data class $fileName(\n" +
         "    @PrimaryKey(autoGenerate = false) val id: String,\n" +
         ")\n"

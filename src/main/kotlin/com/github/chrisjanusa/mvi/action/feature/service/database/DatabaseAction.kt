@@ -1,7 +1,6 @@
 package com.github.chrisjanusa.mvi.action.feature.service.database
 
 import com.github.chrisjanusa.mvi.helper.file_helper.isInsideFeaturePackage
-import com.github.chrisjanusa.mvi.helper.file_helper.toPascalCase
 import com.github.chrisjanusa.mvi.package_structure.getFeaturePackage
 import com.github.chrisjanusa.mvi.package_structure.manager.project.library.librarygroup.addRoom
 import com.intellij.openapi.actionSystem.ActionUpdateThread
@@ -19,11 +18,16 @@ class DatabaseAction : AnAction("Create _Database") {
         if (isCancelled) return
 
         featurePackage.rootPackage.commonPackage?.servicePackage?.createData()
-        featurePackage.projectPackage?.libraryManager?.addRoom()
+        val libraryManager = featurePackage.projectPackage?.libraryManager
+        libraryManager?.addRoom()
+        libraryManager?.writeToGradle()
 
-        val databasePackage = featurePackage.createServicePackage()?.createDatabase(databasePromptResult.name.toPascalCase(), databasePromptResult.entityNames)
+        val databasePackage = featurePackage.createServicePackage()?.createDatabase(databasePromptResult.name, databasePromptResult.entityNames)
         val koinModule = featurePackage.rootPackage.koinModule
-        databasePackage?.database?.let { koinModule?.addDatabase(it) }
+        databasePackage?.database?.let {
+            koinModule?.addDatabase(it)
+            koinModule?.writeToDisk()
+        }
     }
 
     override fun update(event: AnActionEvent) {

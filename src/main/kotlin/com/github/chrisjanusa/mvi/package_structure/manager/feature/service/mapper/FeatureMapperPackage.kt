@@ -28,6 +28,7 @@ class FeatureMapperPackage(file: VirtualFile): PackageManager(file), ServiceChil
     fun addMapper(from: ModelFileManager, to: ModelFileManager) {
         val mapperFileManager = MapperFileManager.createNewInstance(this, from.modelName)
         mapperFileManager?.addMapper(from, to)
+        mapperFileManager?.writeToDisk()
     }
 
     companion object : StaticInstanceCompanion("mapper") {

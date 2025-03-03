@@ -1,5 +1,6 @@
 package com.github.chrisjanusa.mvi.package_structure.manager.feature.service
 
+import com.github.chrisjanusa.mvi.helper.file_helper.toSnakeCase
 import com.github.chrisjanusa.mvi.package_structure.instance_companion.InstanceCompanion
 import com.github.chrisjanusa.mvi.package_structure.instance_companion.StaticInstanceCompanion
 import com.github.chrisjanusa.mvi.package_structure.manager.PackageManager
@@ -47,7 +48,7 @@ class ServicePackage(file: VirtualFile): PackageManager(file), FeatureDirectChil
         val databaseWrapper = DatabaseWrapperPackage.createNewInstance(
             insertionPackage = this,
         )
-        return databaseWrapper?.createDatabase(databaseName, entityNames)
+        return databaseWrapper?.createDatabase(databaseName.toSnakeCase(), entityNames)
     }
 
     val remoteWrapperPackage by lazy {
@@ -73,6 +74,7 @@ class ServicePackage(file: VirtualFile): PackageManager(file), FeatureDirectChil
         mapperPackage?.mappers
     }
     fun addMapper(from: ModelFileManager, to: ModelFileManager) {
+        val mapperPackage = FeatureMapperPackage.createNewInstance(this)
         mapperPackage?.addMapper(from, to)
     }
 
@@ -80,7 +82,7 @@ class ServicePackage(file: VirtualFile): PackageManager(file), FeatureDirectChil
         override fun createInstance(virtualFile: VirtualFile) = ServicePackage(virtualFile)
 
         override val allChildrenInstanceCompanions: List<InstanceCompanion>
-            get() = listOf(DatabaseWrapperPackage, FeatureRepositoryPackage, FeatureRemotePackage, FeatureMapperPackage)
+            get() = listOf(DatabaseWrapperPackage, FeatureRepositoryPackage, FeatureRemoteWrapperPackage, FeatureMapperPackage)
 
         fun createNewInstance(insertionPackage: FeaturePackage): ServicePackage? {
             return insertionPackage.createNewDirectory(NAME)?.let { ServicePackage(it) }

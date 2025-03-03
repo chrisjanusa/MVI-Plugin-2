@@ -36,7 +36,8 @@ fun Panel.stringListInputPanel(typeName: String, bindingList: MutableList<String
             }
         }
     }
-    row("List of $typeName to be created") {
+    row("List of $typeName to be created")  {  }
+    row{
         cell(stringList)
     }
     row {

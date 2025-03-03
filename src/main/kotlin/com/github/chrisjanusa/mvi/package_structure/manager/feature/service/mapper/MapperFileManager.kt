@@ -17,11 +17,11 @@ class MapperFileManager(
         if (!documentText.contains("$from.to$to()")) {
             addToBottom(
                 "internal fun $from.to${to.typeName}(): $to {\n" +
-                "        return $to(\n" +
-                commonProperties.joinToString(separator = "\n") {
-                    "            $it = $it,"
+                "    return $to(\n" +
+                commonProperties.joinToString(separator = "") {
+                    "        $it = $it,\n"
                 } +
-                "        )\n" +
+                "    )\n" +
                 "}"
             )
             addImport(from.packagePath)

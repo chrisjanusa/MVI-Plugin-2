@@ -138,7 +138,7 @@
                     class="com.github.chrisjanusa.mvi.action.feature.service.mapper.MapperAction"
                     text="Create Mapper"
                     description="Create a mapper between models"
-                    icon="AllIcons.Actions.MoveToButton.">
+                    icon="AllIcons.Actions.MoveToButton">
                 <keyboard-shortcut keymap="$default" first-keystroke="meta alt M"/>
             </action>
             <separator text = "App" />

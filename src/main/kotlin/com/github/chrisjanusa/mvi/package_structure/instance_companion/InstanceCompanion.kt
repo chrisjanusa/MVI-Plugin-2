@@ -31,7 +31,9 @@ abstract class InstanceCompanion {
                     KotlinFileType,
                     contentWithPackage
                 )
-            file?.let { directory?.add(it) }
+            file?.let {
+                file = directory?.add(it)?.containingFile
+            }
         })
         return file?.virtualFile
     }
