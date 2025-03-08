@@ -4,13 +4,13 @@ import com.github.chrisjanusa.mvi.package_structure.instance_companion.InstanceC
 import com.github.chrisjanusa.mvi.package_structure.instance_companion.StaticInstanceCompanion
 import com.github.chrisjanusa.mvi.package_structure.manager.PackageManager
 import com.github.chrisjanusa.mvi.package_structure.manager.base.ModelFileManager
-import com.github.chrisjanusa.mvi.package_structure.manager.feature.service.ServicePackage
+import com.github.chrisjanusa.mvi.package_structure.manager.feature.service.FeatureServicePackage
 import com.github.chrisjanusa.mvi.package_structure.parent_provider.ServiceChild
 import com.intellij.openapi.vfs.VirtualFile
 
 class FeatureMapperPackage(file: VirtualFile): PackageManager(file), ServiceChild {
     override val servicePackage by lazy {
-        ServicePackage(file.parent)
+        FeatureServicePackage(file.parent)
     }
     val featureName by lazy {
         servicePackage.featureName
@@ -38,7 +38,7 @@ class FeatureMapperPackage(file: VirtualFile): PackageManager(file), ServiceChil
         override val allChildrenInstanceCompanions: List<InstanceCompanion>
             get() = listOf(MapperFileManager)
 
-        fun createNewInstance(insertionPackage: ServicePackage): FeatureMapperPackage? {
+        fun createNewInstance(insertionPackage: FeatureServicePackage): FeatureMapperPackage? {
             return insertionPackage.createNewDirectory(NAME)?.let { FeatureMapperPackage(it) }
         }
     }

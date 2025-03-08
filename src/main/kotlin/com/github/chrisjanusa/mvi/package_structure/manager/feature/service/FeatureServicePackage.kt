@@ -2,9 +2,10 @@ package com.github.chrisjanusa.mvi.package_structure.manager.feature.service
 
 import com.github.chrisjanusa.mvi.helper.file_helper.toSnakeCase
 import com.github.chrisjanusa.mvi.package_structure.instance_companion.InstanceCompanion
-import com.github.chrisjanusa.mvi.package_structure.instance_companion.StaticInstanceCompanion
+import com.github.chrisjanusa.mvi.package_structure.instance_companion.StaticExcludeChildInstanceCompanion
 import com.github.chrisjanusa.mvi.package_structure.manager.PackageManager
 import com.github.chrisjanusa.mvi.package_structure.manager.base.ModelFileManager
+import com.github.chrisjanusa.mvi.package_structure.manager.common.CommonPackage
 import com.github.chrisjanusa.mvi.package_structure.manager.feature.FeaturePackage
 import com.github.chrisjanusa.mvi.package_structure.manager.feature.service.database.DatabasePackage
 import com.github.chrisjanusa.mvi.package_structure.manager.feature.service.database.DatabaseWrapperPackage
@@ -15,7 +16,7 @@ import com.github.chrisjanusa.mvi.package_structure.manager.feature.service.repo
 import com.github.chrisjanusa.mvi.package_structure.parent_provider.FeatureDirectChild
 import com.intellij.openapi.vfs.VirtualFile
 
-class ServicePackage(file: VirtualFile): PackageManager(file), FeatureDirectChild {
+class FeatureServicePackage(file: VirtualFile): PackageManager(file), FeatureDirectChild {
 
     val repositoryPackage by lazy {
         file.findChild(FeatureRepositoryPackage.NAME)?.let { FeatureRepositoryPackage(it) }
@@ -78,14 +79,14 @@ class ServicePackage(file: VirtualFile): PackageManager(file), FeatureDirectChil
         mapperPackage?.addMapper(from, to)
     }
 
-    companion object : StaticInstanceCompanion("service") {
-        override fun createInstance(virtualFile: VirtualFile) = ServicePackage(virtualFile)
+    companion object : StaticExcludeChildInstanceCompanion("service", CommonPackage) {
+        override fun createInstance(virtualFile: VirtualFile) = FeatureServicePackage(virtualFile)
 
         override val allChildrenInstanceCompanions: List<InstanceCompanion>
             get() = listOf(DatabaseWrapperPackage, FeatureRepositoryPackage, FeatureRemoteWrapperPackage, FeatureMapperPackage)
 
-        fun createNewInstance(insertionPackage: FeaturePackage): ServicePackage? {
-            return insertionPackage.createNewDirectory(NAME)?.let { ServicePackage(it) }
+        fun createNewInstance(insertionPackage: FeaturePackage): FeatureServicePackage? {
+            return insertionPackage.createNewDirectory(NAME)?.let { FeatureServicePackage(it) }
         }
     }
 }

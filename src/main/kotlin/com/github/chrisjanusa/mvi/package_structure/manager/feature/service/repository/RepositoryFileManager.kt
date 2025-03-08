@@ -2,7 +2,7 @@ package com.github.chrisjanusa.mvi.package_structure.manager.feature.service.rep
 
 import com.github.chrisjanusa.mvi.package_structure.instance_companion.StaticSuffixChildInstanceCompanion
 import com.github.chrisjanusa.mvi.package_structure.manager.base.FileManager
-import com.github.chrisjanusa.mvi.package_structure.manager.feature.service.ServicePackage
+import com.github.chrisjanusa.mvi.package_structure.manager.feature.service.FeatureServicePackage
 import com.github.chrisjanusa.mvi.package_structure.parent_provider.ServiceChild
 import com.intellij.openapi.vfs.VirtualFile
 
@@ -10,7 +10,7 @@ class RepositoryFileManager(file: VirtualFile) : FileManager(file), ServiceChild
     val repositoryPackage by lazy {
         FeatureRepositoryPackage(file)
     }
-    override val servicePackage: ServicePackage by lazy {
+    override val servicePackage: FeatureServicePackage by lazy {
         repositoryPackage.servicePackage
     }
 

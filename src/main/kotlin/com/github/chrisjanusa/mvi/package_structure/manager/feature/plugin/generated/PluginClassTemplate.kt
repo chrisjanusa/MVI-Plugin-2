@@ -21,7 +21,7 @@ internal class PluginClassTemplate(
         val slice = if (hasSlice) { pluginPackage?.slice?.name ?: "plugin not found" } else FoundationSliceFileManager.NO_SLICE
         return "import androidx.compose.runtime.Composable\n" +
                 "import androidx.compose.ui.Modifier\n" +
-                "import ${rootPackage?.commonPackage?.classNameHelper?.packagePathExcludingFile}.getClassName\n" +
+                "import ${rootPackage?.commonPackage?.classNameHelper?.functionPackagePath}\n" +
                 "import ${pluginPackage?.uiPackage?.content?.packagePath}\n" +
                 "import ${foundationPackage?.action?.packagePathExcludingFile}.OnAction\n" +
                 "import ${foundationPackage?.plugin?.packagePath}\n" +

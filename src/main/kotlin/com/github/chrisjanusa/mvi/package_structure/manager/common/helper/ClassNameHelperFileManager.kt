@@ -1,7 +1,7 @@
 package com.github.chrisjanusa.mvi.package_structure.manager.common.helper
 
-import com.github.chrisjanusa.mvi.package_structure.manager.base.FileManager
 import com.github.chrisjanusa.mvi.package_structure.instance_companion.StaticChildInstanceCompanion
+import com.github.chrisjanusa.mvi.package_structure.manager.base.FileManager
 import com.github.chrisjanusa.mvi.package_structure.manager.common.CommonPackage
 import com.github.chrisjanusa.mvi.package_structure.parent_provider.RootChild
 import com.intellij.openapi.vfs.VirtualFile
@@ -12,6 +12,9 @@ open class ClassNameHelperFileManager(file: VirtualFile) : FileManager(file), Ro
     }
     override val rootPackage by lazy {
         commonPackage.rootPackage
+    }
+    val functionPackagePath by lazy {
+        "$packagePathExcludingFile.getClassName"
     }
 
     companion object : StaticChildInstanceCompanion("ClassNameHelper", CommonHelperPackage) {

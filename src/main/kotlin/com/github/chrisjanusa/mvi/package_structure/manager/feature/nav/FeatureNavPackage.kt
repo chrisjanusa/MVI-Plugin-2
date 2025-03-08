@@ -1,5 +1,6 @@
 package com.github.chrisjanusa.mvi.package_structure.manager.feature.nav
 
+import com.github.chrisjanusa.mvi.helper.file_helper.findChildFile
 import com.github.chrisjanusa.mvi.package_structure.instance_companion.InstanceCompanion
 import com.github.chrisjanusa.mvi.package_structure.instance_companion.StaticInstanceCompanion
 import com.github.chrisjanusa.mvi.package_structure.manager.PackageManager
@@ -19,7 +20,7 @@ class FeatureNavPackage(file: VirtualFile): PackageManager(file), FeatureDirectC
     }
 
     val navGraph by lazy {
-        file.findChild(NavGraphFileManager.getFileName(featureName))?.let { NavGraphFileManager(it) }
+        file.findChildFile(NavGraphFileManager.getFileName(featureName))?.let { NavGraphFileManager(it) }
     }
 
     private fun createAllChildren() {

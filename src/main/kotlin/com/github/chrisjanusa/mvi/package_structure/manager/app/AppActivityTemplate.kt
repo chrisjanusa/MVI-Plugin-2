@@ -1,7 +1,7 @@
 package com.github.chrisjanusa.mvi.package_structure.manager.app
 
-import com.github.chrisjanusa.mvi.package_structure.manager.base.Template
 import com.github.chrisjanusa.mvi.package_structure.Manager
+import com.github.chrisjanusa.mvi.package_structure.manager.base.Template
 
 internal class AppActivityTemplate(
     packageManager: Manager,
@@ -58,7 +58,7 @@ internal class AppActivityTemplate(
         "        NavHost(\n" +
         "            modifier = Modifier.padding(innerPadding),\n" +
         "            navController = navController,\n" +
-        "            startDestination = // TODO: Set initial destination\n" +
+        "            startDestination = // TODO: Set initial destination,\n" +
         "        ) {\n" +
         "        }\n" +
         "    }\n" +

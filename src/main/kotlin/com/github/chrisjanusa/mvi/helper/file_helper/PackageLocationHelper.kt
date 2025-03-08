@@ -2,7 +2,7 @@ package com.github.chrisjanusa.mvi.helper.file_helper
 
 import com.github.chrisjanusa.mvi.package_structure.getManager
 import com.github.chrisjanusa.mvi.package_structure.manager.feature.FeaturePackage
-import com.github.chrisjanusa.mvi.package_structure.manager.feature.service.ServicePackage
+import com.github.chrisjanusa.mvi.package_structure.manager.feature.service.FeatureServicePackage
 import com.github.chrisjanusa.mvi.package_structure.parent_provider.FeatureChild
 import com.github.chrisjanusa.mvi.package_structure.parent_provider.FeatureDirectChild
 import com.github.chrisjanusa.mvi.package_structure.parent_provider.ServiceChild
@@ -17,7 +17,7 @@ fun AnActionEvent.isRootPackageOrDirectChild(): Boolean {
 
 fun AnActionEvent.isInsideServicePackage(): Boolean {
     val manager = getManager()
-    return manager is ServiceChild || manager is ServicePackage
+    return manager is ServiceChild || manager is FeatureServicePackage
 }
 
 fun AnActionEvent.isInsideFeaturePackage(): Boolean {

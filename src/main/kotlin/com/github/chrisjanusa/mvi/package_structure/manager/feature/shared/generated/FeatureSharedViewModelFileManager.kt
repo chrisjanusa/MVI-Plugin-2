@@ -1,5 +1,6 @@
 package com.github.chrisjanusa.mvi.package_structure.manager.feature.shared.generated
 
+import com.github.chrisjanusa.mvi.package_structure.manager.ManagerProvider
 import com.github.chrisjanusa.mvi.package_structure.manager.base.ViewModelFileManager
 import com.github.chrisjanusa.mvi.package_structure.manager.feature.plugin.helper.PluginFileNameProvider
 import com.github.chrisjanusa.mvi.package_structure.manager.feature.shared.helper.ISharedFileManager
@@ -23,6 +24,12 @@ class FeatureSharedViewModelFileManager(
                         .createContent()
                 )?.let { FeatureSharedViewModelFileManager(it) }
                 if (sharedViewModel != null) {
+                    insertionPackage.featurePackage.navPackage?.navGraph?.let { navGraph ->
+                        ManagerProvider.getAppActivity(sharedViewModel)?.addSharedViewModelToGraph(
+                            navGraph = navGraph,
+                            sharedViewModel = sharedViewModel
+                        )
+                    }
                     insertionPackage.rootPackage.koinModule?.addSharedViewModel(sharedViewModel)
                     insertionPackage.rootPackage.koinModule?.writeToDisk()
                 }

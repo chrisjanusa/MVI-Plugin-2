@@ -1,6 +1,6 @@
 package com.github.chrisjanusa.mvi.package_structure.manager.feature.service.remote
 
-import com.github.chrisjanusa.mvi.package_structure.manager.feature.service.ServicePackage
+import com.github.chrisjanusa.mvi.package_structure.manager.feature.service.FeatureServicePackage
 import com.intellij.openapi.vfs.VirtualFile
 
 class FeatureRemoteFileManager(file: VirtualFile): IFeatureRemoteFileManager {
@@ -13,7 +13,7 @@ class FeatureRemoteFileManager(file: VirtualFile): IFeatureRemoteFileManager {
     override val remoteWrapperPackage by lazy {
         remotePackage.remoteWrapperPackage
     }
-    override val servicePackage: ServicePackage by lazy {
+    override val servicePackage: FeatureServicePackage by lazy {
         remotePackage.servicePackage
     }
 

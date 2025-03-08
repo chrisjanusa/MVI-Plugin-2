@@ -10,7 +10,7 @@ import com.github.chrisjanusa.mvi.package_structure.manager.feature.api.ApiPacka
 import com.github.chrisjanusa.mvi.package_structure.manager.feature.domain_model.DomainModelPackage
 import com.github.chrisjanusa.mvi.package_structure.manager.feature.nav.FeatureNavPackage
 import com.github.chrisjanusa.mvi.package_structure.manager.feature.plugin.PluginWrapperPackage
-import com.github.chrisjanusa.mvi.package_structure.manager.feature.service.ServicePackage
+import com.github.chrisjanusa.mvi.package_structure.manager.feature.service.FeatureServicePackage
 import com.github.chrisjanusa.mvi.package_structure.manager.feature.shared.SharedPackage
 import com.github.chrisjanusa.mvi.package_structure.parent_provider.FeatureChild
 import com.github.chrisjanusa.mvi.package_structure.parent_provider.RootDirectChild
@@ -50,7 +50,7 @@ class FeaturePackage(file: VirtualFile) : PackageManager(file), RootDirectChild 
     fun findAPI(repositoryName: String) = apiPackage?.findAPI(repositoryName)
 
     val servicePackage by lazy {
-        file.findChild(ServicePackage.NAME)?.let { ServicePackage(it) }
+        file.findChild(FeatureServicePackage.NAME)?.let { FeatureServicePackage(it) }
     }
     val repositories by lazy {
         servicePackage?.repositories ?: emptyList()
@@ -61,7 +61,7 @@ class FeaturePackage(file: VirtualFile) : PackageManager(file), RootDirectChild 
     }
 
     fun createNavGraph() = FeatureNavPackage.createNewInstance(this)
-    fun createServicePackage() = ServicePackage.createNewInstance(this)
+    fun createServicePackage() = FeatureServicePackage.createNewInstance(this)
     fun createDomainModelPackage() = DomainModelPackage.createNewInstance(this)
     fun createSharedState() = SharedPackage.createNewInstance(this)
     fun createApiPackage() = ApiPackage.createNewInstance(this)
@@ -71,14 +71,14 @@ class FeaturePackage(file: VirtualFile) : PackageManager(file), RootDirectChild 
     }
 
     companion object : ParentInstanceCompanion(
-        ServicePackage,
+        FeatureServicePackage,
         PluginWrapperPackage,
         DomainModelPackage
     ) {
         override fun createInstance(virtualFile: VirtualFile) = FeaturePackage(virtualFile)
 
         override val allChildrenInstanceCompanions: List<InstanceCompanion>
-            get() = listOf(FeatureNavPackage, ServicePackage, DomainModelPackage, PluginWrapperPackage, SharedPackage, ApiPackage)
+            get() = listOf(FeatureNavPackage, FeatureServicePackage, DomainModelPackage, PluginWrapperPackage, SharedPackage, ApiPackage)
 
         fun getFromManager(manager: Manager): FeaturePackage? {
             if (manager is FeaturePackage) return manager

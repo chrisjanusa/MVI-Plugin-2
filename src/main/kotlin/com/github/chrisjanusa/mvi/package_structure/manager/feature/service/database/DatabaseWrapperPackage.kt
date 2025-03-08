@@ -3,7 +3,7 @@ package com.github.chrisjanusa.mvi.package_structure.manager.feature.service.dat
 import com.github.chrisjanusa.mvi.package_structure.instance_companion.InstanceCompanion
 import com.github.chrisjanusa.mvi.package_structure.instance_companion.StaticInstanceCompanion
 import com.github.chrisjanusa.mvi.package_structure.manager.PackageManager
-import com.github.chrisjanusa.mvi.package_structure.manager.feature.service.ServicePackage
+import com.github.chrisjanusa.mvi.package_structure.manager.feature.service.FeatureServicePackage
 import com.github.chrisjanusa.mvi.package_structure.parent_provider.ServiceChild
 import com.intellij.openapi.vfs.VirtualFile
 
@@ -15,7 +15,7 @@ class DatabaseWrapperPackage(file: VirtualFile): PackageManager(file), ServiceCh
         databases.flatMap { it.entities }
     }
     override val servicePackage by lazy {
-        ServicePackage(file.parent)
+        FeatureServicePackage(file.parent)
     }
     val featureName by lazy {
         servicePackage.featureName
@@ -41,7 +41,7 @@ class DatabaseWrapperPackage(file: VirtualFile): PackageManager(file), ServiceCh
         override val allChildrenInstanceCompanions: List<InstanceCompanion>
             get() = listOf(DatabasePackage)
 
-        fun createNewInstance(insertionPackage: ServicePackage): DatabaseWrapperPackage? {
+        fun createNewInstance(insertionPackage: FeatureServicePackage): DatabaseWrapperPackage? {
             return insertionPackage.createNewDirectory(NAME)?.let { DatabaseWrapperPackage(it) }
         }
     }

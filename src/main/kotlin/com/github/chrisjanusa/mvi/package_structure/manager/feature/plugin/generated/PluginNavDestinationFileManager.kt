@@ -15,11 +15,15 @@ class PluginNavDestinationFileManager(
         override fun createInstance(virtualFile: VirtualFile) = PluginNavDestinationFileManager(virtualFile)
         fun createNewInstance(insertionPackage: PluginGeneratedPackage): PluginNavDestinationFileManager? {
             val fileName = getFileName(insertionPackage.pluginName)
-            return insertionPackage.createNewFile(
+            val navDestination = insertionPackage.createNewFile(
                 fileName,
                 PluginNavDestinationTemplate(insertionPackage, fileName)
                     .createContent()
             )?.let { PluginNavDestinationFileManager(it) }
+            if (navDestination != null) {
+                insertionPackage.featurePackage.navPackage?.navGraph?.addNavDestination(navDestination)
+            }
+            return navDestination
         }
     }
 }

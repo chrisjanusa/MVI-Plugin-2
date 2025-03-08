@@ -1,6 +1,6 @@
 package com.github.chrisjanusa.mvi.package_structure.manager.feature.service.database
 
-import com.github.chrisjanusa.mvi.package_structure.manager.feature.service.ServicePackage
+import com.github.chrisjanusa.mvi.package_structure.manager.feature.service.FeatureServicePackage
 import com.intellij.openapi.vfs.VirtualFile
 
 class FeatureDatabaseFileManager(file: VirtualFile): IFeatureDatabaseFileManager {
@@ -13,7 +13,7 @@ class FeatureDatabaseFileManager(file: VirtualFile): IFeatureDatabaseFileManager
     override val databaseWrapperPackage by lazy {
         databasePackage.databaseWrapperPackage
     }
-    override val servicePackage: ServicePackage by lazy {
+    override val servicePackage: FeatureServicePackage by lazy {
         databasePackage.servicePackage
     }
 

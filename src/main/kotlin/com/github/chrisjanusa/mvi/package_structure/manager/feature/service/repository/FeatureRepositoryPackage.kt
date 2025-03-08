@@ -3,13 +3,13 @@ package com.github.chrisjanusa.mvi.package_structure.manager.feature.service.rep
 import com.github.chrisjanusa.mvi.package_structure.instance_companion.InstanceCompanion
 import com.github.chrisjanusa.mvi.package_structure.instance_companion.StaticInstanceCompanion
 import com.github.chrisjanusa.mvi.package_structure.manager.PackageManager
-import com.github.chrisjanusa.mvi.package_structure.manager.feature.service.ServicePackage
+import com.github.chrisjanusa.mvi.package_structure.manager.feature.service.FeatureServicePackage
 import com.github.chrisjanusa.mvi.package_structure.parent_provider.ServiceChild
 import com.intellij.openapi.vfs.VirtualFile
 
 class FeatureRepositoryPackage(file: VirtualFile): PackageManager(file), ServiceChild {
     override val servicePackage by lazy {
-        ServicePackage(file.parent)
+        FeatureServicePackage(file.parent)
     }
     val featureName by lazy {
         servicePackage.featureName
@@ -35,7 +35,7 @@ class FeatureRepositoryPackage(file: VirtualFile): PackageManager(file), Service
         override val allChildrenInstanceCompanions: List<InstanceCompanion>
             get() = listOf(RepositoryFileManager)
 
-        fun createNewInstance(insertionPackage: ServicePackage): FeatureRepositoryPackage? {
+        fun createNewInstance(insertionPackage: FeatureServicePackage): FeatureRepositoryPackage? {
             return insertionPackage.createNewDirectory(NAME)?.let { FeatureRepositoryPackage(it) }
         }
     }

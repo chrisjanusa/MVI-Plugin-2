@@ -37,7 +37,7 @@ class KoinModuleFileManager(file: VirtualFile) : FileManager(file), RootChild {
         }
         addImport(pluginViewModelManager.packagePath)
         pluginViewModelManager.rootPackage.foundationPackage?.pluginViewModel?.packagePath?.let { addImport(it) }
-        pluginViewModelManager.rootPackage.commonPackage?.classNameHelper?.packagePath?.let { addImport(it) }
+        pluginViewModelManager.rootPackage.commonPackage?.classNameHelper?.functionPackagePath?.let { addImport("it") }
     }
 
     fun addSharedViewModel(sharedViewModelManager: FeatureSharedViewModelFileManager) {
@@ -57,7 +57,7 @@ class KoinModuleFileManager(file: VirtualFile) : FileManager(file), RootChild {
         addImport("org.koin.dsl.bind")
         addImport("org.koin.core.qualifier.named")
         sharedViewModelManager.rootPackage.foundationPackage?.sharedViewModel?.packagePath?.let { addImport(it) }
-        sharedViewModelManager.rootPackage.commonPackage?.classNameHelper?.packagePath?.let { addImport(it) }
+        sharedViewModelManager.rootPackage.commonPackage?.classNameHelper?.functionPackagePath?.let { addImport(it) }
     }
 
     fun addRepository(repositoryManger: RepositoryFileManager, apiFileManager: ApiFileManager) {

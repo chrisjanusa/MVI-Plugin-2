@@ -57,6 +57,21 @@ open class FileManager(
         }
     }
 
+    fun removeBetween(startPredicate: (String) -> Boolean, endPredicate: (String) -> Boolean) {
+        val newLines = documentLines.toMutableList()
+        var startIndex: Int? = null
+        documentLines.forEachIndexed { index, line  ->
+             if (startPredicate(line)) {
+                 startIndex = index
+             }
+            startIndex?.let { newLines.removeAt(it) }
+            if (endPredicate(line)) {
+                return@forEachIndexed
+            }
+        }
+        documentLines = newLines
+    }
+
     fun findAndReplaceIfNotExists(oldValue: String, newValue: String, existStringCheck: String = newValue) {
         if (!documentText.contains(existStringCheck)) {
             findAndReplace(oldValue, newValue)
@@ -86,7 +101,7 @@ open class FileManager(
     }
 
     fun addImport(dep: String) {
-        if (!documentText.contains(dep)) {
+        if (!documentText.contains("$dep\n")) {
             val addedBefore = addBeforeFirst("import $dep") { line ->
                 line.contains("import ")
             }
@@ -116,7 +131,7 @@ open class FileManager(
         return documentLines.getOrNull(lineNum)
     }
 
-    private fun performActionAtFirst(predicate: (String) -> Boolean, action: (MutableList<String>, Int) -> Unit) : Boolean {
+    fun performActionAtFirst(predicate: (String) -> Boolean, action: (MutableList<String>, Int) -> Unit) : Boolean {
         val lineIndex = findFirstLineIndex(predicate = predicate)
         val newDocumentLines = documentLines.toMutableList()
         if (lineIndex >= 0) {

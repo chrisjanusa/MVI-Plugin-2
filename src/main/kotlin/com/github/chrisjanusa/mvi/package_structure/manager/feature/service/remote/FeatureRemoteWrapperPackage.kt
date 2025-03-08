@@ -3,7 +3,7 @@ package com.github.chrisjanusa.mvi.package_structure.manager.feature.service.rem
 import com.github.chrisjanusa.mvi.package_structure.instance_companion.InstanceCompanion
 import com.github.chrisjanusa.mvi.package_structure.instance_companion.StaticChildInstanceCompanion
 import com.github.chrisjanusa.mvi.package_structure.manager.PackageManager
-import com.github.chrisjanusa.mvi.package_structure.manager.feature.service.ServicePackage
+import com.github.chrisjanusa.mvi.package_structure.manager.feature.service.FeatureServicePackage
 import com.github.chrisjanusa.mvi.package_structure.parent_provider.ServiceChild
 import com.intellij.openapi.vfs.VirtualFile
 
@@ -15,7 +15,7 @@ class FeatureRemoteWrapperPackage(file: VirtualFile): PackageManager(file), Serv
         dataSources.flatMap { it.dtos }
     }
     override val servicePackage by lazy {
-        ServicePackage(file.parent)
+        FeatureServicePackage(file.parent)
     }
     val featureName by lazy {
         servicePackage.featureName
@@ -36,13 +36,13 @@ class FeatureRemoteWrapperPackage(file: VirtualFile): PackageManager(file), Serv
         )
     }
 
-    companion object : StaticChildInstanceCompanion("remote", ServicePackage) {
+    companion object : StaticChildInstanceCompanion("remote", FeatureServicePackage) {
         override fun createInstance(virtualFile: VirtualFile) = FeatureRemoteWrapperPackage(virtualFile)
 
         override val allChildrenInstanceCompanions: List<InstanceCompanion>
             get() = listOf(FeatureRemotePackage)
 
-        fun createNewInstance(insertionPackage: ServicePackage): FeatureRemoteWrapperPackage? {
+        fun createNewInstance(insertionPackage: FeatureServicePackage): FeatureRemoteWrapperPackage? {
             return insertionPackage.createNewDirectory(NAME)?.let { FeatureRemoteWrapperPackage(it) }
         }
     }
