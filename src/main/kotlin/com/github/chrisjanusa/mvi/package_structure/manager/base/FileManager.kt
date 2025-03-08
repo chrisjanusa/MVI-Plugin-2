@@ -91,7 +91,7 @@ open class FileManager(
                 line.contains("import ")
             }
             if (!addedBefore) {
-                addAfterFirst("\nimport $dep\n") {line ->
+                addAfterFirst("\nimport $dep") {line ->
                     line.contains("package ")
                 }
             }
