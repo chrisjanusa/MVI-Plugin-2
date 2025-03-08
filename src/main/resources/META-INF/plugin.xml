@@ -58,13 +58,29 @@
                     text="Add Slice to Plugin"
                     description="Adds a slice to this plugin and updates all plugin components to support the slice"
                     icon="AllIcons.RunConfigurations.Remote">
-                <keyboard-shortcut keymap="$default" first-keystroke="meta alt S"/>
+                <keyboard-shortcut keymap="$default" first-keystroke="meta alt L"/>
             </action>
             <action
                     id="RemoveSlice"
                     class="com.github.chrisjanusa.mvi.action.feature.plugin.slice.RemoveSliceAction"
                     text="Remove Slice from Plugin"
                     description="Removes slice from this plugin and updates all plugin components to use NoSlice"
+                    icon="AllIcons.Actions.GC">
+                <keyboard-shortcut keymap="$default" first-keystroke="meta alt L"/>
+            </action>
+            <action
+                    id="AddState"
+                    class="com.github.chrisjanusa.mvi.action.feature.plugin.state.AddStateAction"
+                    text="Add State to Plugin"
+                    description="Adds a state to this plugin and updates all plugin components to support the state"
+                    icon="AllIcons.Nodes.SortBySeverity">
+                <keyboard-shortcut keymap="$default" first-keystroke="meta alt S"/>
+            </action>
+            <action
+                    id="RemoveState"
+                    class="com.github.chrisjanusa.mvi.action.feature.plugin.state.RemoveStateAction"
+                    text="Remove State from Plugin"
+                    description="Removes state from this plugin and updates all plugin components to use NoState"
                     icon="AllIcons.Actions.GC">
                 <keyboard-shortcut keymap="$default" first-keystroke="meta alt S"/>
             </action>

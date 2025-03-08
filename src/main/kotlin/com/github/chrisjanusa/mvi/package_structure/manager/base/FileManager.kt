@@ -67,8 +67,22 @@ open class FileManager(
         documentText = documentText.replace(oldValue, newValue)
     }
 
+    fun findNotFollowedByLetterAndReplace(
+        oldValue: String,
+        newValue: String
+    ) {
+        val regex = Regex("(${Regex.escape(oldValue)})(?![a-zA-Z])")
+        documentText =  regex.replace(documentText, newValue)
+    }
+
     fun removeAllOccurrences(textToRemove: String) {
         findAndReplace(textToRemove, "")
+    }
+
+    fun removeAllLinesThatMatch(predicate: (String) -> Boolean) {
+        documentLines = documentLines.filter { line ->
+            !predicate(line)
+        }
     }
 
     fun addImport(dep: String) {

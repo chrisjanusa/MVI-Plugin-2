@@ -7,7 +7,7 @@ import com.intellij.openapi.actionSystem.ActionUpdateThread
 import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent
 
-class RemoveSliceAction : AnAction("Remove _Slice") {
+class RemoveSliceAction : AnAction("Remove S_lice") {
     override fun actionPerformed(event: AnActionEvent) {
         val pluginPackage = event.getPluginPackage() ?: return
         val pluginName = pluginPackage.pluginName

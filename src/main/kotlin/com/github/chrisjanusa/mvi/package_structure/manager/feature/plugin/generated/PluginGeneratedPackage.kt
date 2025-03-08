@@ -64,6 +64,18 @@ class PluginGeneratedPackage(file: VirtualFile): PackageManager(file), PluginChi
         pluginClass?.removeSlice()
     }
 
+    internal fun addState() {
+        typeAlias?.addState()
+        viewModel?.addState()
+        pluginClass?.addState()
+    }
+
+    internal fun removeState() {
+        typeAlias?.removeState()
+        viewModel?.removeState()
+        pluginClass?.removeState()
+    }
+
     private fun createAllChildren(hasState: Boolean, hasSlice: Boolean, isNavDestination: Boolean) {
         if (hasSlice) {
             PluginSliceUpdateFileManager.createNewInstance(this)

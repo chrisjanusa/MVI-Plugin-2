@@ -1,12 +1,15 @@
 package com.github.chrisjanusa.mvi.package_structure.manager.base
 
+import com.github.chrisjanusa.mvi.package_structure.manager.RootPackage
 import com.intellij.openapi.vfs.VirtualFile
 
 abstract class EffectFileManager(file: VirtualFile) : FileManager(file) {
-    internal abstract val rootPath: String
+    internal abstract val rootPackage: RootPackage
     internal abstract val baseName: String
     internal abstract val state: String
     internal abstract val slice: String
+    internal abstract val hasState: Boolean
+    internal abstract val hasSlice: Boolean
     internal abstract val actionName: String
     internal abstract val typeAliasPath: String
     abstract val fileName: String
@@ -15,14 +18,14 @@ abstract class EffectFileManager(file: VirtualFile) : FileManager(file) {
     abstract val stateSliceEffect: String
     abstract val navEffect: String
 
-    private val foundationPath by lazy {
-        "$rootPath.foundation"
+    private val foundationPackage by lazy {
+        rootPackage.foundationPackage
     }
 
     fun addActionOnlyEffect(effectName: String, actionToFilterFor: String? = null) {
         addImport("$typeAliasPath.$actionEffect")
-        addImport("$foundationPath.Action")
-        addImport("$foundationPath.OnAction")
+        addImport("${foundationPackage?.action?.packagePath}")
+        addImport("${foundationPackage?.action?.packagePathExcludingFile}.OnAction")
         addImport("kotlinx.coroutines.flow.Flow")
         if (actionToFilterFor != null) {
             addImport("kotlinx.coroutines.flow.collectLatest")
@@ -46,10 +49,13 @@ abstract class EffectFileManager(file: VirtualFile) : FileManager(file) {
 
     fun addStateEffect(effectName: String, actionToFilterFor: String? = null) {
         addImport("$typeAliasPath.$stateEffect")
-        addImport("$foundationPath.Action")
-        addImport("$foundationPath.OnAction")
+        addImport("${foundationPackage?.action?.packagePath}")
+        addImport("${foundationPackage?.action?.packagePathExcludingFile}.OnAction")
         addImport("kotlinx.coroutines.flow.Flow")
         addImport("kotlinx.coroutines.flow.StateFlow")
+        if (!hasState) {
+            foundationPackage?.state?.packagePathExcludingFile?.let { addImport("$it.NoState") }
+        }
         if (actionToFilterFor != null) {
             addImport("kotlinx.coroutines.flow.collectLatest")
             addImport("kotlinx.coroutines.flow.filterIsInstance")
@@ -74,8 +80,14 @@ abstract class EffectFileManager(file: VirtualFile) : FileManager(file) {
 
     fun addStateSliceEffect(effectName: String, actionToFilterFor: String? = null) {
         addImport("$typeAliasPath.$stateSliceEffect")
-        addImport("$foundationPath.Action")
-        addImport("$foundationPath.OnAction")
+        addImport("${foundationPackage?.action?.packagePath}")
+        addImport("${foundationPackage?.action?.packagePathExcludingFile}.OnAction")
+        if (!hasState) {
+            foundationPackage?.state?.packagePathExcludingFile?.let { addImport("$it.NoState") }
+        }
+        if (!hasSlice) {
+            foundationPackage?.slice?.packagePathExcludingFile?.let { addImport("$it.NoSlice") }
+        }
         addImport("kotlinx.coroutines.flow.Flow")
         addImport("kotlinx.coroutines.flow.StateFlow")
         if (actionToFilterFor != null) {
@@ -103,12 +115,12 @@ abstract class EffectFileManager(file: VirtualFile) : FileManager(file) {
 
     fun addNavEffect(effectName: String, actionToFilterFor: String? = null, navAction: String? = null, isCoreAction: Boolean = false) {
         if (isCoreAction) {
-            addImport("$rootPath.common.nav.CoreNavAction")
+            addImport("${rootPackage.commonPackage?.navPackage?.coreNavAction?.packagePath}")
         }
         addImport("$typeAliasPath.$navEffect")
-        addImport("$foundationPath.Action")
-        addImport("$foundationPath.OnAction")
-        addImport("$foundationPath.OnAppAction")
+        addImport("${foundationPackage?.action?.packagePath}")
+        addImport("${foundationPackage?.action?.packagePathExcludingFile}.OnAction")
+        addImport("${foundationPackage?.action?.packagePathExcludingFile}.OnAppAction")
         addImport("kotlinx.coroutines.flow.Flow")
         if (actionToFilterFor != null) {
             addImport("kotlinx.coroutines.flow.collectLatest")

@@ -11,7 +11,6 @@ class SharedEffectFileManager(
     file: VirtualFile,
     sharedFileManager: ISharedFileManager = SharedFileManager(file)
 ) : EffectFileManager(file), ISharedFileManager by sharedFileManager, FeatureChild {
-    override val rootPath = rootPackage.packagePath
     override val baseName: String
         get() = featureName
     override val actionName = SharedActionFileManager.getFileName(featureName)
@@ -39,11 +38,13 @@ class SharedEffectFileManager(
     override val slice by lazy {
        "NoSlice"
     }
+    override val hasState = true
+    override val hasSlice = false
 
     override fun getEffectFullName(effectName: String): String = "$effectName${SharedFileNameProvider.SHARED_SUFFIX}$SUFFIX"
 
     override fun addEffectToViewModel(effectName: String) {
-        sharedPackage.viewModel?.addEffect(effectName)
+        sharedPackage.viewModel?.addEffect(effectName, "${sharedPackage.effect?.packagePathExcludingFile}.$effectName")
     }
 
     companion object : SharedFileNameProvider(SUFFIX) {

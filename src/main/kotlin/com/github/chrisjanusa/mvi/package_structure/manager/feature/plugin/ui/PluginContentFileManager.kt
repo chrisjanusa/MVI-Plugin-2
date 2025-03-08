@@ -44,7 +44,7 @@ class PluginContentFileManager(
             textToRemove = "    state: ${pluginName}State,\n",
         )
         pluginFileManager.removeImport("${pluginPackage.packagePath}.${pluginName}State")
-        pluginFileManager.removeSlice()
+        pluginFileManager.removeState()
     }
 
     companion object : PluginFileNameProvider("Content") {

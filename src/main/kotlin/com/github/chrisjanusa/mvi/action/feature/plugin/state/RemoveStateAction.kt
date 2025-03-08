@@ -1,15 +1,21 @@
-package com.github.chrisjanusa.mvi.action.feature.plugin.slice
+package com.github.chrisjanusa.mvi.action.feature.plugin.state
 
 
+import com.github.chrisjanusa.mvi.helper.file_helper.toPascalCase
 import com.github.chrisjanusa.mvi.package_structure.getPluginPackage
 import com.intellij.openapi.actionSystem.ActionUpdateThread
 import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent
 
-class AddSliceAction : AnAction("Add S_lice") {
+class RemoveStateAction : AnAction("Remove _State") {
     override fun actionPerformed(event: AnActionEvent) {
         val pluginPackage = event.getPluginPackage() ?: return
-        pluginPackage.addSlice()
+        val pluginName = pluginPackage.pluginName
+        val pluginCapitalized = pluginName.toPascalCase()
+        val removeStateDialog = RemoveStateDialog(pluginCapitalized)
+        val isCancelled = !removeStateDialog.showAndGet()
+        if (isCancelled) return
+        pluginPackage.removeState()
     }
 
     override fun update(event: AnActionEvent) {
@@ -23,7 +29,7 @@ class AddSliceAction : AnAction("Add S_lice") {
     companion object {
         fun isEnabled(event: AnActionEvent): Boolean {
             val pluginPackage = event.getPluginPackage() ?: return false
-            return !pluginPackage.hasSlice
+            return pluginPackage.hasState
         }
     }
 }

@@ -78,10 +78,15 @@ class PluginPackage(file: VirtualFile) : PackageManager(file), FeatureChild {
         slice != null
     }
 
+    val hasState by lazy {
+        state != null
+    }
+
     fun addSlice() {
         PluginSliceFileManager.createNewInstance(this)
         generatedPackage?.addSlice()
         pluginAction?.addSlice()
+        pluginEffect?.addSlice()
         content?.addSlice()
     }
 
@@ -89,7 +94,24 @@ class PluginPackage(file: VirtualFile) : PackageManager(file), FeatureChild {
         deleteFile("${pluginName}Slice.kt")
         generatedPackage?.removeSlice()
         pluginAction?.removeSlice()
+        pluginEffect?.removeSlice()
         content?.removeSlice()
+    }
+
+    fun addState() {
+        PluginStateFileManager.createNewInstance(this)
+        generatedPackage?.addState()
+        pluginAction?.addState()
+        pluginEffect?.addState()
+        content?.addState()
+    }
+
+    fun removeState() {
+        deleteFile("${PluginStateFileManager.getFileName(pluginName)}.kt")
+        generatedPackage?.removeState()
+        pluginAction?.removeState()
+        pluginEffect?.removeState()
+        content?.removeState()
     }
 
     private fun createAllChildren(hasState: Boolean, hasSlice: Boolean, isNavDestination: Boolean) {

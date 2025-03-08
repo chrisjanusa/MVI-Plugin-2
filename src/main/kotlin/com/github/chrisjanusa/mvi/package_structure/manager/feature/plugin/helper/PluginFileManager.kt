@@ -41,14 +41,30 @@ open class PluginFileManager(file: VirtualFile) : IPluginFileManager, FileManage
         featurePackage.rootPackage
     }
 
-    private val sliceName = PluginSliceFileManager.getFileName(pluginPackage.pluginName)
-    private val noSliceName = FoundationSliceFileManager.NO_SLICE
-    private val slicePackage = "${pluginPackage.packagePath}.$sliceName"
-    private val noSlicePackage = "${rootPackage.foundationPackage?.slice?.noSlicePackagePath}"
-    private val stateName = PluginStateFileManager.getFileName(pluginPackage.pluginName)
-    private val noStateName = FoundationStateFileManager.NO_STATE
-    private val statePackage = "${pluginPackage.packagePath}.$stateName"
-    private val noStatePackage = "${rootPackage.foundationPackage?.state?.noStatePackagePath}"
+    private val sliceName  by lazy {
+        PluginSliceFileManager.getFileName(pluginPackage.pluginName)
+    }
+    private val noSliceName  by lazy {
+        FoundationSliceFileManager.NO_SLICE
+    }
+    private val slicePackage  by lazy {
+        "${pluginPackage.packagePath}.$sliceName"
+    }
+    private val noSlicePackage  by lazy {
+        "${rootPackage.foundationPackage?.slice?.noSlicePackagePath}"
+    }
+    private val stateName  by lazy {
+        PluginStateFileManager.getFileName(pluginPackage.pluginName)
+    }
+    private val noStateName  by lazy {
+        FoundationStateFileManager.NO_STATE
+    }
+    private val statePackage  by lazy {
+        "${pluginPackage.packagePath}.$stateName"
+    }
+    private val noStatePackage  by lazy {
+        "${rootPackage.foundationPackage?.state?.noStatePackagePath}"
+    }
 
     override fun addSlice() {
         if (isPluginRoot) {
@@ -56,7 +72,7 @@ open class PluginFileManager(file: VirtualFile) : IPluginFileManager, FileManage
         } else {
             findAndReplace(noSlicePackage, slicePackage)
         }
-        findAndReplace(noSliceName, sliceName)
+        findNotFollowedByLetterAndReplace(noSliceName, sliceName)
         if (isGenerated) {
             addImport(slicePackage)
         }
@@ -68,7 +84,7 @@ open class PluginFileManager(file: VirtualFile) : IPluginFileManager, FileManage
             addImport(noSlicePackage)
         }
         findAndReplace(slicePackage, noSlicePackage)
-        findAndReplace(sliceName, noSliceName)
+        findNotFollowedByLetterAndReplace(sliceName, noSliceName)
         if (isGenerated) {
             removeImport(slicePackage)
         }
@@ -81,7 +97,7 @@ open class PluginFileManager(file: VirtualFile) : IPluginFileManager, FileManage
         } else {
             findAndReplace(noStatePackage, statePackage)
         }
-        findAndReplace(noStateName, sliceName)
+        findNotFollowedByLetterAndReplace(noStateName, stateName)
         if (isGenerated) {
             addImport(statePackage)
         }
@@ -93,7 +109,7 @@ open class PluginFileManager(file: VirtualFile) : IPluginFileManager, FileManage
             addImport(noStatePackage)
         }
         findAndReplace(statePackage, noStatePackage)
-        findAndReplace(sliceName, noStateName)
+        findNotFollowedByLetterAndReplace(stateName, noStateName)
         if (isGenerated) {
             removeImport(statePackage)
         }

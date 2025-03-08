@@ -9,6 +9,8 @@ import com.github.chrisjanusa.mvi.action.feature.plugin.action.AddActionAction
 import com.github.chrisjanusa.mvi.action.feature.plugin.effect.AddEffectAction
 import com.github.chrisjanusa.mvi.action.feature.plugin.slice.AddSliceAction
 import com.github.chrisjanusa.mvi.action.feature.plugin.slice.RemoveSliceAction
+import com.github.chrisjanusa.mvi.action.feature.plugin.state.AddStateAction
+import com.github.chrisjanusa.mvi.action.feature.plugin.state.RemoveStateAction
 import com.github.chrisjanusa.mvi.action.feature.service.database.DatabaseAction
 import com.github.chrisjanusa.mvi.action.feature.service.mapper.MapperAction
 import com.github.chrisjanusa.mvi.action.feature.service.remote.RemoteDataSourceAction
@@ -33,8 +35,10 @@ class MviGroup : DefaultActionGroup() {
     companion object {
         fun isEnabledPlugin(event: AnActionEvent): Boolean =
             AddSliceAction.isEnabled(event) ||
+            AddStateAction.isEnabled(event) ||
             PluginAction.isEnabled(event) ||
             RemoveSliceAction.isEnabled(event) ||
+            RemoveStateAction.isEnabled(event) ||
             AddEffectAction.isEnabled(event) ||
             AddActionAction.isEnabled(event)
 
