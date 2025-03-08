@@ -30,7 +30,7 @@ open class FileManager(
         }
 
     fun addToBottom(text: String) {
-        documentText = "$documentText\n\n$text"
+        documentLines = documentLines + listOf("",text)
     }
 
     fun addAfterFirst(lineToAdd: String, predicate: (String) -> Boolean) : Boolean {
