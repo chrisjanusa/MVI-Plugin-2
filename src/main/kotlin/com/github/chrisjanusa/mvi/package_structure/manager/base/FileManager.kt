@@ -1,9 +1,9 @@
 package com.github.chrisjanusa.mvi.package_structure.manager.base
 
-import com.github.chrisjanusa.mvi.helper.file_helper.getDocument
 import com.github.chrisjanusa.mvi.helper.file_helper.pathToPackage
 import com.github.chrisjanusa.mvi.package_structure.Manager
 import com.intellij.openapi.application.ApplicationManager
+import com.intellij.openapi.fileEditor.FileDocumentManager
 import com.intellij.openapi.vfs.VirtualFile
 
 open class FileManager(
@@ -19,7 +19,7 @@ open class FileManager(
         file.nameWithoutExtension
     }
     val document by lazy {
-        file.getDocument()
+        file.let { FileDocumentManager.getInstance().getDocument(it) }
     }
 
     internal var documentText = document?.text ?: ""

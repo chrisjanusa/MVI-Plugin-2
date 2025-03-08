@@ -1,11 +1,8 @@
 package com.github.chrisjanusa.mvi.package_structure.manager.app.di
 
-import com.github.chrisjanusa.mvi.helper.file_helper.findChildFile
-import com.github.chrisjanusa.mvi.helper.file_helper.getAppPackageFile
-import com.github.chrisjanusa.mvi.package_structure.manager.base.FileManager
 import com.github.chrisjanusa.mvi.package_structure.instance_companion.StaticChildInstanceCompanion
+import com.github.chrisjanusa.mvi.package_structure.manager.base.FileManager
 import com.github.chrisjanusa.mvi.package_structure.parent_provider.RootChild
-import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.vfs.VirtualFile
 
 class KoinInitFileManager(file: VirtualFile) : FileManager(file), RootChild {
@@ -36,15 +33,4 @@ class KoinInitFileManager(file: VirtualFile) : FileManager(file), RootChild {
             )?.let { KoinInitFileManager(it) }
         }
     }
-}
-
-private fun AnActionEvent.getKoinInit(): VirtualFile? {
-    val projectBaseDir = getAppPackageFile() ?: return null
-    val diDirFile = projectBaseDir.findChild("di") ?: return null
-    return diDirFile.findChildFile("KoinInit") ?: return null
-}
-
-fun AnActionEvent.getKoinInitManager(): KoinInitFileManager? {
-    val koinInit = getKoinInit() ?: return null
-    return KoinInitFileManager(koinInit)
 }
