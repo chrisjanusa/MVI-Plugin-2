@@ -9,14 +9,18 @@ import com.intellij.openapi.vfs.VirtualFile
 open class FileManager(
     val file: VirtualFile,
 ): Manager {
-    val packagePath
-        get() = file.path.pathToPackage()
-    val packagePathExcludingFile
-        get() = file.path.pathToPackage().substringBeforeLast(".")
-    val name
-        get() = file.name.substringBeforeLast(".kt") // remove .kt
-    val document
-        get() = file.getDocument()
+    val packagePath by lazy {
+        file.path.pathToPackage()
+    }
+    val packagePathExcludingFile  by lazy {
+        file.path.pathToPackage().substringBeforeLast(".")
+    }
+    val name by lazy {
+        file.nameWithoutExtension
+    }
+    val document by lazy {
+        file.getDocument()
+    }
 
     internal var documentText = document?.text ?: ""
     internal var documentLines : List<String>

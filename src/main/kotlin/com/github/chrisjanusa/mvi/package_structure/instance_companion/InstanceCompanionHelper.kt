@@ -3,12 +3,12 @@ package com.github.chrisjanusa.mvi.package_structure.instance_companion
 import com.intellij.openapi.vfs.VirtualFile
 
 internal fun VirtualFile?.hasPattern(prefix: String, suffix: String): Boolean {
-    val fileName = this?.name?.substringBefore(".kt") ?: return false
+    val fileName = this?.nameWithoutExtension ?: return false
     return fileName.startsWith(prefix) && fileName.endsWith(suffix)
 }
 
 internal fun VirtualFile?.hasName(name: String) =
-    this?.name?.substringBefore(".kt") == name
+    this?.nameWithoutExtension == name
 
 internal fun VirtualFile?.hasChild(validChildrenCompanions: Array<out InstanceCompanion>) =
     this?.children?.any { child ->
