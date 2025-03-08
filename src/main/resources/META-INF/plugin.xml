@@ -118,6 +118,13 @@
                 <keyboard-shortcut keymap="$default" first-keystroke="meta alt S"/>
             </action>
             <action
+                    id="CreateSharedAction"
+                    class="com.github.chrisjanusa.mvi.action.feature.shared.AddSharedActionAction"
+                    text="Create Action for Shared State of Feature"
+                    icon="AllIcons.Actions.DiagramDiff">
+                <keyboard-shortcut keymap="$default" first-keystroke="meta alt A"/>
+            </action>
+            <action
                     id="CreateDomainModel"
                     class="com.github.chrisjanusa.mvi.action.feature.domain_model.CreateDomainModelAction"
                     text="Create Domain Model"

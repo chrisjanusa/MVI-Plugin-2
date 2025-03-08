@@ -15,6 +15,7 @@ import com.github.chrisjanusa.mvi.action.feature.service.database.DatabaseAction
 import com.github.chrisjanusa.mvi.action.feature.service.mapper.MapperAction
 import com.github.chrisjanusa.mvi.action.feature.service.remote.RemoteDataSourceAction
 import com.github.chrisjanusa.mvi.action.feature.service.repository.RepositoryAction
+import com.github.chrisjanusa.mvi.action.feature.shared.AddSharedActionAction
 import com.github.chrisjanusa.mvi.action.feature.shared.CreateSharedStateAction
 import com.intellij.openapi.actionSystem.ActionUpdateThread
 import com.intellij.openapi.actionSystem.AnActionEvent
@@ -47,6 +48,7 @@ class MviGroup : DefaultActionGroup() {
             CreateDomainModelAction.isEnabled(event) ||
             CreateNavGraphAction.isEnabled(event) ||
             CreateSharedStateAction.isEnabled(event) ||
+            AddSharedActionAction.isEnabled(event) ||
             RepositoryAction.isEnabled(event) ||
             DatabaseAction.isEnabled(event) ||
             MapperAction.isEnabled(event) ||
