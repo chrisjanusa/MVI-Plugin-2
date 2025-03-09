@@ -156,6 +156,7 @@ abstract class EffectFileManager(file: VirtualFile) : FileManager(file) {
         const val ACTION_SUFFIX = "ActionEffect"
         const val STATE_SUFFIX = "StateEffect"
         const val STATE_SLICE_SUFFIX = "StateSliceEffect"
+        const val SLICE_UPDATE_SUFFIX = "SliceUpdateEffect"
         const val NAV_SUFFIX = "NavEffect"
     }
 }

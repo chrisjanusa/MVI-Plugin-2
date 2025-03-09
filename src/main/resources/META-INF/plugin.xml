@@ -121,8 +121,31 @@
                     id="CreateSharedAction"
                     class="com.github.chrisjanusa.mvi.action.feature.shared.AddSharedActionAction"
                     text="Create Action for Shared State of Feature"
-                    icon="AllIcons.Actions.DiagramDiff">
+                    icon="AllIcons.Graph.Layout">
                 <keyboard-shortcut keymap="$default" first-keystroke="meta alt A"/>
+                <add-to-group
+                        group-id="org.intellij.sdk.action.MVIEditor"
+                        anchor="first"/>
+            </action>
+            <action
+                    id="CreateSliceUpdate"
+                    class="com.github.chrisjanusa.mvi.action.feature.shared.AddSliceUpdateEffectAction"
+                    text="Create Slice Update Effect"
+                    icon="AllIcons.Ide.Notification.PluginUpdate">
+                <keyboard-shortcut keymap="$default" first-keystroke="meta alt U"/>
+                <add-to-group
+                        group-id="org.intellij.sdk.action.MVIEditor"
+                        anchor="first"/>
+            </action>
+            <action
+                    id="CreateSharedEffect"
+                    class="com.github.chrisjanusa.mvi.action.feature.shared.AddSharedEffectAction"
+                    text="Create Effect for Shared State of Feature"
+                    icon="AllIcons.Actions.DiagramDiff">
+                <keyboard-shortcut keymap="$default" first-keystroke="meta alt E"/>
+                <add-to-group
+                        group-id="org.intellij.sdk.action.MVIEditor"
+                        anchor="first"/>
             </action>
             <action
                     id="CreateDomainModel"

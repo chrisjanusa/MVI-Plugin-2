@@ -1,9 +1,6 @@
 package com.github.chrisjanusa.mvi.package_structure.manager.feature.shared
 
 import com.github.chrisjanusa.mvi.helper.file_helper.findChildFile
-import com.github.chrisjanusa.mvi.package_structure.manager.feature.plugin.PluginActionFileManager
-import com.github.chrisjanusa.mvi.package_structure.manager.feature.plugin.PluginEffectFileManager
-import com.github.chrisjanusa.mvi.package_structure.manager.feature.plugin.PluginStateFileManager
 import com.github.chrisjanusa.mvi.package_structure.instance_companion.InstanceCompanion
 import com.github.chrisjanusa.mvi.package_structure.instance_companion.StaticInstanceCompanion
 import com.github.chrisjanusa.mvi.package_structure.manager.PackageManager
@@ -28,17 +25,17 @@ class SharedPackage(file: VirtualFile): PackageManager(file), FeatureDirectChild
 
     val action by lazy {
         val actionFile = file.findChildFile(SharedActionFileManager.getFileName(featureName)) ?: return@lazy  null
-        PluginActionFileManager(actionFile)
+        SharedActionFileManager(actionFile)
     }
 
     val effect by lazy {
         val effectFile = file.findChildFile(SharedEffectFileManager.getFileName(featureName)) ?: return@lazy null
-        PluginEffectFileManager(effectFile)
+        SharedEffectFileManager(effectFile)
     }
 
     val state by lazy {
         val stateFile = file.findChildFile(SharedStateFileManager.getFileName(featureName)) ?: return@lazy null
-        PluginStateFileManager(stateFile)
+        SharedStateFileManager(stateFile)
     }
 
     val viewModel by lazy {

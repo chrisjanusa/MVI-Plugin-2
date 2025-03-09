@@ -16,6 +16,8 @@ import com.github.chrisjanusa.mvi.action.feature.service.mapper.MapperAction
 import com.github.chrisjanusa.mvi.action.feature.service.remote.RemoteDataSourceAction
 import com.github.chrisjanusa.mvi.action.feature.service.repository.RepositoryAction
 import com.github.chrisjanusa.mvi.action.feature.shared.AddSharedActionAction
+import com.github.chrisjanusa.mvi.action.feature.shared.AddSharedEffectAction
+import com.github.chrisjanusa.mvi.action.feature.shared.AddSliceUpdateEffectAction
 import com.github.chrisjanusa.mvi.action.feature.shared.CreateSharedStateAction
 import com.intellij.openapi.actionSystem.ActionUpdateThread
 import com.intellij.openapi.actionSystem.AnActionEvent
@@ -49,6 +51,8 @@ class MviGroup : DefaultActionGroup() {
             CreateNavGraphAction.isEnabled(event) ||
             CreateSharedStateAction.isEnabled(event) ||
             AddSharedActionAction.isEnabled(event) ||
+            AddSharedEffectAction.isEnabled(event) ||
+            AddSliceUpdateEffectAction.isEnabled(event) ||
             RepositoryAction.isEnabled(event) ||
             DatabaseAction.isEnabled(event) ||
             MapperAction.isEnabled(event) ||

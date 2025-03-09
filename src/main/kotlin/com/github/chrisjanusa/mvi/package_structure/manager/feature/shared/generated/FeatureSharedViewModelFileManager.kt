@@ -1,6 +1,7 @@
 package com.github.chrisjanusa.mvi.package_structure.manager.feature.shared.generated
 
 import com.github.chrisjanusa.mvi.package_structure.manager.ManagerProvider
+import com.github.chrisjanusa.mvi.package_structure.manager.base.EffectFileManager
 import com.github.chrisjanusa.mvi.package_structure.manager.base.ViewModelFileManager
 import com.github.chrisjanusa.mvi.package_structure.manager.feature.plugin.helper.PluginFileNameProvider
 import com.github.chrisjanusa.mvi.package_structure.manager.feature.shared.helper.ISharedFileManager
@@ -12,6 +13,15 @@ class FeatureSharedViewModelFileManager(
     file: VirtualFile,
     sharedFileManager: ISharedFileManager = SharedFileManager(file)
 ) : ViewModelFileManager(file), ISharedFileManager by sharedFileManager, FeatureChild {
+    fun addSliceUpdateEffect(effectName: String, import: String?) {
+        addAfterFirst("        ${effectName}${EffectFileManager.SUFFIX},") { line ->
+            line.contains("val sliceUpdateEffectList")
+        }
+        if (import != null) {
+            addImport(import)
+        }
+        writeToDisk()
+    }
 
     companion object : PluginFileNameProvider(SUFFIX) {
         override fun createInstance(virtualFile: VirtualFile) = FeatureSharedViewModelFileManager(virtualFile)
