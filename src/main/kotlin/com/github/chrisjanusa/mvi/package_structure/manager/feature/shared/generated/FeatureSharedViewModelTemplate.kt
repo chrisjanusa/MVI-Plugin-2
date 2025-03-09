@@ -12,12 +12,12 @@ internal class FeatureSharedViewModelTemplate(
 ) {
 
     override fun createContent(): String =
-        "import $rootPackagePath.foundation.Action\n" +
-        "import $rootPackagePath.foundation.SliceUpdate\n" +
-        "import $rootPackagePath.$featurePackageName.shared.${featureName}SharedAction\n" +
-        "import $rootPackagePath.$featurePackageName.shared.${featureName}SharedState\n" +
-        "import $rootPackagePath.$featurePackageName.shared.OnChildActionReceivedEffect\n" +
-        "import $rootPackagePath.foundation.OnAppAction\n" +
+        "import ${rootPackage?.foundationPackage?.action?.packagePath}\n" +
+        "import ${rootPackage?.foundationPackage?.sliceUpdate?.packagePath}\n" +
+        "import ${featurePackage?.sharedPackage?.action?.packagePath}\n" +
+        "import ${featurePackage?.sharedPackage?.state?.packagePath}\n" +
+        "import ${featurePackage?.sharedPackage?.effect?.packagePathExcludingFile}.OnChildActionReceivedEffect\n" +
+        "import ${rootPackage?.foundationPackage?.action?.packagePathExcludingFile}.OnAppAction\n" +
         "import ${foundationPackage?.slice?.packagePathExcludingFile}.NoSlice\n" +
         "import ${foundationPackage?.sharedViewModel?.packagePath}\n" +
         "import kotlinx.coroutines.flow.MutableSharedFlow\n" +

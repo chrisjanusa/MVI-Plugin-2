@@ -12,19 +12,19 @@ internal class NavGraphTemplate(
 ) {
 
     override fun createContent(): String {
-        return "import $rootPackagePath.foundation.nav.NavGraph\n" +
-                "import $rootPackagePath.foundation.nav.NavComponentId\n" +
-                "import kotlinx.serialization.Serializable\n" +
-                "\n" +
-                "object $fileName: NavGraph(\n" +
-                "    startDestination = // TODO add start destination,\n" +
-                "    destinations = listOf(\n" +
-                "    ),\n" +
-                "    componentClass = ${fileName}ComponentId::class\n" +
-                ")\n" +
-                "\n" +
-                "@Serializable\n" +
-                "data object ${fileName}ComponentId : NavComponentId"
+        return "import ${rootPackage?.foundationPackage?.navComponent?.packagePathExcludingFile}.NavGraph\n" +
+        "import ${rootPackage?.foundationPackage?.navComponentId?.packagePath}\n" +
+        "import kotlinx.serialization.Serializable\n" +
+        "\n" +
+        "object $fileName: NavGraph(\n" +
+        "    startDestination = // TODO add start destination,\n" +
+        "    destinations = listOf(\n" +
+        "    ),\n" +
+        "    componentClass = ${fileName}ComponentId::class\n" +
+        ")\n" +
+        "\n" +
+        "@Serializable\n" +
+        "data object ${fileName}ComponentId : ${rootPackage?.foundationPackage?.navComponentId}"
     }
 }
 

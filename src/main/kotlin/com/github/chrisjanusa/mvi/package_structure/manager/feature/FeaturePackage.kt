@@ -2,10 +2,9 @@ package com.github.chrisjanusa.mvi.package_structure.manager.feature
 
 import com.github.chrisjanusa.mvi.helper.file_helper.toPascalCase
 import com.github.chrisjanusa.mvi.package_structure.Manager
+import com.github.chrisjanusa.mvi.package_structure.instance_companion.ChildInstanceCompanion
 import com.github.chrisjanusa.mvi.package_structure.instance_companion.InstanceCompanion
-import com.github.chrisjanusa.mvi.package_structure.instance_companion.ParentInstanceCompanion
 import com.github.chrisjanusa.mvi.package_structure.manager.PackageManager
-import com.github.chrisjanusa.mvi.package_structure.manager.RootPackage
 import com.github.chrisjanusa.mvi.package_structure.manager.feature.api.ApiPackage
 import com.github.chrisjanusa.mvi.package_structure.manager.feature.domain_model.DomainModelPackage
 import com.github.chrisjanusa.mvi.package_structure.manager.feature.nav.FeatureNavPackage
@@ -13,13 +12,16 @@ import com.github.chrisjanusa.mvi.package_structure.manager.feature.plugin.Plugi
 import com.github.chrisjanusa.mvi.package_structure.manager.feature.service.FeatureServicePackage
 import com.github.chrisjanusa.mvi.package_structure.manager.feature.shared.SharedPackage
 import com.github.chrisjanusa.mvi.package_structure.parent_provider.FeatureChild
-import com.github.chrisjanusa.mvi.package_structure.parent_provider.RootDirectChild
+import com.github.chrisjanusa.mvi.package_structure.parent_provider.RootChild
 import com.intellij.openapi.vfs.VirtualFile
 
-class FeaturePackage(file: VirtualFile) : PackageManager(file), RootDirectChild {
+class FeaturePackage(file: VirtualFile) : PackageManager(file), RootChild {
     val featureName = name.toPascalCase()
+    val featureWrapperPackage by lazy {
+        FeatureWrapperPackage(file.parent)
+    }
     override val rootPackage by lazy {
-        RootPackage(file.parent)
+        featureWrapperPackage.rootPackage
     }
 
     val pluginWrapperPackage by lazy {
@@ -70,10 +72,8 @@ class FeaturePackage(file: VirtualFile) : PackageManager(file), RootDirectChild 
         PluginWrapperPackage.createNewInstance(this)
     }
 
-    companion object : ParentInstanceCompanion(
-        FeatureServicePackage,
-        PluginWrapperPackage,
-        DomainModelPackage
+    companion object : ChildInstanceCompanion(
+        FeatureWrapperPackage
     ) {
         override fun createInstance(virtualFile: VirtualFile) = FeaturePackage(virtualFile)
 
@@ -86,7 +86,7 @@ class FeaturePackage(file: VirtualFile) : PackageManager(file), RootDirectChild 
             return featureChild.featurePackage
         }
 
-        fun createNewInstance(insertionPackage: RootPackage, featureName: String): FeaturePackage? {
+        fun createNewInstance(insertionPackage: FeatureWrapperPackage, featureName: String): FeaturePackage? {
             val featurePackage = insertionPackage.createNewDirectory(featureName)?.let { FeaturePackage(it) }
             featurePackage?.createAllChildren()
             return featurePackage

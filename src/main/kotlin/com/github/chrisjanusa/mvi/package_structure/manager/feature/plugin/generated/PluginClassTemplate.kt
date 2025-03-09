@@ -25,9 +25,9 @@ internal class PluginClassTemplate(
                 "import ${pluginPackage?.uiPackage?.content?.packagePath}\n" +
                 "import ${foundationPackage?.action?.packagePathExcludingFile}.OnAction\n" +
                 "import ${foundationPackage?.plugin?.packagePath}\n" +
-                "import $rootPackagePath.$featurePackageName.plugin.$pluginPackageName.$slice\n".addIf { hasSlice } +
+                "import ${pluginPackage?.slice?.packagePath}\n".addIf { hasSlice } +
                 "import ${foundationPackage?.slice?.packagePathExcludingFile}.NoSlice\n".addIf { !hasSlice } +
-                "import $rootPackagePath.$featurePackageName.plugin.$pluginPackageName.$state\n".addIf { hasState } +
+                "import ${pluginPackage?.state?.packagePath}\n".addIf { hasState } +
                 "import ${foundationPackage?.state?.packagePathExcludingFile}.NoState\n".addIf { !hasState } +
                 "\n" +
                 "object $fileName : Plugin<$state, $slice>(getClassName<${pluginName}ViewModel>()) {\n" +

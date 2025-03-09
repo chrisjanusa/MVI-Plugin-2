@@ -1,7 +1,7 @@
 package com.github.chrisjanusa.mvi.package_structure.manager.feature.service.repository
 
-import com.github.chrisjanusa.mvi.package_structure.manager.base.Template
 import com.github.chrisjanusa.mvi.package_structure.Manager
+import com.github.chrisjanusa.mvi.package_structure.manager.base.Template
 
 internal class RepositoryTemplate(
     packageManager: Manager,
@@ -12,7 +12,7 @@ internal class RepositoryTemplate(
 ) {
 
     override fun createContent(): String =
-                "import $rootPackagePath.$featurePackageName.api.I$fileName\n" +
+                "import ${featurePackage?.apiPackage?.packagePath}.I$fileName\n" +
                 "\n" +
                 "class $fileName(\n" +
                 "): I$fileName {\n" +

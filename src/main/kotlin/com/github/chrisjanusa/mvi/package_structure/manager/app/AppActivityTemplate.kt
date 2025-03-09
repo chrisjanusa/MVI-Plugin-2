@@ -27,7 +27,7 @@ internal class AppActivityTemplate(
         "import androidx.navigation.compose.NavHost\n" +
         "import androidx.navigation.compose.rememberNavController\n" +
         "import ${rootPackage?.appPackage?.navPackage?.navManager?.packagePath}\n" +
-        "import $rootPackagePath.ui.theme.${appName}Theme\n" +
+        "import ${rootPackage?.uiPackage?.themePackage?.packagePath}.${appName}Theme\n" +
         "import org.koin.compose.viewmodel.koinViewModel\n" +
         "import org.koin.core.parameter.parametersOf\n" +
         "\n" +

@@ -12,7 +12,7 @@ internal class FoundationEffectTemplate(
 ) {
 
     override fun createContent(): String =
-        "import $rootPackagePath.app.nav.NavManager\n" +
+        "import ${rootPackage?.appPackage?.navManager?.packagePath}.app.nav.NavManager\n" +
         "import kotlinx.coroutines.flow.Flow\n" +
         "import kotlinx.coroutines.flow.StateFlow\n" +
         "import kotlinx.coroutines.flow.collectLatest\n" +

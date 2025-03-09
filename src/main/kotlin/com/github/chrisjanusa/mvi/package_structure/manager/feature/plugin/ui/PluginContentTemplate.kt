@@ -19,9 +19,9 @@ internal class PluginContentTemplate(
         val slice = pluginPackage?.slice?.name ?: "plugin not found"
         return "import androidx.compose.runtime.Composable\n" +
                 "import androidx.compose.ui.Modifier\n" +
-                "import $rootPackagePath.foundation.OnAction\n" +
-                "import $rootPackagePath.$featurePackageName.plugin.$pluginPackageName.$slice\n".addIf { hasSlice } +
-                "import $rootPackagePath.$featurePackageName.plugin.$pluginPackageName.$state\n".addIf { hasState } +
+                "import ${rootPackage?.foundationPackage?.action?.packagePathExcludingFile}.OnAction\n" +
+                "import ${pluginPackage?.slice?.packagePath}\n".addIf { hasSlice } +
+                "import ${pluginPackage?.state?.packagePath}\n".addIf { hasState } +
                 "\n" +
                 "@Composable\n" +
                 "internal fun $fileName(\n" +

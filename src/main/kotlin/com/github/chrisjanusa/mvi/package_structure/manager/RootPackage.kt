@@ -8,7 +8,7 @@ import com.github.chrisjanusa.mvi.package_structure.instance_companion.InstanceC
 import com.github.chrisjanusa.mvi.package_structure.instance_companion.ParentInstanceCompanion
 import com.github.chrisjanusa.mvi.package_structure.manager.app.AppPackage
 import com.github.chrisjanusa.mvi.package_structure.manager.common.CommonPackage
-import com.github.chrisjanusa.mvi.package_structure.manager.feature.FeaturePackage
+import com.github.chrisjanusa.mvi.package_structure.manager.feature.FeatureWrapperPackage
 import com.github.chrisjanusa.mvi.package_structure.manager.foundation.FoundationPackage
 import com.github.chrisjanusa.mvi.package_structure.manager.ui.RootUiPackage
 import com.github.chrisjanusa.mvi.package_structure.parent_provider.RootChild
@@ -30,26 +30,30 @@ class RootPackage(file: VirtualFile) : PackageManager(file) {
     val uiPackage by lazy {
         file.findChild(RootUiPackage.NAME)?.let { RootUiPackage(it) }
     }
+    val featureWrapperPackage by lazy {
+        file.findChild(FeatureWrapperPackage.NAME)?.let { FeatureWrapperPackage(it) }
+    }
     val features by lazy {
-        file.children.filter { child -> FeaturePackage.isInstance(child) }
+        featureWrapperPackage?.features
     }
     val isInitialized by lazy {
         foundationPackage != null
     }
 
-    fun createFeature(featureName: String) = FeaturePackage.createNewInstance(this, featureName)
+    fun createFeature(featureName: String) = featureWrapperPackage?.createFeature(featureName)
 
     fun createAllChildren(appName: String) {
         FoundationPackage.createNewInstance(this)
         CommonPackage.createNewInstance(this)
         AppPackage.createNewInstance(this, appName)
+        FeatureWrapperPackage.createNewInstance(this)
     }
 
     companion object : ParentInstanceCompanion(FoundationPackage) {
         override fun createInstance(virtualFile: VirtualFile) = RootPackage(virtualFile)
 
         override val allChildrenInstanceCompanions: List<InstanceCompanion>
-            get() = listOf(FeaturePackage, CommonPackage, FoundationPackage, AppPackage, RootUiPackage)
+            get() = listOf(FeatureWrapperPackage, CommonPackage, FoundationPackage, AppPackage, RootUiPackage)
 
         override fun isInstance(file: VirtualFile?): Boolean {
             file ?: return false
