@@ -186,6 +186,14 @@
                     description="Create a mapper between models"
                     icon="AllIcons.Actions.MoveToButton">
                 <keyboard-shortcut keymap="$default" first-keystroke="meta alt M"/>
+            </action>TypeConverterAction
+            <action
+                    id="CreateTypeConverter"
+                    class="com.github.chrisjanusa.mvi.action.common.TypeConverterAction"
+                    text="Create Type Converter"
+                    description="Create a type converter for use in databases"
+                    icon="AllIcons.Actions.SwapPanels">
+                <keyboard-shortcut keymap="$default" first-keystroke="meta alt M"/>
             </action>
             <separator text = "App" />
             <action

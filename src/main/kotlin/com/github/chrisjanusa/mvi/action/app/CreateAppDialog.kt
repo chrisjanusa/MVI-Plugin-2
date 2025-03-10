@@ -16,7 +16,7 @@ internal class CreateAppDialog(private val createAppPromptResult: CreateAppPromp
     override fun createCenterPanel(): JComponent {
         return panel {
             nameField(
-                type = "App Model",
+                type = "App",
                 bindingField = createAppPromptResult::appName,
                 suffixes = listOf(
                     TextFieldDependentLabelText.PascalCaseText(

@@ -1,13 +1,13 @@
 package com.github.chrisjanusa.mvi.package_structure.manager.common.nav
 
-import com.github.chrisjanusa.mvi.package_structure.manager.base.ActionFileManager
 import com.github.chrisjanusa.mvi.package_structure.instance_companion.StaticChildInstanceCompanion
+import com.github.chrisjanusa.mvi.package_structure.manager.base.ActionFileManager
 import com.github.chrisjanusa.mvi.package_structure.manager.common.CommonPackage
-import com.github.chrisjanusa.mvi.package_structure.parent_provider.RootChild
+import com.github.chrisjanusa.mvi.package_structure.parent_provider.CommonChild
 import com.intellij.openapi.vfs.VirtualFile
 
-open class CoreNavActionFileManager(file: VirtualFile) : ActionFileManager(file), RootChild {
-    val commonPackage by lazy {
+open class CoreNavActionFileManager(file: VirtualFile) : ActionFileManager(file), CommonChild {
+    override val commonPackage by lazy {
         CommonPackage(file.parent)
     }
     override val rootPackage by lazy {

@@ -2,17 +2,17 @@ package com.github.chrisjanusa.mvi.package_structure.manager.common.service.remo
 
 import com.github.chrisjanusa.mvi.package_structure.instance_companion.StaticChildInstanceCompanion
 import com.github.chrisjanusa.mvi.package_structure.manager.base.FileManager
-import com.github.chrisjanusa.mvi.package_structure.parent_provider.RootChild
+import com.github.chrisjanusa.mvi.package_structure.parent_provider.CommonChild
 import com.intellij.openapi.vfs.VirtualFile
 
-open class CommonHttpClientFactoryFileManager(file: VirtualFile) : FileManager(file), RootChild {
+open class CommonHttpClientFactoryFileManager(file: VirtualFile) : FileManager(file), CommonChild {
     val remotePackage by lazy {
         CommonRemotePackage(file.parent)
     }
     val servicePackage by lazy {
         remotePackage.servicePackage
     }
-    val commonPackage by lazy {
+    override val commonPackage by lazy {
         remotePackage.commonPackage
     }
     override val rootPackage by lazy {

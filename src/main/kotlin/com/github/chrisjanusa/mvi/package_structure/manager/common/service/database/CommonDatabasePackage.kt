@@ -5,14 +5,14 @@ import com.github.chrisjanusa.mvi.package_structure.instance_companion.StaticChi
 import com.github.chrisjanusa.mvi.package_structure.manager.PackageManager
 import com.github.chrisjanusa.mvi.package_structure.manager.common.service.CommonServicePackage
 import com.github.chrisjanusa.mvi.package_structure.manager.common.service.database.type_converter.CommonTypeConverterPackage
-import com.github.chrisjanusa.mvi.package_structure.parent_provider.RootChild
+import com.github.chrisjanusa.mvi.package_structure.parent_provider.CommonChild
 import com.intellij.openapi.vfs.VirtualFile
 
-class CommonDatabasePackage(file: VirtualFile) : PackageManager(file), RootChild {
+class CommonDatabasePackage(file: VirtualFile) : PackageManager(file), CommonChild {
     val servicePackage by lazy {
         CommonServicePackage(file.parent)
     }
-    val commonPackage by lazy {
+    override val commonPackage by lazy {
         servicePackage.commonPackage
     }
     override val rootPackage by lazy {

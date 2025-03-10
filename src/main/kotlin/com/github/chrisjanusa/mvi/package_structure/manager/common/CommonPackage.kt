@@ -47,6 +47,11 @@ class CommonPackage(file: VirtualFile) : PackageManager(file), RootDirectChild {
         return file.findChild(CommonServicePackage.NAME)?.let { CommonServicePackage(it) } ?: CommonServicePackage.createNewInstance(this)
     }
 
+    fun createTypeConverter(typeConverterName: String, type: String) {
+        val servicePackage = createServicePackage()
+        servicePackage?.createTypeConverter(typeConverterName, type)
+    }
+
     private fun createAllChildren() {
         CommonHelperPackage.createNewInstance(this)
         CommonNavPackage.createNewInstance(this)

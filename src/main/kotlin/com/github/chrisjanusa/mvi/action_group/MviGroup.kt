@@ -1,6 +1,7 @@
 package com.github.chrisjanusa.mvi.action_group
 
 import com.github.chrisjanusa.mvi.action.app.CreateAppAction
+import com.github.chrisjanusa.mvi.action.common.TypeConverterAction
 import com.github.chrisjanusa.mvi.action.feature.CreateFeatureAction
 import com.github.chrisjanusa.mvi.action.feature.domain_model.CreateDomainModelAction
 import com.github.chrisjanusa.mvi.action.feature.nav.CreateNavGraphAction
@@ -56,7 +57,8 @@ class MviGroup : DefaultActionGroup() {
             RepositoryAction.isEnabled(event) ||
             DatabaseAction.isEnabled(event) ||
             MapperAction.isEnabled(event) ||
-            RemoteDataSourceAction.isEnabled(event)
+            RemoteDataSourceAction.isEnabled(event) ||
+            TypeConverterAction.isEnabled(event)
 
         fun isEnabledApp(event: AnActionEvent): Boolean = CreateAppAction.isEnabled(event)
     }

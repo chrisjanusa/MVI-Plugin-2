@@ -2,17 +2,17 @@ package com.github.chrisjanusa.mvi.package_structure.manager.common.service.data
 
 import com.github.chrisjanusa.mvi.package_structure.instance_companion.StaticChildInstanceCompanion
 import com.github.chrisjanusa.mvi.package_structure.manager.base.FileManager
-import com.github.chrisjanusa.mvi.package_structure.parent_provider.RootChild
+import com.github.chrisjanusa.mvi.package_structure.parent_provider.CommonChild
 import com.intellij.openapi.vfs.VirtualFile
 
-open class CommonServiceDataErrorFileManager(file: VirtualFile) : FileManager(file), RootChild {
+open class CommonServiceDataErrorFileManager(file: VirtualFile) : FileManager(file), CommonChild {
     val dataPackage by lazy {
         CommonDataPackage(file.parent)
     }
     val servicePackage by lazy {
         dataPackage.servicePackage
     }
-    val commonPackage by lazy {
+    override val commonPackage by lazy {
         dataPackage.commonPackage
     }
     override val rootPackage by lazy {
