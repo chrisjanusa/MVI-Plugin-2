@@ -172,6 +172,14 @@
                 <keyboard-shortcut keymap="$default" first-keystroke="meta alt D"/>
             </action>
             <action
+                    id="CreateEntity"
+                    class="com.github.chrisjanusa.mvi.action.feature.service.database.EntityAction"
+                    text="Create Entity"
+                    description="Create an entity"
+                    icon="AllIcons.Nodes.DataColumn">
+                <keyboard-shortcut keymap="$default" first-keystroke="meta alt E"/>
+            </action>
+            <action
                     id="CreateRemoteDataSource"
                     class="com.github.chrisjanusa.mvi.action.feature.service.remote.RemoteDataSourceAction"
                     text="Create Remote Data Source"

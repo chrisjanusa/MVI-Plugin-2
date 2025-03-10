@@ -13,6 +13,7 @@ import com.github.chrisjanusa.mvi.action.feature.plugin.slice.RemoveSliceAction
 import com.github.chrisjanusa.mvi.action.feature.plugin.state.AddStateAction
 import com.github.chrisjanusa.mvi.action.feature.plugin.state.RemoveStateAction
 import com.github.chrisjanusa.mvi.action.feature.service.database.DatabaseAction
+import com.github.chrisjanusa.mvi.action.feature.service.database.EntityAction
 import com.github.chrisjanusa.mvi.action.feature.service.mapper.MapperAction
 import com.github.chrisjanusa.mvi.action.feature.service.remote.RemoteDataSourceAction
 import com.github.chrisjanusa.mvi.action.feature.service.repository.RepositoryAction
@@ -56,6 +57,7 @@ class MviGroup : DefaultActionGroup() {
             AddSliceUpdateEffectAction.isEnabled(event) ||
             RepositoryAction.isEnabled(event) ||
             DatabaseAction.isEnabled(event) ||
+            EntityAction.isEnabled(event) ||
             MapperAction.isEnabled(event) ||
             RemoteDataSourceAction.isEnabled(event) ||
             TypeConverterAction.isEnabled(event)

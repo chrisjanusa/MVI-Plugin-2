@@ -15,6 +15,13 @@ class DatabaseClassFileManager(
         DatabaseDaoFileManager.getFileName(databaseName).toCamelCase()
     }
 
+    fun addEntity(entity: DatabaseEntityFileManager) {
+        addAfterFirst("        ${entity}::class,") { line ->
+            line.contains("entities = [")
+        }
+        writeToDisk()
+    }
+
     companion object : StaticSuffixChildInstanceCompanion("Database", DatabasePackage) {
         override fun createInstance(virtualFile: VirtualFile) = DatabaseClassFileManager(virtualFile)
         fun getFileName(databaseName: String) = "${databaseName.toPascalCase()}$SUFFIX"

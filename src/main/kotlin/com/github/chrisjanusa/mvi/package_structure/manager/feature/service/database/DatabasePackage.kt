@@ -47,8 +47,12 @@ class DatabasePackage(file: VirtualFile): PackageManager(file), ServiceChild {
         DatabaseClassFileManager.createNewInstance(this, entityNames)
         DatabaseDaoFileManager.createNewInstance(this, entityNames)
         entityNames.forEach {
-            DatabaseEntityFileManager.createNewInstance(this, it)
+            createEntity(it)
         }
+    }
+
+    fun createEntity(entityName: String): DatabaseEntityFileManager? {
+        return DatabaseEntityFileManager.createNewInstance(this, entityName)
     }
 
     companion object : ChildInstanceCompanion(DatabaseWrapperPackage) {
