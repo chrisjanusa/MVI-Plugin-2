@@ -1,14 +1,19 @@
 package com.github.chrisjanusa.mvi.package_structure.manager.base
 
+import com.github.chrisjanusa.mvi.package_structure.parent_provider.RootChild
 import com.intellij.openapi.vfs.VirtualFile
 
-open class ActionFileManager(actionFile: VirtualFile) : FileManager(actionFile) {
+abstract class ActionFileManager(actionFile: VirtualFile) : FileManager(actionFile), RootChild {
     fun getAllRegularActions(): List<String> {
         return getAllActionsIfLineIsValid { line -> !line.contains(NAV_SUFFIX) }
     }
 
     fun getAllNavActions(): List<String> {
         return getAllActionsIfLineIsValid { line -> line.contains(NAV_SUFFIX) }
+    }
+
+    val navActionClass by lazy {
+        name.replace(SUFFIX, NAV_SUFFIX)
     }
 
     fun addAction(actionName: String, isReducible: Boolean, hasParameters: Boolean) {
@@ -31,36 +36,24 @@ open class ActionFileManager(actionFile: VirtualFile) : FileManager(actionFile) 
     }
 
     fun addNavAction(actionName: String) {
-        val navActionName = addNavActionTypeIfNotPresent() ?: return
-        val lineToAdd = "    data object $actionName : $navActionName()\n"
+        addNavActionTypeIfNotPresent()
+        val lineToAdd = "    data object $actionName : $navActionClass()\n"
         addAfterFirst(lineToAdd) { line ->
             line.isNavActionDefinition()
         }
         writeToDisk()
     }
 
-    private fun addNavActionTypeIfNotPresent(): String? {
+    private fun addNavActionTypeIfNotPresent() {
         val existingClassLine = getFirstLine { line ->
             line.isNavActionDefinition()
         }
         if (existingClassLine == null) {
-            val sealedClassLine = getFirstLine { line ->
-                line.isReducibleActionDefinition()
-            } ?: return null
-            val actionClassName = sealedClassLine.substringAfter("class ").substringBefore(":").substringBefore(" ")
-            val navActionName = actionClassName.replace(SUFFIX, NAV_SUFFIX)
-            val reducibleActionImport = getFirstLine { line ->
-                line.isReducibleActionDefinition()
-            } ?: return null
-            val navActionDep = reducibleActionImport.replace(REDUCIBLE_SUFFIX, NAV_SUFFIX).substringAfter("import ")
-            addImport(navActionDep)
+            addImport("${rootPackage.foundationPackage?.action?.packagePathExcludingFile}.$NAV_SUFFIX")
             addToBottom(
-                text = "sealed class $navActionName : $NAV_SUFFIX {\n" +
+                text = "sealed class $navActionClass : $NAV_SUFFIX {\n" +
                        "}\n"
             )
-            return navActionName
-        } else {
-            return existingClassLine.substringAfter("class ").substringBefore(":").substringBefore(" ")
         }
     }
 

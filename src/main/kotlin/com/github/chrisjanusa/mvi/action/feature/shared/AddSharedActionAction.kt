@@ -16,21 +16,28 @@ class AddSharedActionAction : AnAction("Add _Action") {
         val actionPromptResult = ActionPromptResult()
         if (!ActionDialog(actionPromptResult).showAndGet()) return
 
-        val pluginActionFileManager = event.getManager() as? SharedActionFileManager ?: return
+        val actionFileManager = event.getManager() as? SharedActionFileManager ?: return
 
         val actionName = actionPromptResult.actionName.toPascalCase()
 
         when (actionPromptResult.actionType) {
-            ActionType.NO_REDUCTION -> pluginActionFileManager.addAction(
+            ActionType.NO_REDUCTION -> actionFileManager.addAction(
                 actionName = actionName,
                 isReducible = false,
                 hasParameters = actionPromptResult.hasParameters
             )
 
-            ActionType.NAV -> pluginActionFileManager.addNavAction(
-                actionName = actionName
-            )
-            ActionType.REDUCIBLE -> pluginActionFileManager.addAction(
+            ActionType.NAV -> {
+                actionFileManager.addNavAction(
+                    actionName = actionName
+                )
+                actionFileManager.rootPackage.appPackage?.navEffect?.addNavEffect(
+                    actionFile = actionFileManager,
+                    actionName = actionName
+                )
+            }
+
+            ActionType.REDUCIBLE -> actionFileManager.addAction(
                 actionName = actionName,
                 isReducible = true,
                 hasParameters = actionPromptResult.hasParameters

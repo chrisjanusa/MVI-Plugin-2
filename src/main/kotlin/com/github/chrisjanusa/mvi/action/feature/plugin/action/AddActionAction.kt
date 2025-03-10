@@ -2,8 +2,8 @@ package com.github.chrisjanusa.mvi.action.feature.plugin.action
 
 
 import com.github.chrisjanusa.mvi.helper.file_helper.toPascalCase
-import com.github.chrisjanusa.mvi.package_structure.manager.feature.plugin.PluginActionFileManager
 import com.github.chrisjanusa.mvi.package_structure.getManager
+import com.github.chrisjanusa.mvi.package_structure.manager.feature.plugin.PluginActionFileManager
 import com.intellij.openapi.actionSystem.ActionUpdateThread
 import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent
@@ -24,9 +24,15 @@ class AddActionAction : AnAction("Add _Action") {
                 hasParameters = actionPromptResult.hasParameters
             )
 
-            ActionType.NAV -> pluginActionFileManager.addNavAction(
-                actionName = actionName
-            )
+            ActionType.NAV -> {
+                pluginActionFileManager.addNavAction(
+                    actionName = actionName
+                )
+                pluginActionFileManager.rootPackage.appPackage?.navEffect?.addNavEffect(
+                    actionFile = pluginActionFileManager,
+                    actionName = actionName
+                )
+            }
             ActionType.REDUCIBLE -> pluginActionFileManager.addAction(
                 actionName = actionName,
                 isReducible = true,
